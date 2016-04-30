@@ -27,7 +27,7 @@ public class UserModel {
     }
 
     private User createOrFind(User userToFind) {
-        User user = find(userToFind);
+        User user = find(userToFind.getId());
         if (user != null) {
             return user;
         } else {
@@ -49,7 +49,7 @@ public class UserModel {
         return user;
     }
 
-    private User find(User userToFind) {
-        return realm.where(User.class).equalTo("id", userToFind.getId()).findFirst();
+    public User find(long id) {
+        return realm.where(User.class).equalTo("id", id).findFirst();
     }
 }
