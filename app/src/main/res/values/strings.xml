@@ -6,4 +6,7 @@
     <string name="login.signup">Cadastre-se</string>
     <string name="login.email">E-mail</string>
     <string name="login.password">Senha</string>
+
+    <string name="login.invalid_email">E-mail inválido.</string>
+    <string name="login.invalid_password">Senha inválida.</string>
 </resources>

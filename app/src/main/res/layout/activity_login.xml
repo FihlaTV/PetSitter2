@@ -15,37 +15,43 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/login.email"
+        android:textColor="@color/colorSecondaryText"
         android:id="@+id/textView2"
-        android:layout_above="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_above="@+id/et_email"
+        android:layout_alignLeft="@+id/et_email"
+        android:layout_alignStart="@+id/et_email" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/et_email"
+        android:textColor="@color/colorPrimaryText"
         android:ems="15"
         android:drawableLeft="@drawable/ic_person"
-        android:layout_centerInParent="true"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/et_password"
+        android:layout_alignStart="@+id/et_password" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/login.password"
+        android:textColor="@color/colorSecondaryText"
         android:id="@+id/textView"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_below="@+id/et_email"
+        android:layout_alignLeft="@+id/et_email"
+        android:layout_alignStart="@+id/et_email" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="15"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/editText"
+        android:textColor="@color/colorPrimaryText"
+        android:id="@+id/et_password"
+        android:layout_below="@+id/et_email"
         android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_lock"
         android:layout_centerInParent="true" />
@@ -54,14 +60,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login.login"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText2"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2"
+        android:id="@+id/btn_login"
+        android:layout_below="@+id/et_password"
+        android:layout_alignLeft="@+id/et_password"
+        android:layout_alignStart="@+id/et_password"
         android:layout_marginTop="20dp"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2"
-        android:background="@color/colorAccent"
+        android:layout_alignRight="@+id/et_password"
+        android:layout_alignEnd="@+id/et_password"
+        android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"/>
 
     <Button
@@ -69,13 +75,13 @@
         android:layout_height="wrap_content"
         android:text="@string/login.signup"
         android:id="@+id/button2"
-        android:layout_below="@+id/button"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
+        android:layout_below="@+id/btn_login"
+        android:layout_alignLeft="@+id/btn_login"
+        android:layout_alignStart="@+id/btn_login"
         android:layout_marginTop="25dp"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"/>
+        android:layout_alignRight="@+id/btn_login"
+        android:layout_alignEnd="@+id/btn_login"
+        android:textColor="@color/colorPrimaryDark"
+        style="?android:attr/borderlessButtonStyle"/>
 
 </RelativeLayout>
