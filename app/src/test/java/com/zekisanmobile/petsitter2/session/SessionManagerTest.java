@@ -1,8 +1,8 @@
-package com.zekisanmobile.petsitter2;
+package com.zekisanmobile.petsitter2.session;
 
 import android.os.Build;
 
-import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.BuildConfig;
 
 import org.junit.After;
 import org.junit.Before;
