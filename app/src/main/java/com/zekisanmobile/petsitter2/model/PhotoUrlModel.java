@@ -13,10 +13,10 @@ public class PhotoUrlModel {
     }
 
     public PhotoUrl create(PhotoUrl photoUrl) {
-        PhotoUrl photoUrlToSave = realm.createObject(PhotoUrl.class);
 
         realm.beginTransaction();
-        photoUrlToSave.setSmall(photoUrl.getSmall());
+        PhotoUrl photoUrlToSave = realm.createObject(PhotoUrl.class);
+        photoUrlToSave.setThumb(photoUrl.getThumb());
         photoUrlToSave.setMedium(photoUrl.getMedium());
         photoUrlToSave.setLarge(photoUrl.getLarge());
         realm.commitTransaction();

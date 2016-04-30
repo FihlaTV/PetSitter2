@@ -36,15 +36,16 @@ public class UserModel {
     }
 
     private User create(User userToFind) {
+        PhotoUrl photoUrl = photoUrlModel.create(userToFind.getPhotoUrl());
+        realm.beginTransaction();
         User user = realm.createObject(User.class);
-        PhotoUrl photoUrl = photoUrlModel.create(user.getPhotoUrl());
 
         user.setId(userToFind.getId());
-        user.setName(userToFind.getName());
         user.setEmail(userToFind.getEmail());
         user.setEntityId(userToFind.getEntityId());
         user.setEntityType(userToFind.getEntityType());
         user.setPhotoUrl(photoUrl);
+        realm.commitTransaction();
 
         return user;
     }

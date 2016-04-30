@@ -9,6 +9,8 @@
 
     <string name="login.invalid_email">E-mail inválido.</string>
     <string name="login.invalid_password">Senha inválida.</string>
+    <string name="login.invalid_login">Não foi possível efetuar seu login no PetSitter. Verifique seu e-mail e sua senha</string>
+    <string name="login.dialog_message">Efetuando login...</string>
 
     <string name="gcm_sender_id">236314577065</string>
 </resources>

@@ -2,7 +2,9 @@ package com.zekisanmobile.petsitter2.view.login;
 
 import android.app.Application;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,10 @@ import android.widget.EditText;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.asyncTasks.LoginTask;
+import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
+import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
+import com.zekisanmobile.petsitter2.vo.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return true;
     }
 
-    private void showLoginDialog(String message) {
+    public void showLoginDialog(String message) {
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -83,6 +89,21 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         dialog.getWindow().setAttributes(layoutParams);
     }
 
+    public void redirectUser(User user) {
+        Intent intent;
+        switch (user.getEntityType()) {
+            case EntityType.OWNER:
+                intent = new Intent(LoginActivity.this, OwnerHomeActivity.class);
+                break;
+            default: // EntityType.SITTER
+                intent = new Intent(LoginActivity.this, SitterHomeActivity.class);
+                break;
+        }
+        intent.putExtra("user_id", user.getId());
+        startActivity(intent);
+        finish();
+    }
+
     private boolean validateEmail() {
        return Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches();
     }
@@ -90,5 +111,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public Application getPetSitterApp() {
         return getApplication();
+    }
+
+    @Override
+    public String getSenderId() {
+        return getString(R.string.gcm_sender_id);
+    }
+
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
     }
 }
