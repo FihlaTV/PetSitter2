@@ -9,4 +9,6 @@
 
     <string name="login.invalid_email">E-mail inválido.</string>
     <string name="login.invalid_password">Senha inválida.</string>
+
+    <string name="gcm_sender_id">236314577065</string>
 </resources>
