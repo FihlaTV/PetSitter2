@@ -4,12 +4,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.session.SessionManager;
+
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
     }
 }
