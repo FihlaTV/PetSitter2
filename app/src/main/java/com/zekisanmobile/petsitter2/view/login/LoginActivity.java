@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.login;
 
+import android.app.Application;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,12 +12,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.asyncTasks.LoginTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @BindView(R.id.et_email)
     EditText etEmail;
@@ -35,7 +37,9 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login)
     public void login() {
         if (validateLoginFields()) {
-
+            String[] params = { etEmail.getText().toString().trim(),
+                    etPassword.getText().toString().trim() };
+            new LoginTask(this).execute(params);
         }
     }
 
@@ -81,5 +85,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validateEmail() {
        return Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches();
+    }
+
+    @Override
+    public Application getPetSitterApp() {
+        return getApplication();
     }
 }
