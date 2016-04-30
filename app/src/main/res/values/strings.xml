@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PetSitter 2</string>
+    <string name="app_login">Login</string>
 </resources>
