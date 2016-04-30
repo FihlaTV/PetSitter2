@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">PetSitter 2</string>
     <string name="app_login">Login</string>
+
+    <string name="login.login">Entrar</string>
+    <string name="login.signup">Cadastre-se</string>
+    <string name="login.email">E-mail</string>
+    <string name="login.password">Senha</string>
 </resources>

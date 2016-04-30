@@ -21,13 +21,16 @@
         <activity
             android:name=".view.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_login"/>
+            android:label="@string/app_login"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.owner.OwnerHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.sitter.SitterHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
