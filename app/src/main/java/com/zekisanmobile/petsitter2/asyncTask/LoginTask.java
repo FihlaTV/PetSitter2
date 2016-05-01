@@ -1,4 +1,4 @@
-package com.zekisanmobile.petsitter2.asyncTasks;
+package com.zekisanmobile.petsitter2.asyncTask;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;

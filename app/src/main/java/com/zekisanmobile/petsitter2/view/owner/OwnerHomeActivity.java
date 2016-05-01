@@ -60,6 +60,7 @@ public class OwnerHomeActivity extends AppCompatActivity {
         userModel = new UserModel(realm);
         ownerModel = new OwnerModel(realm);
         sessionManager = new SessionManager(this);
+
         long user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());

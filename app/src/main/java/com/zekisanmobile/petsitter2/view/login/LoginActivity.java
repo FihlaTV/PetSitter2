@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.asyncTasks.LoginTask;
+import com.zekisanmobile.petsitter2.asyncTask.LoginTask;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;

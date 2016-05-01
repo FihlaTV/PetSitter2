@@ -1,7 +1,7 @@
 package com.zekisanmobile.petsitter2.service;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
-import com.zekisanmobile.petsitter2.asyncTasks.RegistrationAsyncTask;
+import com.zekisanmobile.petsitter2.asyncTask.RegistrationAsyncTask;
 
 public class PetSitterInstanceIDListenerService extends InstanceIDListenerService {
 
