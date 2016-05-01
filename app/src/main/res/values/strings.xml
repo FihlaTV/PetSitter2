@@ -24,6 +24,7 @@
 
     <!-- Search Results -->
     <string name="search_result_title">Resultados da busca</string>
+    <string name="search_searching">Pesquisando Pet Sitters...</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

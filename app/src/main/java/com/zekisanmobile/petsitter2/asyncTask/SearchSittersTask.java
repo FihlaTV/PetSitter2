@@ -1,12 +1,15 @@
 package com.zekisanmobile.petsitter2.asyncTask;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.zekisanmobile.petsitter2.PetSitterApp;
+import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
 import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.view.owner.SearchResultsActivity;
 import com.zekisanmobile.petsitter2.view.owner.SearchResultsView;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
@@ -24,7 +27,7 @@ import retrofit2.Retrofit;
 
 public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
-    private SearchResultsView view;
+    private ProgressDialog progressDialog;
     private long owner_id;
     private List<String> animals = new ArrayList<>();
     private List<Sitter> sitters = new ArrayList<>();
@@ -34,9 +37,18 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
     public SearchSittersTask(SearchResultsView view, long owner_id, ArrayList<String> animals) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
-        this.view = view;
         this.owner_id = owner_id;
         this.animals = animals;
+
+        progressDialog = new ProgressDialog((SearchResultsActivity) view);
+        progressDialog.setMessage(view.getContext().getString(R.string.search_searching));
+        progressDialog.setCancelable(false);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (progressDialog != null) progressDialog.show();
     }
 
     @Override
@@ -70,6 +82,7 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
     @Override
     protected void onPostExecute(List<Sitter> sitters) {
+        progressDialog.dismiss();
         if (sitters != null) {
             EventBus.getDefault().post(new UpdateSittersEvent(sitters));
         }

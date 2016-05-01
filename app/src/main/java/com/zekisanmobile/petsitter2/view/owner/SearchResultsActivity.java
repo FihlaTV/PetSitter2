@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
 import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -49,6 +50,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
 
         defineMembers();
         configureToolbar();
+        startSearch();
     }
 
     @Override
@@ -101,5 +103,9 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void startSearch() {
+        new SearchSittersTask(this, owner.getId(), animals).execute();
     }
 }
