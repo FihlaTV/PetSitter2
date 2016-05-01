@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,5 +75,16 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public String[] getSelectedAnimals() {
+        List<String> selectedAnimals = new ArrayList<>();
+        for (SearchAnimalItem item : animals) {
+            if (item.isSelected()) {
+                selectedAnimals.add(item.getName());
+            }
+        }
+
+        return selectedAnimals.toArray(new String[0]);
     }
 }
