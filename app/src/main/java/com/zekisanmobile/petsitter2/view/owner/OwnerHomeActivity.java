@@ -1,10 +1,13 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
@@ -27,6 +30,12 @@ public class OwnerHomeActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +44,15 @@ public class OwnerHomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         defineMembers();
-        configureToolbar();
-
+        setupToolbar();
+        setupViewPager();
+        setupTabLayout();
     }
 
-    private void configureToolbar() {
-        toolbar.setTitle(owner.getName());
+    @Override
+    protected void onDestroy() {
+        realm.close();
+        super.onDestroy();
     }
 
     private void defineMembers() {
@@ -53,9 +65,17 @@ public class OwnerHomeActivity extends AppCompatActivity {
         owner = ownerModel.find(user.getEntityId());
     }
 
-    @Override
-    protected void onDestroy() {
-        realm.close();
-        super.onDestroy();
+    private void setupToolbar() {
+        toolbar.setTitle(owner.getName());
+    }
+
+    private void setupViewPager() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        // TODO: add fragments to the adapter
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabLayout() {
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
