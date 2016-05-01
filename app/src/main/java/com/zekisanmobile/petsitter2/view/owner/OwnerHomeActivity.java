@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
+import com.zekisanmobile.petsitter2.fragment.SittersFragment;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
@@ -72,7 +73,7 @@ public class OwnerHomeActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        // TODO: add fragments to the adapter
+        adapter.addFragment(new SittersFragment(), getString(R.string.tabs_pet_sitters));
         viewPager.setAdapter(adapter);
     }
 

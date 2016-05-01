@@ -13,4 +13,8 @@
     <string name="login.dialog_message">Efetuando login...</string>
 
     <string name="gcm_sender_id">236314577065</string>
+
+    <!-- Tabs Titles -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tabs.pet_sitters">Pet Sitters</string>
 </resources>
