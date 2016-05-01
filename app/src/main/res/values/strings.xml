@@ -15,6 +15,32 @@
     <string name="gcm_sender_id">236314577065</string>
 
     <!-- Tabs Titles -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tabs.pet_sitters">Pet Sitters</string>
+
+    <!-- Sitters Fragment -->
+    <string name="search_instruction">Escolha os seus pets</string>
+
+    <!-- Search animal names -->
+    <string-array name="animal_names">
+        <item>Cão</item>
+        <item>Gato</item>
+        <item>Tartaruga</item>
+        <item>Peixe</item>
+        <item>Pássaro</item>
+        <item>Coelho</item>
+        <item>Hamster</item>
+        <item>Porquinho da Índia</item>
+    </string-array>
+
+    <!-- Search animal icons -->
+    <string-array name="animal_icons">
+        <item>dog</item>
+        <item>cat</item>
+        <item>turtle</item>
+        <item>fish</item>
+        <item>bird</item>
+        <item>rabbit</item>
+        <item>hamster</item>
+        <item>pig</item>
+    </string-array>
 </resources>
