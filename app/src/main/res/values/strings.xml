@@ -22,6 +22,9 @@
     <string name="search">Pesquisar</string>
     <string name="search_no_animals_selected">Você deve selecionar pelo um animal para a pesquisa de Pet Sitters.</string>
 
+    <!-- Search Results -->
+    <string name="search_result_title">Resultados da busca</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>

@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.AnimalAdapter;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
+import com.zekisanmobile.petsitter2.view.owner.SearchResultsActivity;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
 import java.util.ArrayList;
@@ -53,7 +55,11 @@ public class SittersFragment extends Fragment {
             showNoAnimalsSelectedDialog(this.getContext()
                     .getString(R.string.search_no_animals_selected));
         } else {
-
+            Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putStringArray("selected_animals", selectedAnimals);
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
         }
     }
 
