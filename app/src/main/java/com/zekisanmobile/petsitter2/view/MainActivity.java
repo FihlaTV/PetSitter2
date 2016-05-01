@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, SitterHomeActivity.class);
                 break;
         }
-        intent.putExtra("user_id", user.getId());
         startActivity(intent);
         finish();
     }

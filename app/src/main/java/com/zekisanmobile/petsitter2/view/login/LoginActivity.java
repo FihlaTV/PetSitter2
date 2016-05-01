@@ -99,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 intent = new Intent(LoginActivity.this, SitterHomeActivity.class);
                 break;
         }
-        intent.putExtra("user_id", user.getId());
         startActivity(intent);
         finish();
     }
