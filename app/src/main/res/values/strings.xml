@@ -20,6 +20,7 @@
     <!-- Sitters Fragment -->
     <string name="search_instruction">Escolha os seus pets</string>
     <string name="search">Pesquisar</string>
+    <string name="search_no_animals_selected">Você deve selecionar pelo um animal para a pesquisa de Pet Sitters.</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

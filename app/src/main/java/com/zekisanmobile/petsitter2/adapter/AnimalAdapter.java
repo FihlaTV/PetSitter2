@@ -14,7 +14,6 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,7 +36,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        SearchAnimalItem animal = animals.get(position);
+        final SearchAnimalItem animal = animals.get(position);
 
         Context context = holder.ivAnimalIcon.getContext();
         int imageId = context.getResources()
@@ -49,7 +48,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         holder.cbAnimal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                animals.get(position).setSelected(true);
+                animals.get(position).setSelected(isChecked);
             }
         });
     }
