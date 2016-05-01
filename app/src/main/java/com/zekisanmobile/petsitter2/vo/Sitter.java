@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -25,6 +26,11 @@ public class Sitter extends RealmObject {
     float latitude;
 
     float longitude;
+
+    RealmList<Animal> animals;
+
+    @JsonProperty("photo")
+    private PhotoUrl photoUrl;
 
     public long getId() {
         return id;
@@ -88,5 +94,21 @@ public class Sitter extends RealmObject {
 
     public void setLongitude(float longitude) {
         this.longitude = longitude;
+    }
+
+    public RealmList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(RealmList<Animal> animals) {
+        this.animals = animals;
+    }
+
+    public PhotoUrl getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(PhotoUrl photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

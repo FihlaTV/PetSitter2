@@ -50,14 +50,14 @@ public class SittersFragment extends Fragment {
 
     @OnClick(R.id.btn_search)
     public void search() {
-        String[] selectedAnimals = adapter.getSelectedAnimals();
-        if (selectedAnimals.length == 0) {
+        ArrayList<String> selectedAnimals = adapter.getSelectedAnimals();
+        if (selectedAnimals == null || selectedAnimals.isEmpty() ) {
             showNoAnimalsSelectedDialog(this.getContext()
                     .getString(R.string.search_no_animals_selected));
         } else {
             Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putStringArray("selected_animals", selectedAnimals);
+            bundle.putStringArrayList("selected_animals", selectedAnimals);
             intent.putExtras(bundle);
             getActivity().startActivity(intent);
         }

@@ -30,6 +30,7 @@ public class OwnerModel {
             return create(ownerToFind);
         }
     }
+
     private Owner create(Owner ownerToFind) {
         realm.beginTransaction();
         Owner owner = realm.createObject(Owner.class);

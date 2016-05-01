@@ -2,9 +2,12 @@ package com.zekisanmobile.petsitter2.api;
 
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
+import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,4 +28,7 @@ public interface ApiService {
 
     @GET("sitters/{sitter}")
     Call<Sitter> getSitter(@Path("sitter") long sitter_id);
+
+    @POST("pet_owners/{owner}/search_sitters")
+    Call<List<Sitter>> searchSitters(@Path("owner") long owner_id, @Body SearchSittersBody body);
 }

@@ -76,14 +76,14 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         }
     }
 
-    public String[] getSelectedAnimals() {
-        List<String> selectedAnimals = new ArrayList<>();
+    public ArrayList<String> getSelectedAnimals() {
+        ArrayList<String> selectedAnimals = new ArrayList<>();
         for (SearchAnimalItem item : animals) {
             if (item.isSelected()) {
                 selectedAnimals.add(item.getName());
             }
         }
 
-        return selectedAnimals.toArray(new String[0]);
+        return selectedAnimals;
     }
 }

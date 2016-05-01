@@ -1,12 +1,22 @@
 package com.zekisanmobile.petsitter2.vo;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Animal extends RealmObject {
 
+    @PrimaryKey
+    long id;
+
     String name;
 
-    String icon;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -14,13 +24,5 @@ public class Animal extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 }
