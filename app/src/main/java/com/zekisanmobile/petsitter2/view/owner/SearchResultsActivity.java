@@ -2,18 +2,20 @@ package com.zekisanmobile.petsitter2.view.owner;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SitterListAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
-import com.zekisanmobile.petsitter2.customListener.ClickListener;
-import com.zekisanmobile.petsitter2.customListener.RecyclerTouchListener;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -28,6 +30,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +47,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
     private UserModel userModel;
     private SitterListAdapter adapter;
     private ArrayList<String> animals = new ArrayList<>();
+    private List<Sitter> sitters = new ArrayList<>();
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -97,6 +101,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleEvent(UpdateSittersEvent event) {
         if (event.getSitters() != null && !event.getSitters().isEmpty()) {
+            this.sitters = event.getSitters();
             adapter.setSittersList(event.getSitters());
             adapter.notifyDataSetChanged();
         }
@@ -122,25 +127,21 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
     }
 
     private void setupRecyclerView() {
-        adapter = new SitterListAdapter(new ArrayList<Sitter>(), getContext());
+        adapter = new SitterListAdapter(new ArrayList<Sitter>(), getContext(),
+                new RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(SearchResultsActivity.this, SitterProfileActivity.class);
+                intent.putExtra("sitter_id", sitters.get(position).getId());
+                startActivity(intent);
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
-                recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
     }
 
     private void startSearch() {

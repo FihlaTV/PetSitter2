@@ -77,9 +77,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.owner.SearchResultsActivity"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".view.owner.OwnerHomeActivity"/>
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".view.owner.SitterProfileActivity"
+            android:parentActivityName=".view.owner.SearchResultsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
     </application>
 

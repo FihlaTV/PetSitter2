@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
@@ -22,10 +23,13 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
 
     private List<Sitter> sitters;
     private Context context;
+    private RecyclerViewOnClickListener listener;
 
-    public SitterListAdapter(List<Sitter> sitters, Context context) {
+    public SitterListAdapter(List<Sitter> sitters, Context context,
+                             RecyclerViewOnClickListener listener) {
         this.sitters = sitters;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
         this.sitters = sitters;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.iv_sitter)
         ImageView ivSitter;
@@ -72,6 +76,15 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (listener != null) {
+                listener.onClick(v, getAdapterPosition());
+            }
         }
     }
 }
