@@ -31,5 +31,8 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         toolbar.setTitle(getString(R.string.search_result_title));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 }

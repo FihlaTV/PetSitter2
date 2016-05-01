@@ -78,7 +78,8 @@
         <activity
             android:name=".view.owner.SearchResultsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"/>
         <!-- [END UI Activity] -->
     </application>
 
