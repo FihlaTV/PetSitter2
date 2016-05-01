@@ -24,6 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
+                style="@style/NavigationTab"
+                app:tabTextAppearance="@style/NavigationTabTextAppearance"
+                android:background="@color/white"
                 />
 
         </android.support.design.widget.AppBarLayout>
