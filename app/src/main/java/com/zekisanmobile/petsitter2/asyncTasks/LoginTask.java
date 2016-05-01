@@ -11,10 +11,15 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
+import com.zekisanmobile.petsitter2.model.OwnerModel;
+import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.view.login.LoginView;
+import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
 
 import java.io.IOException;
@@ -22,6 +27,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -69,6 +75,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
                 getTokenFromCGM();
                 sendTokenToServer(user.getId());
                 saveSharedPreferences(user.getId());
+                getEntity(user.getEntityId(), user.getEntityType());
             } else {
                 return false;
             }
@@ -76,6 +83,45 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
             e.printStackTrace();
         }
         return true;
+    }
+
+    private void getEntity(long entityId, String entityType) {
+        switch (entityType) {
+            case EntityType.OWNER:
+                getOwner(entityId);
+                break;
+            default:
+                getSitter(entityId);
+                break;
+        }
+    }
+
+    private void getSitter(long entityId) {
+        ApiService service = retrofit.create(ApiService.class);
+        Call<Sitter> call = service.getSitter(entityId);
+        try {
+            Sitter sitter = call.execute().body();
+            Realm realm = Realm.getDefaultInstance();
+            SitterModel sitterModel = new SitterModel(realm);
+            sitterModel.save(sitter);
+            realm.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getOwner(long entityId) {
+        ApiService service = retrofit.create(ApiService.class);
+        Call<Owner> call = service.getOwner(entityId);
+        try {
+            Owner owner = call.execute().body();
+            Realm realm = Realm.getDefaultInstance();
+            OwnerModel ownerModel = new OwnerModel(realm);
+            ownerModel.save(owner);
+            realm.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveSharedPreferences(long id) {

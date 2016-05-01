@@ -16,7 +16,7 @@ public class User extends RealmObject {
     private String entityType;
 
     @JsonProperty("entity_id")
-    private int entityId;
+    private long entityId;
 
     @JsonProperty("photo")
     private PhotoUrl photoUrl;
@@ -45,11 +45,11 @@ public class User extends RealmObject {
         this.entityType = entityType;
     }
 
-    public int getEntityId() {
+    public long getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(int entityId) {
+    public void setEntityId(long entityId) {
         this.entityId = entityId;
     }
 
