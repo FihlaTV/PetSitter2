@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SitterListAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
+import com.zekisanmobile.petsitter2.customListener.ClickListener;
+import com.zekisanmobile.petsitter2.customListener.RecyclerTouchListener;
 import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -126,6 +129,18 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+                recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     private void startSearch() {
