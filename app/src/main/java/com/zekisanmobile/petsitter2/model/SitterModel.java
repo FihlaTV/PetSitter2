@@ -3,7 +3,6 @@ package com.zekisanmobile.petsitter2.model;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 import com.zekisanmobile.petsitter2.vo.Sitter;
-import com.zekisanmobile.petsitter2.vo.User;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -52,6 +51,7 @@ public class SitterModel {
         sitter.setLongitude(sitterToFind.getLongitude());
         sitter.setValueHour(sitterToFind.getValueHour());
         sitter.setAboutMe(sitterToFind.getAboutMe());
+        sitter.setPhone(sitterToFind.getPhone());
         sitter.setAnimals(animals);
         sitter.setPhotoUrl(photoUrl);
         realm.commitTransaction();

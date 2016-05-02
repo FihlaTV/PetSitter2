@@ -27,6 +27,8 @@ public class Sitter extends RealmObject {
 
     float longitude;
 
+    String phone;
+
     RealmList<Animal> animals;
 
     @JsonProperty("photo")
@@ -94,6 +96,14 @@ public class Sitter extends RealmObject {
 
     public void setLongitude(float longitude) {
         this.longitude = longitude;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public RealmList<Animal> getAnimals() {

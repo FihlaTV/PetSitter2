@@ -1,11 +1,15 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +57,9 @@ public class SitterProfileActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @BindView(R.id.btn_call)
+    Button btnCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +87,17 @@ public class SitterProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_call)
+    public void call() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse(sitter.getPhone()));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.d("DIAL FAILED: ", e.getMessage());
+        }
+    }
+
     private void defineViewsValues() {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         tvValueHour.setText(format.format(sitter.getValueHour()) + "/h");
@@ -87,6 +105,7 @@ public class SitterProfileActivity extends AppCompatActivity {
         tvAboutMe.setText(sitter.getAboutMe());
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
         setupAnimalsRecyclerView(animalItems);
+        btnCall.setText(sitter.getPhone());
     }
 
     private List<SearchAnimalItem> populateAnimalsRecyclerView() {
