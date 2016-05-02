@@ -6,24 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> {
+public class ProfileAnimalAdapter extends RecyclerView.Adapter<ProfileAnimalAdapter.ViewHolder> {
 
     private List<SearchAnimalItem> animals;
 
-    public AnimalAdapter(List<SearchAnimalItem> animals) {
+    public ProfileAnimalAdapter(List<SearchAnimalItem> animals) {
         this.animals = animals;
     }
 
@@ -44,13 +42,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
         holder.ivAnimalIcon.setImageResource(imageId);
         holder.tvAnimalName.setText(animal.getName());
-
-        holder.cbAnimal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                animals.get(position).setSelected(isChecked);
-            }
-        });
+        holder.tvAnimalName.setTextSize(15);
+        holder.cbAnimal.setVisibility(View.GONE);
     }
 
     @Override
@@ -74,16 +67,5 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public ArrayList<String> getSelectedAnimals() {
-        ArrayList<String> selectedAnimals = new ArrayList<>();
-        for (SearchAnimalItem item : animals) {
-            if (item.isSelected()) {
-                selectedAnimals.add(item.getName());
-            }
-        }
-
-        return selectedAnimals;
     }
 }

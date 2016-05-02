@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.AnimalAdapter;
+import com.zekisanmobile.petsitter2.adapter.SearchAnimalAdapter;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.view.owner.SearchResultsActivity;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 public class SittersFragment extends Fragment {
 
-    private AnimalAdapter adapter;
+    private SearchAnimalAdapter adapter;
     private List<SearchAnimalItem> animalItems;
 
     @BindView(R.id.recycler_view)
@@ -77,7 +77,7 @@ public class SittersFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        adapter = new AnimalAdapter(animalItems);
+        adapter = new SearchAnimalAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

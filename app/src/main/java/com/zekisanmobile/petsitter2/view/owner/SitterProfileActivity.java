@@ -1,20 +1,19 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.ProfileAnimalAdapter;
 import com.zekisanmobile.petsitter2.model.SitterModel;
-import com.zekisanmobile.petsitter2.model.UserModel;
-import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 import com.zekisanmobile.petsitter2.vo.Sitter;
-import com.zekisanmobile.petsitter2.vo.User;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -48,8 +47,8 @@ public class SitterProfileActivity extends AppCompatActivity {
     @BindView(R.id.tv_about_me)
     TextView tvAboutMe;
 
-    @BindView(R.id.lv_pets)
-    ListView lvPets;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +75,26 @@ public class SitterProfileActivity extends AppCompatActivity {
         tvValueHour.setText(format.format(sitter.getValueHour()) + "/h");
         tvDistrict.setText(sitter.getDistrict());
         tvAboutMe.setText(sitter.getAboutMe());
+        List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
+        setupAnimalsRecyclerView(animalItems);
+    }
 
-        List<String> animalsForList = new ArrayList<>();
-        for (int i = 0; i < sitter.getAnimals().size(); i++) {
-            animalsForList.add(sitter.getAnimals().get(i).getName());
+    private List<SearchAnimalItem> populateAnimalsRecyclerView() {
+        String[] animalIcons = this.getResources().getStringArray(R.array.animal_icons);
+        String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
+        List<SearchAnimalItem> animalItems = new ArrayList<>();
+
+        for (int i = 0; i < animalNames.length; i++) {
+            for (int j = 0; j < sitter.getAnimals().size(); j++) {
+                if(sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
+                    SearchAnimalItem item = new SearchAnimalItem();
+                    item.setIcon(animalIcons[i]);
+                    item.setName(animalNames[i]);
+                    animalItems.add(item);
+                }
+            }
         }
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
-                animalsForList);
-        lvPets.setAdapter(adapter);
+        return animalItems;
     }
 
     private void defineMembers() {
@@ -102,5 +113,13 @@ public class SitterProfileActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(sitter.getPhotoUrl().getLarge())
                 .into(ivSitter);
+    }
+
+    public void setupAnimalsRecyclerView(List<SearchAnimalItem> animalItems) {
+        ProfileAnimalAdapter adapter = new ProfileAnimalAdapter(animalItems);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }
