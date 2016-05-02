@@ -3,7 +3,9 @@ package com.zekisanmobile.petsitter2.view.owner;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -26,6 +28,9 @@ public class SitterProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.iv_sitter)
+    ImageView ivSitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +63,9 @@ public class SitterProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        Picasso.with(this)
+                .load(sitter.getPhotoUrl().getLarge())
+                .into(ivSitter);
     }
 }
