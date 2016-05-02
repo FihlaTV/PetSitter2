@@ -21,6 +21,7 @@ import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
+import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
@@ -132,7 +133,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(SearchResultsActivity.this, SitterProfileActivity.class);
-                intent.putExtra("sitter_id", sitters.get(position).getId());
+                intent.putExtra(Extra.SITTER_ID, sitters.get(position).getId());
                 startActivity(intent);
             }
         });

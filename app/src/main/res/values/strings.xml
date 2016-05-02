@@ -30,6 +30,9 @@
     <string name="sitter_profile_about_me">Sobre mim</string>
     <string name="sitter_profile_pets">Pets que cuido</string>
 
+    <!-- Job Request -->
+    <string name="job_request_title">Solicitação de Pet Sitter</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>

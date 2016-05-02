@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ProfileAnimalAdapter;
 import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
@@ -21,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class SitterProfileActivity extends AppCompatActivity {
@@ -68,6 +71,13 @@ public class SitterProfileActivity extends AppCompatActivity {
     protected void onDestroy() {
         realm.close();
         super.onDestroy();
+    }
+
+    @OnClick(R.id.fab)
+    public void requestJob() {
+        Intent intent = new Intent(SitterProfileActivity.this, NewJobRequestActivity.class);
+        intent.putExtra(Extra.SITTER_ID, sitter.getId());
+        startActivity(intent);
     }
 
     private void defineViewsValues() {

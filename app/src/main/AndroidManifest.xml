@@ -77,13 +77,19 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.owner.SearchResultsActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.owner.SitterProfileActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".view.owner.SearchResultsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.owner.NewJobRequestActivity"
+            android:parentActivityName=".view.owner.SitterProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
