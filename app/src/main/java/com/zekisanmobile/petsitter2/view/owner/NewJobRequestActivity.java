@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.owner;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zekisanmobile.petsitter2.R;
@@ -45,10 +46,18 @@ public class NewJobRequestActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_job_request, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+            case R.id.m_save:
                 return true;
         }
         return super.onOptionsItemSelected(item);

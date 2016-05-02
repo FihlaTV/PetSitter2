@@ -33,6 +33,9 @@
     <!-- Job Request -->
     <string name="job_request_title">Solicitação de Pet Sitter</string>
 
+    <!-- Common Actions -->
+    <string name="actions.save">Salvar</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>
