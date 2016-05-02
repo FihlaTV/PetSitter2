@@ -26,6 +26,10 @@
     <string name="search_result_title">Resultados da busca</string>
     <string name="search_searching">Pesquisando Pet Sitters...</string>
 
+    <!--  Sitter Profile -->
+    <string name="sitter_profile_about_me">Sobre mim</string>
+    <string name="sitter_profile_pets">Pets que cuido</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>
