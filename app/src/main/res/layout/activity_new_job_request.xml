@@ -72,7 +72,8 @@
                     android:ems="10"
                     android:hint="@string/job_request_date_start"
                     android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:inputType="datetime" />
 
                 <EditText
                     android:id="@+id/et_date_final"
@@ -86,7 +87,8 @@
                     android:ems="10"
                     android:hint="@string/job_request_date_final"
                     android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:inputType="datetime" />
 
                 <View
                     android:id="@+id/vw_divider2"
@@ -129,7 +131,8 @@
                     android:ems="10"
                     android:hint="@string/job_request_time_start"
                     android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:inputType="datetime" />
 
                 <EditText
                     android:id="@+id/et_time_final"
@@ -143,7 +146,8 @@
                     android:ems="10"
                     android:hint="@string/job_request_time_final"
                     android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:inputType="datetime" />
 
                 <View
                     android:id="@+id/vw_divider3"

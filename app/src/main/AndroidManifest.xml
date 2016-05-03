@@ -93,7 +93,8 @@
             android:name=".view.owner.NewJobRequestActivity"
             android:parentActivityName=".view.owner.SitterProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <!-- [END UI Activity] -->
     </application>
 

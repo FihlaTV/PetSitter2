@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
@@ -29,13 +33,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
-public class NewJobRequestActivity extends AppCompatActivity {
+public class NewJobRequestActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener{
 
     private long sitter_id;
     private int selectedAnimalsCount;
@@ -116,6 +124,72 @@ public class NewJobRequestActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        year = month = day = hour = minute = 0;
+        etTimeStart.setText("");
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        tDefault = Calendar.getInstance();
+        tDefault.set(this.year, month, day, hour, minute);
+
+        this.year = year;
+        month = monthOfYear;
+        day = dayOfMonth;
+
+        switch (flag) {
+            case FLAG_START:
+                etDateStart.setText(setDateOnTextView());
+                break;
+            case FLAG_END:
+                etDateFinal.setText(setDateOnTextView());
+                break;
+        }
+        calculateTotalValue();
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+        this.hour = hourOfDay;
+        this.minute = minute;
+
+        switch (flag) {
+            case FLAG_START:
+                etTimeStart.setText(setTimeOnTextView());
+                break;
+            case FLAG_END:
+                etTimeFinal.setText(setTimeOnTextView());
+                break;
+        }
+        calculateTotalValue();
+    }
+
+    @OnClick(R.id.et_date_start)
+    public void doScheduleDateStart() {
+        flag = FLAG_START;
+        scheduleJobDate();
+    }
+
+    @OnClick(R.id.et_date_final)
+    public void doScheduleDateFinal() {
+        flag = FLAG_END;
+        scheduleJobDate();
+    }
+
+    @OnClick(R.id.et_time_start)
+    public void doScheduleTimeStart() {
+        flag = FLAG_START;
+        scheduleJobTime();
+    }
+
+    @OnClick(R.id.et_time_final)
+    public void doScheduleTimeFinal() {
+        flag = FLAG_END;
+        scheduleJobTime();
     }
 
     private void defineMembers() {
@@ -253,6 +327,77 @@ public class NewJobRequestActivity extends AppCompatActivity {
         }
     }
 
+    private void scheduleJobDate() {
+        initDateData();
+        Calendar calendarDefault = Calendar.getInstance();
+        calendarDefault.set(year, month, day);
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                this,
+                calendarDefault.get(Calendar.YEAR),
+                calendarDefault.get(Calendar.MONTH),
+                calendarDefault.get(Calendar.DAY_OF_MONTH)
+        );
+
+        Calendar cMin = Calendar.getInstance();
+        Calendar cMax = Calendar.getInstance();
+
+        cMax.set(cMax.get(Calendar.YEAR), 11, 31);
+        datePickerDialog.setMinDate(cMin);
+        datePickerDialog.setMaxDate(cMax);
+
+        List<Calendar> daysList = new LinkedList<>();
+        Calendar[] daysArray;
+        Calendar cAux = Calendar.getInstance();
+        while (cAux.getTimeInMillis() <= cMax.getTimeInMillis()) {
+            if (cAux.get(Calendar.DAY_OF_WEEK) != 1 && cAux.get(Calendar.DAY_OF_WEEK) != 7) {
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(cAux.getTimeInMillis());
+
+                daysList.add(c);
+            }
+            cAux.setTimeInMillis(cAux.getTimeInMillis() + (24 * 60 * 60 * 1000));
+        }
+
+        daysArray = new Calendar[daysList.size()];
+        for (int i = 0; i < daysArray.length; i++) {
+            daysArray[i] = daysList.get(i);
+        }
+
+        datePickerDialog.setSelectableDays(daysArray);
+        datePickerDialog.setOnCancelListener(this);
+        datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
+    }
+
+    private void scheduleJobTime() {
+        tDefault = Calendar.getInstance();
+        initTimeData();
+        TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+                this,
+                tDefault.get(Calendar.HOUR_OF_DAY),
+                tDefault.get(Calendar.MINUTE),
+                true
+        );
+        timePickerDialog.setOnCancelListener(this);
+        timePickerDialog.show(getFragmentManager(), "TimePickerDialog");
+    }
+
+    private void initDateData() {
+        if (year == 0) {
+            Calendar c = Calendar.getInstance();
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+        }
+    }
+
+    private void initTimeData() {
+        if (hour == 0) {
+            Calendar c = Calendar.getInstance();
+            hour = c.get(Calendar.HOUR_OF_DAY);
+            minute = c.get(Calendar.MINUTE);
+        }
+    }
+
     private String setDateOnTextView() {
         return (day < 10 ? "0" + day : day) + "/" +
                 ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "/" + year;
@@ -262,5 +407,4 @@ public class NewJobRequestActivity extends AppCompatActivity {
         return (hour < 10 ? "0" + hour : hour) + "h" +
                 (this.minute < 10 ? "0" + this.minute : this.minute);
     }
-
 }
