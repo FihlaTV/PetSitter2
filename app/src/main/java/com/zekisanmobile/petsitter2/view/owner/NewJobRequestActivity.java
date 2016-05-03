@@ -1,7 +1,9 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,6 +124,11 @@ public class NewJobRequestActivity extends AppCompatActivity
                 onBackPressed();
                 return true;
             case R.id.m_save:
+                if (isJobValid()) {
+
+                } else {
+                    showJobRequestDialog(getString(R.string.job_request_validation));
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -287,7 +295,7 @@ public class NewJobRequestActivity extends AppCompatActivity
     private double calculateTotalValue() {
         updateSelectedAnimalsCount();
         double totalValue;
-        if (canCalculateTotalValue() && selectedAnimalsCount > 0) {
+        if (isJobValid() && selectedAnimalsCount > 0) {
             SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
             try {
@@ -316,7 +324,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         selectedAnimalsCount = llAnimals.getChildCount() - 1;
     }
 
-    private boolean canCalculateTotalValue() {
+    private boolean isJobValid() {
         if (!TextUtils.isEmpty(etDateStart.getText().toString().trim())
                 && !TextUtils.isEmpty(etDateFinal.getText().toString().trim())
                 && !TextUtils.isEmpty(etTimeStart.getText().toString().trim())
@@ -406,5 +414,26 @@ public class NewJobRequestActivity extends AppCompatActivity
     private String setTimeOnTextView() {
         return (hour < 10 ? "0" + hour : hour) + "h" +
                 (this.minute < 10 ? "0" + this.minute : this.minute);
+    }
+
+    public void showJobRequestDialog(String message) {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void keepDialog(Dialog dialog) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
     }
 }
