@@ -21,202 +21,206 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <ImageView
-                android:id="@+id/iv_sitter"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-
-            <TextView
-                android:id="@+id/tv_sitter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_sitter"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="9dp"
-                android:text="Nome do Pet Sitter"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/vw_divider1"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_above="@+id/et_date_start"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@color/divider" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_vertical_margin">
 
-            <EditText
-                android:id="@+id/et_date_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView"
-                android:layout_alignEnd="@+id/vw_divider1"
-                android:layout_alignLeft="@+id/et_date_final"
-                android:layout_alignRight="@+id/vw_divider1"
-                android:layout_alignStart="@+id/et_date_final"
-                android:ems="10"
-                android:hint="@string/job_request_date_start"
-                android:maxLines="1"
-                android:textSize="15sp" />
+                <ImageView
+                    android:id="@+id/iv_sitter"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
-            <EditText
-                android:id="@+id/et_date_final"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/vw_divider2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignRight="@+id/vw_divider2"
-                android:layout_below="@+id/et_date_start"
-                android:layout_marginLeft="49dp"
-                android:ems="10"
-                android:hint="@string/job_request_date_final"
-                android:maxLines="1"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tv_sitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_sitter"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="9dp"
+                    android:text="Nome do Pet Sitter"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <View
-                android:id="@+id/vw_divider2"
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_above="@+id/et_time_start"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@color/divider" />
+                <View
+                    android:id="@+id/vw_divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_above="@+id/et_date_start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/divider" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_sitter"
-                android:layout_marginTop="38dp"
-                android:src="@drawable/ic_event_note" />
+                <EditText
+                    android:id="@+id/et_date_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView"
+                    android:layout_alignEnd="@+id/vw_divider1"
+                    android:layout_alignLeft="@+id/et_date_final"
+                    android:layout_alignRight="@+id/vw_divider1"
+                    android:layout_alignStart="@+id/et_date_final"
+                    android:ems="10"
+                    android:hint="@string/job_request_date_start"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/et_date_final"
-                android:layout_marginTop="29dp"
-                android:src="@drawable/ic_access_time" />
+                <EditText
+                    android:id="@+id/et_date_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/vw_divider2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignRight="@+id/vw_divider2"
+                    android:layout_below="@+id/et_date_start"
+                    android:layout_marginLeft="49dp"
+                    android:ems="10"
+                    android:hint="@string/job_request_date_final"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/et_time_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView2"
-                android:layout_alignEnd="@+id/et_date_final"
-                android:layout_alignLeft="@+id/et_date_final"
-                android:layout_alignRight="@+id/et_date_final"
-                android:layout_alignStart="@+id/et_date_final"
-                android:ems="10"
-                android:hint="@string/job_request_time_start"
-                android:maxLines="1"
-                android:textSize="15sp" />
+                <View
+                    android:id="@+id/vw_divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_above="@+id/et_time_start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/divider" />
 
-            <EditText
-                android:id="@+id/et_time_final"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/et_time_start"
-                android:layout_alignLeft="@+id/et_time_start"
-                android:layout_alignRight="@+id/et_time_start"
-                android:layout_alignStart="@+id/et_time_start"
-                android:layout_below="@+id/et_time_start"
-                android:ems="10"
-                android:hint="@string/job_request_time_final"
-                android:maxLines="1"
-                android:textSize="15sp" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_sitter"
+                    android:layout_marginTop="38dp"
+                    android:src="@drawable/ic_event_note" />
 
-            <View
-                android:id="@+id/vw_divider3"
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_alignEnd="@+id/et_time_final"
-                android:layout_alignRight="@+id/et_time_final"
-                android:layout_below="@+id/et_time_final"
-                android:layout_marginTop="11dp"
-                android:background="@color/divider" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/et_date_final"
+                    android:layout_marginTop="29dp"
+                    android:src="@drawable/ic_access_time" />
 
-            <LinearLayout
-                android:id="@+id/ll_animals"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/et_time_final"
-                android:layout_alignStart="@+id/et_time_final"
-                android:layout_below="@+id/vw_divider3"
-                android:layout_marginTop="11dp"
-                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/et_time_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView2"
+                    android:layout_alignEnd="@+id/et_date_final"
+                    android:layout_alignLeft="@+id/et_date_final"
+                    android:layout_alignRight="@+id/et_date_final"
+                    android:layout_alignStart="@+id/et_date_final"
+                    android:ems="10"
+                    android:hint="@string/job_request_time_start"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
 
-                <include layout="@layout/box_animal" />
+                <EditText
+                    android:id="@+id/et_time_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/et_time_start"
+                    android:layout_alignLeft="@+id/et_time_start"
+                    android:layout_alignRight="@+id/et_time_start"
+                    android:layout_alignStart="@+id/et_time_start"
+                    android:layout_below="@+id/et_time_start"
+                    android:ems="10"
+                    android:hint="@string/job_request_time_final"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
 
-                <Button
-                    android:id="@+id/bt_add_animal"
-                    style="?android:attr/borderlessButtonStyle"
+                <View
+                    android:id="@+id/vw_divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_alignEnd="@+id/et_time_final"
+                    android:layout_alignRight="@+id/et_time_final"
+                    android:layout_below="@+id/et_time_final"
+                    android:layout_marginTop="11dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:id="@+id/ll_animals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:onClick="callAddAnimal"
-                    android:text="@string/actions.add"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:layout_alignLeft="@+id/et_time_final"
+                    android:layout_alignStart="@+id/et_time_final"
+                    android:layout_below="@+id/vw_divider3"
+                    android:layout_marginTop="11dp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <include layout="@layout/box_animal" />
 
-            <View
-                android:id="@+id/vw_divider4"
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:layout_alignEnd="@+id/ll_animals"
-                android:layout_alignRight="@+id/ll_animals"
-                android:layout_below="@+id/ll_animals"
-                android:background="@color/divider" />
+                    <Button
+                        android:id="@+id/bt_add_animal"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:onClick="callAddAnimal"
+                        android:text="@string/actions.add"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryDark" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/ll_animals"
-                android:src="@drawable/paw_black" />
+                </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/vw_divider4"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/ic_attach_money" />
+                <View
+                    android:id="@+id/vw_divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_alignEnd="@+id/ll_animals"
+                    android:layout_alignRight="@+id/ll_animals"
+                    android:layout_below="@+id/ll_animals"
+                    android:background="@color/divider" />
 
-            <TextView
-                android:id="@+id/tv_total_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ll_animals"
-                android:layout_alignStart="@+id/ll_animals"
-                android:layout_alignTop="@+id/imageView4"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/ll_animals"
+                    android:src="@drawable/paw_black" />
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/vw_divider4"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_attach_money" />
 
+                <TextView
+                    android:id="@+id/tv_total_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/ll_animals"
+                    android:layout_alignStart="@+id/ll_animals"
+                    android:layout_alignTop="@+id/imageView4"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </ScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.owner;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -143,8 +144,12 @@ public class NewJobRequestActivity extends AppCompatActivity {
     private void configureSpinner() {
         String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
 
-        for (String a : animalNames) {
-            animals.add(a);
+        for (int i = 0; i < animalNames.length; i++) {
+            for (int j =0; j < sitter.getAnimals().size(); j++) {
+                if (sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
+                    animals.add(animalNames[i]);
+                }
+            }
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -233,17 +238,19 @@ public class NewJobRequestActivity extends AppCompatActivity {
     }
 
     private void updateSelectedAnimalsCount() {
-        /*View btAddAnimal = findViewById(R.id.bt_add_animal);
-        LinearLayout linearLayoutParent = (LinearLayout) btAddAnimal.getParent();
-        LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(9);*/
         LinearLayout llAnimals = (LinearLayout) findViewById(R.id.ll_animals);
         selectedAnimalsCount = llAnimals.getChildCount() - 1;
     }
 
     private boolean canCalculateTotalValue() {
-        if (etDateStart.getText() != null && etDateFinal.getText() != null
-                && etTimeStart.getText() != null && etTimeFinal.getText() != null) return true;
-        return false;
+        if (!TextUtils.isEmpty(etDateStart.getText().toString().trim())
+                && !TextUtils.isEmpty(etDateFinal.getText().toString().trim())
+                && !TextUtils.isEmpty(etTimeStart.getText().toString().trim())
+                && !TextUtils.isEmpty(etTimeFinal.getText().toString().trim())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private String setDateOnTextView() {
