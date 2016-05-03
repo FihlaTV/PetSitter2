@@ -3,6 +3,8 @@ package com.zekisanmobile.petsitter2.di.module;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -25,6 +27,7 @@ public class NetModule {
     OkHttpClient providesOkHttpClient () {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build();
         return client;
     }

@@ -1,17 +1,25 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
+import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
 import com.zekisanmobile.petsitter2.fragment.SittersFragment;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.view.HomeView;
+import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.User;
 
@@ -19,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
-public class OwnerHomeActivity extends AppCompatActivity {
+public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
 
     private Realm realm;
     private User user;
@@ -56,6 +64,23 @@ public class OwnerHomeActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.m_logout) {
+            new LogoutTask(this, user.getId()).execute();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
         userModel = new UserModel(realm);
@@ -69,6 +94,7 @@ public class OwnerHomeActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         toolbar.setTitle(owner.getName());
+        setSupportActionBar(toolbar);
     }
 
     private void setupViewPager() {
@@ -79,5 +105,27 @@ public class OwnerHomeActivity extends AppCompatActivity {
 
     private void setupTabLayout() {
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public Application getPetSitterApp() {
+        return getApplication();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return this;
+    }
+
+    @Override
+    public void redirectToLoginPage() {
+        clearSession();
+        Intent intent = new Intent(OwnerHomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void clearSession() {
+        sessionManager.cleanAllEntries();
     }
 }

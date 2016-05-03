@@ -21,6 +21,9 @@ public interface ApiService {
     @POST("login")
     Call<User> login(@Body LoginBody body);
 
+    @POST("users/{user}/logout")
+    Call<Void> logout(@Path("user") long user_id);
+
     @POST("users/{user}/update_device_token")
     Call<Void> updateDeviceToken(@Path("user") long user_id, @Body DeviceTokenBody body);
 

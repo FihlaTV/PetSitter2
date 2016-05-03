@@ -42,6 +42,10 @@
     <string name="job_request_time_final">Hora Fim</string>
     <string name="actions.add">Adicionar</string>
 
+    <!-- Logout -->
+    <string name="action_logout">Sair</string>
+    <string name="logout_dialog_message">Saindo...</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>

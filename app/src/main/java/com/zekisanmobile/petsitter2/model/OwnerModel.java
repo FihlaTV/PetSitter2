@@ -1,15 +1,18 @@
 package com.zekisanmobile.petsitter2.model;
 
 import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 
 import io.realm.Realm;
 
 public class OwnerModel {
 
     Realm realm;
+    private PhotoUrlModel photoUrlModel;
 
     public OwnerModel(Realm realm) {
         this.realm = realm;
+        photoUrlModel = new PhotoUrlModel(realm);
     }
 
     public Owner save(Owner owner) {
@@ -32,6 +35,7 @@ public class OwnerModel {
     }
 
     private Owner create(Owner ownerToFind) {
+        PhotoUrl photoUrl = photoUrlModel.create(ownerToFind.getPhotoUrl());
         realm.beginTransaction();
         Owner owner = realm.createObject(Owner.class);
 
@@ -41,6 +45,7 @@ public class OwnerModel {
         owner.setDistrict(ownerToFind.getDistrict());
         owner.setLatitude(ownerToFind.getLatitude());
         owner.setLongitude(ownerToFind.getLongitude());
+        owner.setPhotoUrl(photoUrl);
         realm.commitTransaction();
 
         return owner;
