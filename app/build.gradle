@@ -53,6 +53,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.dagger:dagger:2.2'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
     compile 'javax.annotation:jsr250-api:1.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'io.reactivex:rxjava:1.1.0'

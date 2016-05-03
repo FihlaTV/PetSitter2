@@ -32,9 +32,13 @@
 
     <!-- Job Request -->
     <string name="job_request_title">Solicitação de Pet Sitter</string>
+    <string name="job_request_date_start">Data Início</string>
+    <string name="job_request_date_final">Data Fim</string>
 
     <!-- Common Actions -->
     <string name="actions.save">Salvar</string>
+    <string name="job_request_time_start">Hora Início</string>
+    <string name="job_request_time_final">Hora Fim</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

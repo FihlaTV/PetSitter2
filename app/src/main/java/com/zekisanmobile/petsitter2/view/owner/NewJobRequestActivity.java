@@ -5,9 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
@@ -26,6 +30,12 @@ public class NewJobRequestActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.tv_sitter)
+    TextView tvSitter;
+
+    @BindView(R.id.iv_sitter)
+    ImageView ivSitter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +47,7 @@ public class NewJobRequestActivity extends AppCompatActivity {
 
         defineMembers();
         configureToolbar();
+        setupViews();
     }
 
     @Override
@@ -76,5 +87,13 @@ public class NewJobRequestActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+    }
+
+    private void setupViews() {
+        tvSitter.setText(sitter.getName());
+        Picasso.with(this)
+                .load(sitter.getPhotoUrl().getLarge())
+                .transform(new CircleTransform())
+                .into(ivSitter);
     }
 }

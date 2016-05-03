@@ -29,42 +29,169 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:id="@+id/iv_sitter"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_sitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="44dp"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="13dp"
-                android:layout_toEndOf="@+id/imageView"
-                android:layout_toRightOf="@+id/imageView"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_below="@+id/iv_sitter"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:text="Nome do Pet Sitter"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_password"
+            <View
+                android:id="@+id/vw_divider1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="0.8dp"
+                android:layout_above="@+id/et_date_start"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/divider" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/et_date_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_alignEnd="@+id/vw_divider1"
+                android:layout_alignLeft="@+id/et_date_final"
+                android:layout_alignRight="@+id/vw_divider1"
+                android:layout_alignStart="@+id/et_date_final"
                 android:ems="10"
-                android:hint="oi"
-                android:layout_below="@+id/input_layout_password"
+                android:hint="@string/job_request_date_start"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_date_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/vw_divider2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/vw_divider2"
+                android:layout_below="@+id/et_date_start"
+                android:layout_marginLeft="49dp"
+                android:ems="10"
+                android:hint="@string/job_request_date_final"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/vw_divider2"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_above="@+id/et_time_start"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/divider" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_sitter"
+                android:layout_marginTop="38dp"
+                android:src="@drawable/ic_event_note" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/et_date_final"
+                android:layout_marginTop="29dp"
+                android:src="@drawable/ic_access_time" />
+
+            <EditText
+                android:id="@+id/et_time_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageView2"
+                android:layout_alignEnd="@+id/et_date_final"
+                android:layout_alignLeft="@+id/et_date_final"
+                android:layout_alignRight="@+id/et_date_final"
+                android:layout_alignStart="@+id/et_date_final"
+                android:ems="10"
+                android:hint="@string/job_request_time_start"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_time_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/et_time_start"
+                android:layout_alignLeft="@+id/et_time_start"
+                android:layout_alignRight="@+id/et_time_start"
+                android:layout_alignStart="@+id/et_time_start"
+                android:layout_below="@+id/et_time_start"
+                android:ems="10"
+                android:hint="@string/job_request_time_final"
+                android:maxLines="1"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/vw_divider3"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_alignEnd="@+id/et_time_final"
+                android:layout_alignRight="@+id/et_time_final"
+                android:layout_below="@+id/et_time_final"
+                android:layout_marginTop="11dp"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/et_time_final"
+                android:layout_alignStart="@+id/et_time_final"
+                android:layout_below="@+id/vw_divider3"
+                android:layout_marginTop="11dp"
+                android:orientation="vertical">
+
+                <include layout="@layout/box_animal" />
+
+                <Button
+                    android:id="@+id/bt_add_animal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:onClick="callAddAnimal"
+                    android:text="Adicionar" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/vw_divider4"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_alignEnd="@+id/et_time_final"
+                android:layout_alignRight="@+id/et_time_final"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginTop="11dp"
+                android:background="@color/divider" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@drawable/paw_black"
+                android:layout_alignTop="@+id/linearLayout"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+
         </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
