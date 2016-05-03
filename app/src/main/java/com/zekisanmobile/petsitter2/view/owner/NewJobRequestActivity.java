@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,6 +105,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         configureToolbar();
         setupViews();
         configureSpinner();
+        hideKeyboard();
     }
 
     @Override
@@ -246,6 +249,14 @@ public class NewJobRequestActivity extends AppCompatActivity
                 callRemoveAnimal(v);
             }
         });
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etDateStart.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(etDateFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(etTimeStart.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(etTimeFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void callAddAnimal(View view) {
