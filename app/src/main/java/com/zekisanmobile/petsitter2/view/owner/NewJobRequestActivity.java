@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.owner;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +28,18 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.model.AnimalModel;
+import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.model.UserModel;
+import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
+import com.zekisanmobile.petsitter2.vo.Animal;
+import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
+import com.zekisanmobile.petsitter2.vo.User;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -45,15 +54,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class NewJobRequestActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener{
+        TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
 
     private long sitter_id;
     private int selectedAnimalsCount;
     private Sitter sitter;
     private SitterModel sitterModel;
+    private AnimalModel animalModel;
+    private Owner owner;
+    private OwnerModel ownerModel;
+    private User user;
+    private UserModel userModel;
+    private SessionManager sessionManager;
 
     private int year, month, day, hour, minute;
     private Calendar tDefault;
@@ -128,7 +144,10 @@ public class NewJobRequestActivity extends AppCompatActivity
                 return true;
             case R.id.m_save:
                 if (isJobValid()) {
-
+                    requestJob();
+                    Intent intent = new Intent(NewJobRequestActivity.this, OwnerHomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     showJobRequestDialog(getString(R.string.job_request_validation));
                 }
@@ -206,8 +225,14 @@ public class NewJobRequestActivity extends AppCompatActivity
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
 
+        animalModel = new AnimalModel(realm);
         sitterModel = new SitterModel(realm);
+        sessionManager = new SessionManager(this);
+
         sitter = sitterModel.find(sitter_id);
+        long user_id = sessionManager.getUserId();
+        user = userModel.find(user_id);
+        owner = ownerModel.find(user.getEntityId());
     }
 
     private void configureToolbar() {
@@ -230,7 +255,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
 
         for (int i = 0; i < animalNames.length; i++) {
-            for (int j =0; j < sitter.getAnimals().size(); j++) {
+            for (int j = 0; j < sitter.getAnimals().size(); j++) {
                 if (sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
                     animals.add(animalNames[i]);
                 }
@@ -446,5 +471,40 @@ public class NewJobRequestActivity extends AppCompatActivity
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(layoutParams);
+    }
+
+    private void requestJob() {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            Job job = new Job();
+            job.setDateStart(format.parse(etDateStart.getText().toString().trim()));
+            job.setDateFinal(format.parse(etDateFinal.getText().toString().trim()));
+            job.setTimeStart(etTimeStart.getText().toString().trim());
+            job.setTimeFinal(etTimeFinal.getText().toString().trim());
+            job.setTotalValue(calculateTotalValue());
+            job.setAnimals(getAnimalsFromView());
+            job.setSitter(sitter);
+            job.setOwner(owner);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private RealmList<Animal> getAnimalsFromView() {
+        RealmList<Animal> list = new RealmList<Animal>();
+        LinearLayout llAnimals = (LinearLayout) findViewById(R.id.ll_animals);
+
+        for (int i = 0; i < llAnimals.getChildCount(); i++) {
+            if (llAnimals.getChildAt(i) instanceof LinearLayout) {
+                LinearLayout linearLayoutNestedChild = (LinearLayout) llAnimals.getChildAt(i);
+                Spinner spAnimal = (Spinner) linearLayoutNestedChild.getChildAt(0).findViewById(R.id.sp_animal);
+
+                Animal animal = animalModel.findByName(spAnimal.getSelectedItem().toString().trim());
+                list.add(animal);
+            }
+        }
+
+        return list;
     }
 }

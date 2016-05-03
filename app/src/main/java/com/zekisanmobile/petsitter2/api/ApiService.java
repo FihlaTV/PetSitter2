@@ -34,5 +34,5 @@ public interface ApiService {
     Call<List<Sitter>> searchSitters(@Path("owner") long owner_id, @Body SearchSittersBody body);
 
     @POST("pet_owners/{owner}/request_contact")
-    Call<Void> sendJobRequest(@Path("owner") String owner_id, @Body JobRequestBody body);
+    Call<Void> sendJobRequest(@Path("owner") long owner_id, @Body JobRequestBody body);
 }

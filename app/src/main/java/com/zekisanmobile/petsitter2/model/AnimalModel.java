@@ -45,4 +45,8 @@ public class AnimalModel {
     public Animal find(long id) {
         return realm.where(Animal.class).equalTo("id", id).findFirst();
     }
+
+    public Animal findByName(String name) {
+        return realm.where(Animal.class).equalTo("name", name).findFirst();
+    }
 }

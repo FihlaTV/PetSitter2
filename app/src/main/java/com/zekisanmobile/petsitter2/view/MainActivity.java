@@ -1,8 +1,10 @@
 package com.zekisanmobile.petsitter2.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -11,7 +13,10 @@ import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
+import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.User;
+
+import java.util.List;
 
 import io.realm.Realm;
 
@@ -34,7 +39,31 @@ public class MainActivity extends AppCompatActivity {
 
         userModel = new UserModel(realm);
 
+        saveAnimalsToDB();
         getLoggedUser();
+    }
+
+    private void saveAnimalsToDB() {
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        if (sharedPreferences.getInt("flag", 0) == 0) {
+            Log.i("LOG", "init()");
+            sharedPreferences.edit().putInt("flag", 1).apply();
+
+            String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
+
+            for (int i = 0; i < animalNames.length; i++) {
+                realm.beginTransaction();
+                Animal animal = realm.createObject(Animal.class);
+                animal.setId(i + 1);
+                animal.setName(animalNames[i]);
+                realm.commitTransaction();
+            }
+        } else {
+            List<Animal> animals = realm.where(Animal.class).findAll();
+            for (Animal a : animals) {
+                Log.i("LOG", "Animal: { id: " + a.getId() + ", name: " + a.getName() + " }");
+            }
+        }
     }
 
     @Override
