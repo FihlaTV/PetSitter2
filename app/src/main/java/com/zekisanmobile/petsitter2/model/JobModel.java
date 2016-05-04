@@ -38,10 +38,12 @@ public class JobModel {
     }
 
     public Job create(Job jobToCreate) {
+        long newId = realm.where(Job.class).max("id").longValue() + 1;
+
         realm.beginTransaction();
         Job job = realm.createObject(Job.class);
 
-        job.setId(jobToCreate.getId());
+        job.setId(newId);
         job.setApiId(jobToCreate.getApiId());
         job.setDateStart(jobToCreate.getDateStart());
         job.setDateFinal(jobToCreate.getDateFinal());

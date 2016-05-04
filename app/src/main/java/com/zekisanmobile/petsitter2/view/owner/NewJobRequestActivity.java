@@ -23,18 +23,24 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.model.AnimalModel;
+import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
+import com.zekisanmobile.petsitter2.util.L;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -69,6 +75,7 @@ public class NewJobRequestActivity extends AppCompatActivity
     private OwnerModel ownerModel;
     private User user;
     private UserModel userModel;
+    private JobModel jobModel;
     private SessionManager sessionManager;
 
     private int year, month, day, hour, minute;
@@ -78,6 +85,7 @@ public class NewJobRequestActivity extends AppCompatActivity
     private int flag;
 
     private Realm realm;
+    private Configuration config;
 
     private List<String> animals = new ArrayList<>();
 
@@ -122,6 +130,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         setupViews();
         configureSpinner();
         hideKeyboard();
+        setJobManagerConfig();
     }
 
     @Override
@@ -227,12 +236,15 @@ public class NewJobRequestActivity extends AppCompatActivity
 
         animalModel = new AnimalModel(realm);
         sitterModel = new SitterModel(realm);
+        userModel = new UserModel(realm);
+        ownerModel = new OwnerModel(realm);
         sessionManager = new SessionManager(this);
 
         sitter = sitterModel.find(sitter_id);
         long user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());
+        jobModel = new JobModel(realm);
     }
 
     private void configureToolbar() {
@@ -282,6 +294,15 @@ public class NewJobRequestActivity extends AppCompatActivity
         imm.hideSoftInputFromWindow(etDateFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         imm.hideSoftInputFromWindow(etTimeStart.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         imm.hideSoftInputFromWindow(etTimeFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private void setJobManagerConfig() {
+        config = new Configuration.Builder(getApplication())
+                .consumerKeepAlive(45)
+                .maxConsumerCount(3)
+                .minConsumerCount(1)
+                .customLogger(L.getJobLogger())
+                .build();
     }
 
     public void callAddAnimal(View view) {
@@ -486,6 +507,9 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setAnimals(getAnimalsFromView());
             job.setSitter(sitter);
             job.setOwner(owner);
+            Job createdJob = jobModel.create(job);
+            new JobManager(config).addJobInBackground(new SendJobRequestJob(createdJob,
+                    (PetSitterApp) getApplication()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
