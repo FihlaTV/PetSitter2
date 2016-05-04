@@ -31,7 +31,7 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.job.FetchOwnerContactsJob;
+import com.zekisanmobile.petsitter2.job.FetchOwnerJobsJob;
 import com.zekisanmobile.petsitter2.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.model.AnimalModel;
 import com.zekisanmobile.petsitter2.model.JobModel;
@@ -41,7 +41,6 @@ import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
-import com.zekisanmobile.petsitter2.util.L;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -56,6 +55,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,6 +91,9 @@ public class NewJobRequestActivity extends AppCompatActivity
 
     private List<String> animals = new ArrayList<>();
 
+    @Inject
+    JobManager jobManager;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -122,6 +126,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_job_request);
 
+        ((PetSitterApp)getApplication()).getAppComponent().inject(this);
         ButterKnife.bind(this);
 
         sitter_id = getIntent().getLongExtra(Extra.SITTER_ID, 0);
@@ -131,7 +136,6 @@ public class NewJobRequestActivity extends AppCompatActivity
         setupViews();
         configureSpinner();
         hideKeyboard();
-        setJobManagerConfig();
     }
 
     @Override
@@ -295,15 +299,6 @@ public class NewJobRequestActivity extends AppCompatActivity
         imm.hideSoftInputFromWindow(etDateFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         imm.hideSoftInputFromWindow(etTimeStart.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         imm.hideSoftInputFromWindow(etTimeFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    private void setJobManagerConfig() {
-        config = new Configuration.Builder(getApplication())
-                .consumerKeepAlive(45)
-                .maxConsumerCount(3)
-                .minConsumerCount(1)
-                .customLogger(L.getJobLogger())
-                .build();
     }
 
     public void callAddAnimal(View view) {
@@ -509,10 +504,8 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setSitter(sitter);
             job.setOwner(owner);
             Job createdJob = jobModel.create(job);
-            new JobManager(config).addJobInBackground(new SendJobRequestJob(createdJob,
-                    (PetSitterApp) getApplication()));
-            new JobManager(config).addJobInBackground(new FetchOwnerContactsJob(owner.getId(),
-                    (PetSitterApp) getApplication()));
+            jobManager.addJobInBackground(new SendJobRequestJob(createdJob.getId()));
+            jobManager.addJobInBackground(new FetchOwnerJobsJob(owner.getId()));
         } catch (ParseException e) {
             e.printStackTrace();
         }

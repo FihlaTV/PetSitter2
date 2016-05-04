@@ -44,10 +44,8 @@ public class Job extends RealmObject {
     @JsonProperty("total_value")
     double totalValue;
 
-    @JsonProperty("sitter")
     Sitter sitter;
 
-    @JsonProperty("pet_owner")
     Owner owner;
 
     public long getId() {

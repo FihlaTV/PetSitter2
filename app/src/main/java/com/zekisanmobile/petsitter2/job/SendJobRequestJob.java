@@ -1,34 +1,42 @@
 package com.zekisanmobile.petsitter2.job;
 
-import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
-import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.AnimalBody;
 import com.zekisanmobile.petsitter2.api.body.JobRequestBody;
+import com.zekisanmobile.petsitter2.di.component.AppComponent;
+import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
 import com.zekisanmobile.petsitter2.vo.Animal;
+import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import retrofit2.Retrofit;
 
-public class SendJobRequestJob extends Job {
+public class SendJobRequestJob extends BaseJob {
 
     public static final int PRIORITY = 1;
-    private com.zekisanmobile.petsitter2.vo.Job job;
+    private long job_id;
+    private static final String GROUP = "SendJobRequestJob";
 
     @Inject
-    Retrofit retrofit;
+    transient Retrofit retrofit;
 
-    public SendJobRequestJob(com.zekisanmobile.petsitter2.vo.Job job, PetSitterApp application) {
-        super(new Params(PRIORITY).requireNetwork().persist());
-        application.getAppComponent().inject(this);
-        this.job = job;
+    public SendJobRequestJob(long job_id) {
+        super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
+        this.job_id = job_id;
+    }
+
+    @Override
+    public void inject(AppComponent appComponent) {
+        super.inject(appComponent);
+        appComponent.inject(this);
     }
 
     @Override
@@ -38,10 +46,14 @@ public class SendJobRequestJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
+        Realm realm = Realm.getDefaultInstance();
+        JobModel jobModel = new JobModel(realm);
+        Job job = jobModel.find(job_id);
         List<AnimalBody> animals = new ArrayList<>();
         for (Animal animal : job.getAnimals()) {
             AnimalBody animalBody = new AnimalBody();
             animalBody.setAnimal_id(animal.getId());
+            animals.add(animalBody);
         }
 
         JobRequestBody body = new JobRequestBody();
@@ -56,6 +68,7 @@ public class SendJobRequestJob extends Job {
 
         ApiService service = retrofit.create(ApiService.class);
         service.sendJobRequest(job.getOwner().getId(), body).execute();
+        realm.close();
     }
 
     @Override
@@ -64,7 +77,16 @@ public class SendJobRequestJob extends Job {
     }
 
     @Override
-    protected RetryConstraint shouldReRunOnThrowable(Throwable throwable, int runCount, int maxRunCount) {
-        return RetryConstraint.createExponentialBackoff(runCount, 1000);
+    public RetryConstraint shouldReRunOnThrowable(Throwable throwable, int runCount,
+                                                  int maxRunCount) {
+        if (shouldRetry(throwable)) {
+            return RetryConstraint.createExponentialBackoff(runCount, 1000);
+        }
+        return RetryConstraint.CANCEL;
+    }
+
+    @Override
+    protected int getRetryLimit() {
+        return 2;
     }
 }

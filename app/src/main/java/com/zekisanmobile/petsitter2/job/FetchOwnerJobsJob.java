@@ -1,11 +1,12 @@
 package com.zekisanmobile.petsitter2.job;
 
-import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.api.ApiService;
+import com.zekisanmobile.petsitter2.di.component.AppComponent;
 import com.zekisanmobile.petsitter2.model.JobModel;
+import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.List;
 
@@ -15,22 +16,24 @@ import io.realm.Realm;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class FetchOwnerContactsJob extends Job {
+public class FetchOwnerJobsJob extends BaseJob {
 
     public static final int PRIORITY = 1;
+    private static final String GROUP = "FetchOwnerJobsJob";
     private long owner_id;
-    private JobModel jobModel;
-    private Realm realm;
 
     @Inject
-    Retrofit retrofit;
+    transient Retrofit retrofit;
 
-    public FetchOwnerContactsJob(long owner_id, PetSitterApp application) {
-        super(new Params(PRIORITY).requireNetwork().persist());
-        application.getAppComponent().inject(this);
+    public FetchOwnerJobsJob(long owner_id) {
+        super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.owner_id = owner_id;
-        realm = Realm.getDefaultInstance();
-        jobModel = new JobModel(realm);
+    }
+
+    @Override
+    public void inject(AppComponent appComponent) {
+        super.inject(appComponent);
+        appComponent.inject(this);
     }
 
     @Override
@@ -40,10 +43,12 @@ public class FetchOwnerContactsJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
+        Realm realm = Realm.getDefaultInstance();
+        JobModel jobModel = new JobModel(realm);
         ApiService service = retrofit.create(ApiService.class);
-        Response<List<com.zekisanmobile.petsitter2.vo.Job>> response = service.ownerJobs(owner_id).execute();
-        List<com.zekisanmobile.petsitter2.vo.Job> jobs = response.body();
-        for (com.zekisanmobile.petsitter2.vo.Job job : jobs) {
+        Response<List<Job>> response = service.ownerJobs(owner_id).execute();
+        List<Job> jobs = response.body();
+        for (Job job : jobs) {
             jobModel.save(job);
         }
         realm.close();
