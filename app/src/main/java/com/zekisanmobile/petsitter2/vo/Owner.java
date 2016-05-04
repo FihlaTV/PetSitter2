@@ -1,6 +1,5 @@
 package com.zekisanmobile.petsitter2.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;

@@ -5,6 +5,7 @@ import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
 import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
 import com.zekisanmobile.petsitter2.di.module.ApplicationModule;
 import com.zekisanmobile.petsitter2.di.module.NetModule;
+import com.zekisanmobile.petsitter2.job.FetchOwnerContactsJob;
 import com.zekisanmobile.petsitter2.job.SendJobRequestJob;
 
 import javax.inject.Singleton;
@@ -20,4 +21,5 @@ public interface AppComponent {
     void inject(LogoutTask logoutTask);
 
     void inject(SendJobRequestJob sendJobRequestJob);
+    void inject(FetchOwnerContactsJob fetchOwnerContactsJob);
 }

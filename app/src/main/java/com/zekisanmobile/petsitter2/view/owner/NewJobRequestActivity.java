@@ -31,6 +31,7 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.job.FetchOwnerContactsJob;
 import com.zekisanmobile.petsitter2.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.model.AnimalModel;
 import com.zekisanmobile.petsitter2.model.JobModel;
@@ -496,7 +497,7 @@ public class NewJobRequestActivity extends AppCompatActivity
 
     private void requestJob() {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             Job job = new Job();
             job.setDateStart(format.parse(etDateStart.getText().toString().trim()));
@@ -509,6 +510,8 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setOwner(owner);
             Job createdJob = jobModel.create(job);
             new JobManager(config).addJobInBackground(new SendJobRequestJob(createdJob,
+                    (PetSitterApp) getApplication()));
+            new JobManager(config).addJobInBackground(new FetchOwnerContactsJob(owner.getId(),
                     (PetSitterApp) getApplication()));
         } catch (ParseException e) {
             e.printStackTrace();

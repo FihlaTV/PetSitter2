@@ -4,6 +4,7 @@ import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.JobRequestBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
+import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
@@ -38,4 +39,10 @@ public interface ApiService {
 
     @POST("pet_owners/{owner}/request_contact")
     Call<Void> sendJobRequest(@Path("owner") long owner_id, @Body JobRequestBody body);
+
+    @GET("sitters/{sitter}/contacts.json")
+    Call<List<Job>> sitterJobs(@Path("sitter") long sitter_id);
+
+    @GET("pet_owners/{owner}/contacts.json")
+    Call<List<Job>> ownerJobs(@Path("owner") long owner_id);
 }

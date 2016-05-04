@@ -1,21 +1,25 @@
 package com.zekisanmobile.petsitter2.model;
 
+import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Sitter;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class JobModel {
 
     private Realm realm;
-    private PhotoUrlModel photoUrlModel;
     private OwnerModel ownerModel;
     private SitterModel sitterModel;
+    private AnimalModel animalModel;
 
     public JobModel(Realm realm) {
         this.realm = realm;
-        photoUrlModel = new PhotoUrlModel(realm);
         ownerModel = new OwnerModel(realm);
         sitterModel = new SitterModel(realm);
+        animalModel = new AnimalModel(realm);
     }
 
     public Job save(Job job) {
@@ -38,7 +42,14 @@ public class JobModel {
     }
 
     public Job create(Job jobToCreate) {
-        long newId = realm.where(Job.class).max("id").longValue() + 1;
+        long newId = getNextId();
+        Owner owner = ownerModel.find(jobToCreate.getOwner().getId());
+        Sitter sitter = sitterModel.find(jobToCreate.getSitter().getId());
+        RealmList<Animal> animals = new RealmList<>();
+        for (Animal a: jobToCreate.getAnimals()) {
+            Animal animal = animalModel.find(a.getId());
+            animals.add(animal);
+        }
 
         realm.beginTransaction();
         Job job = realm.createObject(Job.class);
@@ -51,9 +62,20 @@ public class JobModel {
         job.setTimeFinal(jobToCreate.getTimeFinal());
         job.setStatus(jobToCreate.getStatus());
         job.setTotalValue(jobToCreate.getTotalValue());
+        job.setSitter(sitter);
+        job.setOwner(owner);
+        job.setAnimals(animals);
         realm.commitTransaction();
 
         return job;
+    }
+
+    private long getNextId() {
+        try {
+            return realm.where(Job.class).max("id").longValue() + 1;
+        } catch (NullPointerException e) {
+            return 1;
+        }
     }
 
     public Job find(long id) {
