@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.di.module;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zekisanmobile.petsitter2.api.ApiService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,18 +35,19 @@ public class NetModule {
 
     @Provides
     @Singleton
-    ObjectMapper provicesObjectMapper() {
+    ObjectMapper providesObjectMapper() {
         return new ObjectMapper();
     }
 
     @Provides
     @Singleton
-    Retrofit providesRetrofit(ObjectMapper mapper, OkHttpClient client) {
+    ApiService providesApiService(ObjectMapper mapper, OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(JacksonConverterFactory.create(mapper))
                 .baseUrl(baseUrl)
                 .client(client)
                 .build();
-        return retrofit;
+
+        return retrofit.create(ApiService.class);
     }
 }

@@ -21,7 +21,7 @@ public class LogoutTask extends AsyncTask<Void, Void, Void>{
     private long user_id;
 
     @Inject
-    Retrofit retrofit;
+    ApiService service;
 
     public LogoutTask(HomeView view, long user_id) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
@@ -40,7 +40,6 @@ public class LogoutTask extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... params) {
-        ApiService service = retrofit.create(ApiService.class);
         try {
             service.logout(user_id).execute();
         } catch (IOException e) {

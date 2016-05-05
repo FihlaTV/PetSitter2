@@ -33,7 +33,7 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
     private List<Sitter> sitters = new ArrayList<>();
 
     @Inject
-    Retrofit retrofit;
+    ApiService service;
 
     public SearchSittersTask(SearchResultsView view, long owner_id, ArrayList<String> animals) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
@@ -56,7 +56,6 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
         SearchSittersBody body = new SearchSittersBody();
         body.setAnimals(animals);
 
-        ApiService service = retrofit.create(ApiService.class);
         Call<List<Sitter>> call = service.searchSitters(owner_id, body);
 
         try {

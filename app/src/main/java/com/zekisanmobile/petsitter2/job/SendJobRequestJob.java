@@ -26,7 +26,7 @@ public class SendJobRequestJob extends BaseJob {
     private static final String GROUP = "SendJobRequestJob";
 
     @Inject
-    transient Retrofit retrofit;
+    transient ApiService service;
 
     public SendJobRequestJob(long job_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
@@ -66,7 +66,6 @@ public class SendJobRequestJob extends BaseJob {
         body.setSitter_id(job.getSitter().getId());
         body.setAnimal_contacts(animals);
 
-        ApiService service = retrofit.create(ApiService.class);
         service.sendJobRequest(job.getOwner().getId(), body).execute();
         realm.close();
     }

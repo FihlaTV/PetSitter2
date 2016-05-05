@@ -23,7 +23,7 @@ public class FetchOwnerJobsJob extends BaseJob {
     private long owner_id;
 
     @Inject
-    transient Retrofit retrofit;
+    transient ApiService service;
 
     public FetchOwnerJobsJob(long owner_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
@@ -45,7 +45,7 @@ public class FetchOwnerJobsJob extends BaseJob {
     public void onRun() throws Throwable {
         Realm realm = Realm.getDefaultInstance();
         JobModel jobModel = new JobModel(realm);
-        ApiService service = retrofit.create(ApiService.class);
+
         Response<List<Job>> response = service.ownerJobs(owner_id).execute();
         List<Job> jobs = response.body();
         for (Job job : jobs) {

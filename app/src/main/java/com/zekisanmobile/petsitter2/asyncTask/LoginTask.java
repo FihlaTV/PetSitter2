@@ -39,7 +39,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
     private User user;
 
     @Inject
-    Retrofit retrofit;
+    ApiService service;
 
     public LoginTask(LoginView view) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
@@ -61,7 +61,6 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         body.setEmail(params[0]);
         body.setPassword(params[1]);
 
-        ApiService service = retrofit.create(ApiService.class);
         try {
             Response<User> response = service.login(body).execute();
             if (response.isSuccessful()) {
@@ -97,7 +96,6 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
     }
 
     private void getSitter(long entityId) {
-        ApiService service = retrofit.create(ApiService.class);
         Call<Sitter> call = service.getSitter(entityId);
         try {
             Sitter sitter = call.execute().body();
@@ -111,7 +109,6 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
     }
 
     private void getOwner(long entityId) {
-        ApiService service = retrofit.create(ApiService.class);
         Call<Owner> call = service.getOwner(entityId);
         try {
             Owner owner = call.execute().body();
@@ -145,7 +142,6 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         DeviceTokenBody body = new DeviceTokenBody();
         body.setToken(token);
 
-        ApiService service = retrofit.create(ApiService.class);
         try {
             service.updateDeviceToken(id, body).execute();
         } catch (IOException e) {
