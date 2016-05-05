@@ -41,6 +41,7 @@ import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
+import com.zekisanmobile.petsitter2.util.KeyboardUtils;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -214,24 +215,28 @@ public class NewJobRequestActivity extends AppCompatActivity
 
     @OnClick(R.id.et_date_start)
     public void doScheduleDateStart() {
+        KeyboardUtils.hideKeyboard(this);
         flag = FLAG_START;
         scheduleJobDate();
     }
 
     @OnClick(R.id.et_date_final)
     public void doScheduleDateFinal() {
+        KeyboardUtils.hideKeyboard(this);
         flag = FLAG_END;
         scheduleJobDate();
     }
 
     @OnClick(R.id.et_time_start)
     public void doScheduleTimeStart() {
+        KeyboardUtils.hideKeyboard(this);
         flag = FLAG_START;
         scheduleJobTime();
     }
 
     @OnClick(R.id.et_time_final)
     public void doScheduleTimeFinal() {
+        KeyboardUtils.hideKeyboard(this);
         flag = FLAG_END;
         scheduleJobTime();
     }
