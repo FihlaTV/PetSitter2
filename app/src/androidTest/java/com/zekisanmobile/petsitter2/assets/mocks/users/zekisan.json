@@ -1,0 +1,11 @@
+{
+  "id": 5,
+  "email": "zekisan88@gmail.com",
+  "entity_type": "Owner",
+  "entity_id": 1,
+  "photo": {
+    "thumb": "https://testezekisan.s3.amazonaws.com/uploads/photo/image/6/thumb_owner_ezequiel.jpg",
+    "medium": "https://testezekisan.s3.amazonaws.com/uploads/photo/image/6/medium_owner_ezequiel.jpg",
+    "large": "https://testezekisan.s3.amazonaws.com/uploads/photo/image/6/large_owner_ezequiel.jpg"
+  }
+}
