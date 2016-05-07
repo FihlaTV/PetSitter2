@@ -1,11 +1,13 @@
 package com.zekisanmobile.petsitter2.view.sitter;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,6 +99,34 @@ public class JobDetailsActivity extends AppCompatActivity implements OnMapReadyC
         googleMap.addMarker(new MarkerOptions().position(latLng));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
         googleMap.animateCamera(cameraUpdate);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        switch (jobStatus) {
+            case JobsStatusString.NEW:
+                getMenuInflater().inflate(R.menu.menu_job_details, menu);
+            case JobsStatusString.NEXT:
+                break;
+            case JobsStatusString.CURRENT:
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_reject:
+                break;
+            case R.id.menu_accept:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void defineMembers() {

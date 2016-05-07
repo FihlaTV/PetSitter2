@@ -59,6 +59,10 @@
     <!-- Job List -->
     <string name="beginning">Início: </string>
 
+    <!-- Job Details -->
+    <string name="job_details_reject">Recusar</string>
+    <string name="job_details_accept">Aceitar</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>
