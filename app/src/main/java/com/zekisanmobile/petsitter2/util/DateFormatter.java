@@ -15,4 +15,14 @@ public class DateFormatter {
         Format formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }
+
+    public static String formattedDatePeriodForView(Date dateStart, Date dateFinal) {
+        return formattedDateForView(dateStart)
+                + " - "
+                + formattedDateForView(dateFinal);
+    }
+
+    public static String formattedTimePeriodForView(String timeStart, String timeFinal) {
+        return timeStart + " - " + timeFinal;
+    }
 }

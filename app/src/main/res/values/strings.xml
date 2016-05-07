@@ -40,6 +40,12 @@
     <string name="job_request_date_final">Data Fim</string>
     <string name="job_request_validation">Por favor, preencha as datas e horários das visitas.</string>
 
+    <!-- Job Status -->
+    <string name="new_job">Novo Trabalho</string>
+    <string name="next_job">Próximo Trabalho</string>
+    <string name="current_job">Data Início</string>
+    <string name="finished_job">Data Início</string>
+
     <!-- Common Actions -->
     <string name="actions.save">Salvar</string>
     <string name="job_request_time_start">Hora Início</string>

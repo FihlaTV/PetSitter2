@@ -32,6 +32,164 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="140dp" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/iv_owner"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:id="@+id/tv_owner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_owner"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="9dp"
+                        android:text="Nome do Dono"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/vw_divider1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="@color/divider"
+                        android:layout_below="@+id/tv_owner"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="13dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_place"
+                        android:src="@drawable/ic_place_black_24dp"
+                        android:layout_below="@+id/vw_divider1"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="11dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/tv_address"
+                        android:textIsSelectable="true"
+                        android:layout_toRightOf="@+id/iv_place"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_alignRight="@+id/vw_divider1"
+                        android:layout_alignEnd="@+id/vw_divider1"
+                        android:layout_alignTop="@+id/iv_place"
+                        android:maxLines="2"
+                        android:layout_above="@+id/tv_period"
+                        android:gravity="top" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_period"
+                        android:layout_below="@+id/iv_place"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="29dp"
+                        android:src="@drawable/ic_event_note" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/tv_period"
+                        android:layout_alignTop="@+id/iv_period"
+                        android:layout_alignLeft="@+id/tv_address"
+                        android:layout_alignStart="@+id/tv_address"
+                        android:layout_alignBottom="@+id/iv_period"
+                        android:layout_alignRight="@+id/tv_address"
+                        android:layout_alignEnd="@+id/tv_address"
+                        android:gravity="center_vertical" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_time"
+                        android:layout_marginTop="13dp"
+                        android:src="@drawable/ic_access_time"
+                        android:layout_below="@+id/iv_period"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/tv_time"
+                        android:layout_alignBottom="@+id/iv_time"
+                        android:layout_alignLeft="@+id/tv_period"
+                        android:layout_alignStart="@+id/tv_period"
+                        android:layout_alignTop="@+id/iv_time"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center_vertical" />
+
+                    <View
+                        android:id="@+id/vw_divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="@color/divider"
+                        android:layout_below="@+id/iv_time"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="14dp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:layout_below="@+id/vw_divider2"/>
+
+                    <View
+                        android:id="@+id/vw_divider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="@color/divider"
+                        android:layout_below="@+id/recycler_view"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="14dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/tv_total_value"
+                        android:layout_marginTop="13dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/vw_divider3"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+                </RelativeLayout>
+
+            </ScrollView>
+
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 

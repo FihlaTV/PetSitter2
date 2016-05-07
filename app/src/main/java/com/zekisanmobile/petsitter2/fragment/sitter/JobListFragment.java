@@ -84,6 +84,7 @@ public class JobListFragment extends Fragment {
                 Job job = jobList.get(position);
                 Intent intent = new Intent(getActivity(), JobDetailsActivity.class);
                 intent.putExtra(Config.JOB_ID, job.getId());
+                intent.putExtra(Config.JOB_STATUS, jobStatus);
                 startActivity(intent);
             }
         });

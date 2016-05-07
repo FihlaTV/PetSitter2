@@ -17,11 +17,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileAnimalAdapter extends RecyclerView.Adapter<ProfileAnimalAdapter.ViewHolder> {
+public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.ViewHolder> {
 
     private List<SearchAnimalItem> animals;
 
-    public ProfileAnimalAdapter(List<SearchAnimalItem> animals) {
+    public AnimalListAdapter(List<SearchAnimalItem> animals) {
         this.animals = animals;
     }
 

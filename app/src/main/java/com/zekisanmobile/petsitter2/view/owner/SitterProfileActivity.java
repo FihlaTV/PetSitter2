@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.ProfileAnimalAdapter;
+import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
@@ -145,7 +145,7 @@ public class SitterProfileActivity extends AppCompatActivity {
     }
 
     public void setupAnimalsRecyclerView(List<SearchAnimalItem> animalItems) {
-        ProfileAnimalAdapter adapter = new ProfileAnimalAdapter(animalItems);
+        AnimalListAdapter adapter = new AnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
