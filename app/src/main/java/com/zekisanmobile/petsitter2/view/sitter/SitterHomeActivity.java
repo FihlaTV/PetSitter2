@@ -87,7 +87,6 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
     protected void onStart(){
         super.onStart();
         EventBus.getDefault().register(this);
-        //controller.fetchSitterContactsAsync(true, presenter.getLoggedUserSitterId());
     }
 
     @Override
