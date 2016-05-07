@@ -11,4 +11,8 @@ public class DateFormatter {
         return formatter.format(date);
     }
 
+    public static String formattedDateForView(Date date) {
+        Format formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
 }

@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
+import com.zekisanmobile.petsitter2.util.DateFormatter;
 import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.List;
@@ -49,6 +50,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
                 .into(holder.ivOwner);
 
         holder.tvName.setText(job.getOwner().getName());
+        holder.tvDateStart.setText(context.getString(R.string.beginning)
+                + " " + DateFormatter.formattedDateForView(job.getDateStart()));
     }
 
     @Override
@@ -68,8 +71,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         @BindView(R.id.tv_name)
         public TextView tvName;
 
-        @BindView(R.id.tv_status)
-        public TextView tvStatus;
+        @BindView(R.id.tv_date_start)
+        public TextView tvDateStart;
 
         public ViewHolder(View itemView) {
             super(itemView);

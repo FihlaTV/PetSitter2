@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/tv_status"
+        android:id="@+id/tv_date_start"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorSecondaryText"
