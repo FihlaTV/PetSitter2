@@ -51,6 +51,9 @@
     <string name="job_request_time_start">Hora Início</string>
     <string name="job_request_time_final">Hora Fim</string>
     <string name="actions.add">Adicionar</string>
+    <string name="reject">RECUSAR</string>
+    <string name="cancel">CANCELAR</string>
+    <string name="ok">OK</string>
 
     <!-- Logout -->
     <string name="action_logout">Sair</string>
@@ -62,6 +65,8 @@
     <!-- Job Details -->
     <string name="job_details_reject">Recusar</string>
     <string name="job_details_accept">Aceitar</string>
+    <string name="job_accepted_message">"Parabéns! Seu novo trabalho iniciará dia "</string>
+    <string name="job_rejected_message">Recusar Solicitação de Pet Sitter?</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

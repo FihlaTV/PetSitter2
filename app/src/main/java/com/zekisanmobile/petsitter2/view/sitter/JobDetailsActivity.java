@@ -1,5 +1,9 @@
 package com.zekisanmobile.petsitter2.view.sitter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,8 +25,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
+import com.zekisanmobile.petsitter2.job.job.SendJobStatusJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
@@ -32,6 +40,8 @@ import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,10 +80,15 @@ public class JobDetailsActivity extends AppCompatActivity implements OnMapReadyC
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @Inject
+    JobManager jobManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
 
@@ -122,11 +137,63 @@ public class JobDetailsActivity extends AppCompatActivity implements OnMapReadyC
 
         switch (id) {
             case R.id.menu_reject:
+                showRejectDialog();
                 break;
             case R.id.menu_accept:
+                showAcceptDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAcceptDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.job_accepted_message) + " "
+                        + DateFormatter.formattedDateForView(job.getDateStart()) + ".")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateJobStatus(30);
+                        redirectToSitterHome();
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void showRejectDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.job_rejected_message)
+                .setPositiveButton(R.string.reject, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateJobStatus(20);
+                        redirectToSitterHome();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void updateJobStatus(int status) {
+        jobModel.updateStatus(realm, job.getId(), status);
+        jobManager.addJobInBackground(new SendJobStatusJob(job.getApiId(), status));
+    }
+
+    private void keepDialog(Dialog dialog){
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
+    }
+
+    private void redirectToSitterHome() {
+        Intent intent = new Intent(JobDetailsActivity.this, SitterHomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void defineMembers() {
