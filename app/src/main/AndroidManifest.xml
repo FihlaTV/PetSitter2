@@ -74,10 +74,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.sitter.SitterHomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".view.owner.SearchResultsActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".view.owner.OwnerHomeActivity"
@@ -95,6 +91,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".view.sitter.SitterHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".view.sitter.JobDetailsActivity"
+
+            android:parentActivityName=".view.sitter.SitterHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
     </application>
 

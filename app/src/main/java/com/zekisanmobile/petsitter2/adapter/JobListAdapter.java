@@ -77,6 +77,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override

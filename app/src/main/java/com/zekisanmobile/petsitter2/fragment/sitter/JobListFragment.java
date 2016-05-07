@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.fragment.sitter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
+import com.zekisanmobile.petsitter2.view.sitter.JobDetailsActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.List;
@@ -79,7 +81,10 @@ public class JobListFragment extends Fragment {
                 new RecyclerViewOnClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                Job job = jobList.get(position);
+                Intent intent = new Intent(getActivity(), JobDetailsActivity.class);
+                intent.putExtra(Config.JOB_ID, job.getId());
+                startActivity(intent);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
