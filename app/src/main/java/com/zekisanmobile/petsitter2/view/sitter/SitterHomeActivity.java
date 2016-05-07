@@ -22,6 +22,7 @@ import com.zekisanmobile.petsitter2.job.job.FetchSitterJobsJob;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.util.JobsStatusString;
 import com.zekisanmobile.petsitter2.view.HomeView;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
@@ -149,10 +150,10 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
         user = userModel.find(user_id);
         sitter = sitterModel.find(user.getEntityId());
 
-        newJobsFragments = new JobListFragment();
-        nextJobsFragments = new JobListFragment();
-        currentJobsFragments = new JobListFragment();
-        finishedJobsFragments = new JobListFragment();
+        newJobsFragments = JobListFragment.newInstance(sitter.getId(), JobsStatusString.NEW);
+        nextJobsFragments = JobListFragment.newInstance(sitter.getId(), JobsStatusString.NEXT);
+        currentJobsFragments = JobListFragment.newInstance(sitter.getId(), JobsStatusString.CURRENT);
+        finishedJobsFragments = JobListFragment.newInstance(sitter.getId(), JobsStatusString.FINISHED);
     }
 
     private void setupToolbar() {

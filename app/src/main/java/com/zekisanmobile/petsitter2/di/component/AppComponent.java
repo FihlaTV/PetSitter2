@@ -6,6 +6,7 @@ import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
 import com.zekisanmobile.petsitter2.di.module.ApplicationModule;
 import com.zekisanmobile.petsitter2.di.module.NetModule;
 import com.zekisanmobile.petsitter2.job.job.FetchOwnerJobsJob;
+import com.zekisanmobile.petsitter2.job.job.FetchSitterJobsJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.view.owner.NewJobRequestActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
@@ -24,6 +25,7 @@ public interface AppComponent {
 
     void inject(SendJobRequestJob sendJobRequestJob);
     void inject(FetchOwnerJobsJob fetchOwnerJobsJob);
+    void inject(FetchSitterJobsJob fetchSitterJobsJob);
 
     void inject(NewJobRequestActivity newJobRequestActivity);
     void inject(SitterHomeActivity sitterHomeActivity);

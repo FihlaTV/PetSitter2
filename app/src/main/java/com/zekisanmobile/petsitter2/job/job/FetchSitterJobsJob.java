@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.job.job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.api.ApiService;
+import com.zekisanmobile.petsitter2.di.component.AppComponent;
 import com.zekisanmobile.petsitter2.event.job.FetchedSitterJobsEvent;
 import com.zekisanmobile.petsitter2.job.BaseJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
@@ -29,6 +30,12 @@ public class FetchSitterJobsJob extends BaseJob {
     public FetchSitterJobsJob(long sitter_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.sitter_id = sitter_id;
+    }
+
+    @Override
+    public void inject(AppComponent appComponent) {
+        super.inject(appComponent);
+        appComponent.inject(this);
     }
 
     @Override
