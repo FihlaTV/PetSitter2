@@ -1,4 +1,4 @@
-package com.zekisanmobile.petsitter2.fragment;
+package com.zekisanmobile.petsitter2.fragment.owner;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SittersFragment extends Fragment {
+public class AnimalFilterFragment extends Fragment {
 
     private SearchAnimalAdapter adapter;
     private List<SearchAnimalItem> animalItems;
@@ -34,7 +34,7 @@ public class SittersFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    public SittersFragment() {}
+    public AnimalFilterFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

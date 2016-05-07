@@ -3,6 +3,8 @@ package com.zekisanmobile.petsitter2.view.sitter;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
@@ -35,6 +38,12 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +53,8 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
 
         defineMembers();
         setupToolbar();
-    }
-
-    private void defineMembers() {
-        realm = Realm.getDefaultInstance();
-        userModel = new UserModel(realm);
-        sitterModel = new SitterModel(realm);
-        sessionManager = new SessionManager(this);
-        long user_id = sessionManager.getUserId();
-        user = userModel.find(user_id);
-        sitter = sitterModel.find(user.getEntityId());
-    }
-
-    private void setupToolbar() {
-        toolbar.setTitle(sitter.getName());
-        setSupportActionBar(toolbar);
+        setupViewPager();
+        setupTabLayout();
     }
 
     @Override
@@ -104,5 +100,30 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
 
     private void clearSession() {
         sessionManager.cleanAllEntries();
+    }
+
+    private void defineMembers() {
+        realm = Realm.getDefaultInstance();
+        userModel = new UserModel(realm);
+        sitterModel = new SitterModel(realm);
+        sessionManager = new SessionManager(this);
+        long user_id = sessionManager.getUserId();
+        user = userModel.find(user_id);
+        sitter = sitterModel.find(user.getEntityId());
+    }
+
+    private void setupToolbar() {
+        toolbar.setTitle(sitter.getName());
+        setSupportActionBar(toolbar);
+    }
+
+    private void setupViewPager() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        //adapter.addFragment(new SittersFragment(), getString(R.string.tabs_pet_sitters));
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabLayout() {
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
