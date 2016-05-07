@@ -98,8 +98,12 @@ public class JobListFragment extends Fragment {
 
     public void updateJobs(List<Job> jobList) {
         this.jobList = jobList;
-        adapter.setJobList(jobList);
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.setJobList(jobList);
+            adapter.notifyDataSetChanged();
+        } else {
+            setupRecyclerView();
+        }
     }
 
     public void getJobListFromDB() {
