@@ -8,15 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SitterListAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.SearchSittersTask;
 import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
-import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
+import com.zekisanmobile.petsitter2.event.sitter.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;

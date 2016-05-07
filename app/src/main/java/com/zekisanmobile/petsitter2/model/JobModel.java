@@ -82,4 +82,18 @@ public class JobModel {
         return realm.where(Job.class).equalTo("id", id).findFirst();
     }
 
+    public void updateStatus(Realm realm, long id, int status) {
+        Job job = realm.where(Job.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        job.setStatus(status);
+        realm.commitTransaction();
+    }
+
+    public void delete(Realm realm, long id) {
+        Job job = realm.where(Job.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        job.deleteFromRealm();
+        realm.commitTransaction();
+    }
+
 }

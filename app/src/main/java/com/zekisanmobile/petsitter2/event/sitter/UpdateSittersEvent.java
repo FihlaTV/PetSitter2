@@ -1,4 +1,4 @@
-package com.zekisanmobile.petsitter2.event;
+package com.zekisanmobile.petsitter2.event.sitter;
 
 import com.zekisanmobile.petsitter2.vo.Sitter;
 

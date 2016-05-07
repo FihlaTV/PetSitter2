@@ -16,6 +16,10 @@
 
     <!-- Tabs Titles -->
     <string name="tabs.pet_sitters">Pet Sitters</string>
+    <string name="tabs_new_jobs">Novos</string>
+    <string name="tabs_next_jobs">Próximos</string>
+    <string name="tabs_current_jobs">Atuais</string>
+    <string name="tabs_finished_jobs">Finalizados</string>
 
     <!-- Sitters Fragment -->
     <string name="search_instruction">Escolha os seus pets</string>

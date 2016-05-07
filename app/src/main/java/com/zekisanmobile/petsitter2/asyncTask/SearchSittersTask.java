@@ -7,7 +7,7 @@ import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
-import com.zekisanmobile.petsitter2.event.UpdateSittersEvent;
+import com.zekisanmobile.petsitter2.event.sitter.UpdateSittersEvent;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.view.owner.SearchResultsActivity;
 import com.zekisanmobile.petsitter2.view.owner.SearchResultsView;
@@ -23,7 +23,6 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
