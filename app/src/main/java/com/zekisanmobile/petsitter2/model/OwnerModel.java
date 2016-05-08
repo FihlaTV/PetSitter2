@@ -4,6 +4,7 @@ import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class OwnerModel {
 
@@ -36,6 +37,11 @@ public class OwnerModel {
 
     private Owner create(Owner ownerToFind) {
         PhotoUrl photoUrl = photoUrlModel.create(ownerToFind.getPhotoUrl());
+        RealmList<PhotoUrl> profilePhotos = new RealmList<>();
+        for (PhotoUrl p : ownerToFind.getProfilePhotos()) {
+            PhotoUrl photoToCreate = photoUrlModel.create(p);
+            profilePhotos.add(photoToCreate);
+        }
         realm.beginTransaction();
         Owner owner = realm.createObject(Owner.class);
 
@@ -46,6 +52,7 @@ public class OwnerModel {
         owner.setLatitude(ownerToFind.getLatitude());
         owner.setLongitude(ownerToFind.getLongitude());
         owner.setPhotoUrl(photoUrl);
+        owner.setProfilePhotos(profilePhotos);
         realm.commitTransaction();
 
         return owner;

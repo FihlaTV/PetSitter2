@@ -34,6 +34,9 @@ public class Sitter extends RealmObject {
     @JsonProperty("photo")
     private PhotoUrl photoUrl;
 
+    @JsonProperty("profile_photos")
+    RealmList<PhotoUrl> profilePhotos;
+
     public long getId() {
         return id;
     }
@@ -120,5 +123,13 @@ public class Sitter extends RealmObject {
 
     public void setPhotoUrl(PhotoUrl photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public RealmList<PhotoUrl> getProfilePhotos() {
+        return profilePhotos;
+    }
+
+    public void setProfilePhotos(RealmList<PhotoUrl> profilePhotos) {
+        this.profilePhotos = profilePhotos;
     }
 }

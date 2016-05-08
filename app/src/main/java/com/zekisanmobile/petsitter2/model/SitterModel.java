@@ -44,6 +44,11 @@ public class SitterModel {
     }
     private Sitter create(Sitter sitterToFind) {
         PhotoUrl photoUrl = photoUrlModel.create(sitterToFind.getPhotoUrl());
+        RealmList<PhotoUrl> profilePhotos = new RealmList<>();
+        for (PhotoUrl p : sitterToFind.getProfilePhotos()) {
+            PhotoUrl photoToCreate = photoUrlModel.create(p);
+            profilePhotos.add(photoToCreate);
+        }
         RealmList<Animal> animals = saveSitterAnimals(sitterToFind.getAnimals());
 
         realm.beginTransaction();
@@ -59,6 +64,7 @@ public class SitterModel {
         sitter.setPhone(sitterToFind.getPhone());
         sitter.setAnimals(animals);
         sitter.setPhotoUrl(photoUrl);
+        sitter.setProfilePhotos(profilePhotos);
         realm.commitTransaction();
 
         return sitter;
