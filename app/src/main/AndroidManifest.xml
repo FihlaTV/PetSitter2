@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zekisanmobile.petsitter2">
 
-    <permission android:name="com.zekisanmobile.petsitter2.permission.MAPS_RECEIVE"
+    <permission
+        android:name="com.zekisanmobile.petsitter2.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -95,18 +96,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
-            android:name=".view.sitter.SitterHomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
-        <activity
-            android:name=".view.sitter.SitterJobDetailsActivity"
-
-            android:parentActivityName=".view.sitter.SitterHomeActivity"
+            android:name=".view.owner.OwnerJobDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.sitter.SitterHomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.sitter.SitterJobDetailsActivity"
+            android:parentActivityName=".view.sitter.SitterHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- [END UI Activity] -->
 
         <meta-data
@@ -115,6 +118,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBm-hbxgSk2bjQEXu9xIGPCUaL_L2dojk" />
+
     </application>
 
 </manifest>

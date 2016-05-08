@@ -86,7 +86,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_details);
+        setContentView(R.layout.activity_sitter_job_details);
 
         ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 

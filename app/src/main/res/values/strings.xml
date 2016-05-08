@@ -47,8 +47,8 @@
     <!-- Job Status -->
     <string name="new_job">Novo Trabalho</string>
     <string name="next_job">Próximo Trabalho</string>
-    <string name="current_job">Data Início</string>
-    <string name="finished_job">Data Início</string>
+    <string name="current_job">Trabalho Atual</string>
+    <string name="finished_job">Trabalho Finalizado</string>
 
     <!-- Common Actions -->
     <string name="actions.save">Salvar</string>
