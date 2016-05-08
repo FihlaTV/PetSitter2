@@ -15,6 +15,7 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
 import com.zekisanmobile.petsitter2.fragment.owner.AnimalFilterFragment;
+import com.zekisanmobile.petsitter2.fragment.owner.ReservationsFragment;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
@@ -100,6 +101,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AnimalFilterFragment(), getString(R.string.tabs_pet_sitters));
+        adapter.addFragment(new ReservationsFragment(), getString(R.string.tabs_reservations));
         viewPager.setAdapter(adapter);
     }
 

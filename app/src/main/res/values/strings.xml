@@ -16,13 +16,17 @@
 
     <!-- Tabs Titles -->
     <string name="tabs.pet_sitters">Pet Sitters</string>
+    <string name="tabs_reservations">Minhas Reservas</string>
     <string name="tabs_new_jobs">Novos</string>
+    <string name="tabs_new_jobs_feminine">Novas</string>
     <string name="tabs_next_jobs">Próximos</string>
-    <string name="tabs_current_jobs">Atuais</string>
+    <string name="tabs_next_jobs_feminine">Próximas</string>
+    <string name="tabs_current_jobs">Em Andamento</string>
     <string name="tabs_finished_jobs">Finalizados</string>
+    <string name="tabs_finished_jobs_feminine">Finalizadas</string>
 
     <!-- Sitters Fragment -->
-    <string name="search_instruction">Escolha os seus pets</string>
+    <string name="search_instruction">Pesquise Pet Sitter por animais</string>
     <string name="search">Pesquisar</string>
     <string name="search_no_animals_selected">Você deve selecionar pelo um animal para a pesquisa de Pet Sitters.</string>
 
