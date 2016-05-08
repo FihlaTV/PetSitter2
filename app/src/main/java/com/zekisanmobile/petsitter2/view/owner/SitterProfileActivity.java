@@ -4,11 +4,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +18,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
+import com.zekisanmobile.petsitter2.adapter.PhotoListAdapter;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
+import com.zekisanmobile.petsitter2.fragment.SlideshowDialogFragment;
 import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.Extra;
+import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
@@ -54,11 +61,14 @@ public class SitterProfileActivity extends AppCompatActivity {
     @BindView(R.id.tv_about_me)
     TextView tvAboutMe;
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_view_animals)
+    RecyclerView recyclerViewAnimals;
 
     @BindView(R.id.btn_call)
     Button btnCall;
+
+    @BindView(R.id.recycler_view_photos)
+    RecyclerView recyclerViewPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +115,7 @@ public class SitterProfileActivity extends AppCompatActivity {
         tvAboutMe.setText(sitter.getAboutMe());
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
         setupAnimalsRecyclerView(animalItems);
+        setupPhotosRecyclerView(sitter.getProfilePhotos());
         btnCall.setText(sitter.getPhone());
     }
 
@@ -115,7 +126,7 @@ public class SitterProfileActivity extends AppCompatActivity {
 
         for (int i = 0; i < animalNames.length; i++) {
             for (int j = 0; j < sitter.getAnimals().size(); j++) {
-                if(sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
+                if (sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
                     SearchAnimalItem item = new SearchAnimalItem();
                     item.setIcon(animalIcons[i]);
                     item.setName(animalNames[i]);
@@ -148,7 +159,35 @@ public class SitterProfileActivity extends AppCompatActivity {
         AnimalListAdapter adapter = new AnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerViewAnimals.setLayoutManager(linearLayoutManager);
+        recyclerViewAnimals.setAdapter(adapter);
+    }
+
+    private void setupPhotosRecyclerView(List<PhotoUrl> profilePhotos) {
+        PhotoListAdapter adapter = new PhotoListAdapter(profilePhotos, this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewPhotos.setLayoutManager(linearLayoutManager);
+        recyclerViewPhotos.setAdapter(adapter);
+        recyclerViewPhotos.addOnItemTouchListener(new PhotoListAdapter
+                .RecyclerTouchListener(getApplicationContext(), recyclerViewPhotos,
+                new PhotoListAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Bundle args = new Bundle();
+                args.putLong(Config.SITTER_ID, sitter.getId());
+                args.putInt(Config.SELECTED_POSITION, position);
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+                newFragment.setArguments(args);
+                newFragment.show(ft, "slideshow");
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 }
