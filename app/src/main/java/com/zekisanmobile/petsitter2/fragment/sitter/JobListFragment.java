@@ -17,7 +17,7 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
-import com.zekisanmobile.petsitter2.view.sitter.JobDetailsActivity;
+import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class JobListFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Job job = jobList.get(position);
-                Intent intent = new Intent(getActivity(), JobDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), SitterJobDetailsActivity.class);
                 intent.putExtra(Config.JOB_ID, job.getId());
                 intent.putExtra(Config.JOB_STATUS, jobStatus);
                 startActivity(intent);

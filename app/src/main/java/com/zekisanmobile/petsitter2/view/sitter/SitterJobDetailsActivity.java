@@ -47,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
-public class JobDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class SitterJobDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Realm realm;
 
@@ -191,7 +191,7 @@ public class JobDetailsActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void redirectToSitterHome() {
-        Intent intent = new Intent(JobDetailsActivity.this, SitterHomeActivity.class);
+        Intent intent = new Intent(SitterJobDetailsActivity.this, SitterHomeActivity.class);
         startActivity(intent);
         finish();
     }

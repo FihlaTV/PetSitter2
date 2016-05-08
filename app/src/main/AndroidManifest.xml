@@ -102,7 +102,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"/>
         <activity
-            android:name=".view.sitter.JobDetailsActivity"
+            android:name=".view.sitter.SitterJobDetailsActivity"
 
             android:parentActivityName=".view.sitter.SitterHomeActivity"
             android:screenOrientation="portrait"
