@@ -72,6 +72,12 @@
     <string name="job_accepted_message">"Parabéns! Seu novo trabalho iniciará dia "</string>
     <string name="job_rejected_message">Recusar Solicitação de Pet Sitter?</string>
 
+    <!-- Reservation Status -->
+    <string name="reservation_list_new">Novas Reservas</string>
+    <string name="reservation_list_next">Próximas Reservas</string>
+    <string name="reservation_list_current">Reservas Atuals</string>
+    <string name="reservation_list_finished">Reservas Finalizadas</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>

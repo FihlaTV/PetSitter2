@@ -156,6 +156,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                finish();
                 return true;
             case R.id.m_save:
                 if (isJobValid()) {

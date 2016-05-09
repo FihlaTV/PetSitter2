@@ -16,6 +16,7 @@ import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
 import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
@@ -87,7 +88,7 @@ public class JobListFragment extends Fragment {
                 intent.putExtra(Config.JOB_STATUS, jobStatus);
                 startActivity(intent);
             }
-        });
+        }, EntityType.OWNER);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

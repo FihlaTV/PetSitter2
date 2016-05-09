@@ -97,9 +97,15 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.owner.OwnerJobDetailsActivity"
+            android:name=".view.owner.OwnerJobListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.owner.OwnerJobDetailsActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.owner.OwnerJobListActivity"/>
         <activity
             android:name=".view.sitter.SitterHomeActivity"
             android:launchMode="singleTop"

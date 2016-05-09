@@ -1,10 +1,15 @@
 package com.zekisanmobile.petsitter2.model;
 
+import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 
+import java.util.Date;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.Sort;
 
 public class OwnerModel {
 
@@ -60,5 +65,37 @@ public class OwnerModel {
 
     public Owner find(long id) {
         return realm.where(Owner.class).equalTo("id", id).findFirst();
+    }
+
+    public List<Job> getNextJobs(long id) {
+        return realm.where(Job.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 30)
+                .greaterThan("dateStart", new Date())
+                .findAllSorted("dateStart", Sort.DESCENDING);
+    }
+
+    public List<Job> getFinishedJobs(long id) {
+        return realm.where(Job.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 40)
+                .findAll();
+    }
+
+    public List<Job> getNewJobs(long id){
+        return realm.where(Job.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 10)
+                .greaterThanOrEqualTo("dateStart", new Date())
+                .findAll();
+    }
+
+    public List<Job> getCurrentJobs(long id){
+        return realm.where(Job.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 30)
+                .lessThanOrEqualTo("dateStart", new Date())
+                .greaterThanOrEqualTo("dateFinal", new Date())
+                .findAllSorted("dateStart", Sort.DESCENDING);
     }
 }

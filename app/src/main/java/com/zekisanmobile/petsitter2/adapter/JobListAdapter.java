@@ -13,6 +13,7 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.vo.Job;
 
 import java.util.List;
@@ -25,12 +26,14 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
     private List<Job> jobList;
     private RecyclerViewOnClickListener listener;
     private Context context;
+    private String entity;
 
     public JobListAdapter(List<Job> jobList, Context context,
-                          RecyclerViewOnClickListener listener) {
+                          RecyclerViewOnClickListener listener, String entity) {
         this.jobList = jobList;
         this.context = context;
         this.listener = listener;
+        this.entity = entity;
     }
 
     @Override
@@ -43,11 +46,21 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Job job = jobList.get(position);
+        String photoUrl;
+
+        switch (entity) {
+            case EntityType.OWNER:
+                photoUrl = job.getOwner().getPhotoUrl().getMedium();
+                break;
+            default:
+                photoUrl = job.getSitter().getPhotoUrl().getMedium();
+                break;
+        }
 
         Picasso.with(context)
-                .load(job.getOwner().getPhotoUrl().getMedium())
+                .load(photoUrl)
                 .transform(new CircleTransform())
-                .into(holder.ivOwner);
+                .into(holder.ivPhoto);
 
         holder.tvName.setText(job.getOwner().getName());
         holder.tvDateStart.setText(context.getString(R.string.beginning)
@@ -65,8 +78,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.iv_owner)
-        public ImageView ivOwner;
+        @BindView(R.id.iv_photo)
+        public ImageView ivPhoto;
 
         @BindView(R.id.tv_name)
         public TextView tvName;
