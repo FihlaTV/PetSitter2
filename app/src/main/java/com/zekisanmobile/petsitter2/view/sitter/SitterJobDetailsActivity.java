@@ -126,6 +126,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
             case JobsStatusString.CURRENT:
                 break;
             default:
+                getMenuInflater().inflate(R.menu.menu_job_rate, menu);
                 break;
         }
         return true;
@@ -141,6 +142,8 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
                 break;
             case R.id.menu_accept:
                 showAcceptDialog();
+                break;
+            case R.id.menu_rate:
                 break;
         }
         return super.onOptionsItemSelected(item);

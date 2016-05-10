@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,6 +79,33 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
     protected void onDestroy() {
         realm.close();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        switch (jobStatus) {
+            case JobsStatusString.NEW:
+                break;
+            case JobsStatusString.NEXT:
+                break;
+            case JobsStatusString.CURRENT:
+                break;
+            default:
+                getMenuInflater().inflate(R.menu.menu_job_rate, menu);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_rate:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void defineMembers() {
