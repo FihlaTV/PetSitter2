@@ -42,9 +42,9 @@ public class JobModel {
     }
 
     public Job create(Job jobToCreate) {
-        long newId = getNextId();
-        Owner owner = ownerModel.find(jobToCreate.getOwner().getId());
-        Sitter sitter = sitterModel.find(jobToCreate.getSitter().getId());
+        long newId = jobToCreate.getId() == 0 ? getNextId() : jobToCreate.getId();
+        Owner owner = ownerModel.save(jobToCreate.getOwner());
+        Sitter sitter = sitterModel.save(jobToCreate.getSitter());
         RealmList<Animal> animals = new RealmList<>();
         for (Animal a: jobToCreate.getAnimals()) {
             Animal animal = animalModel.find(a.getId());

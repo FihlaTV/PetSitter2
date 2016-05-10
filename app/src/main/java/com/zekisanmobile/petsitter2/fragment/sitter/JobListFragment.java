@@ -21,6 +21,7 @@ import com.zekisanmobile.petsitter2.util.JobsStatusString;
 import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,7 +31,7 @@ import io.realm.Realm;
 public class JobListFragment extends Fragment {
 
     private JobListAdapter adapter;
-    private List<Job> jobList;
+    private List<Job> jobList = new ArrayList<>();
     private long sitter_id;
     private String jobStatus;
     private Realm realm;
@@ -42,9 +43,6 @@ public class JobListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.sitter_id = getArguments().getLong(Config.SITTER_ID, 0);
-        this.jobStatus = getArguments().getString(Config.JOB_STATUS);
     }
 
     @Override
@@ -52,6 +50,9 @@ public class JobListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jobs, container, false);
         ButterKnife.bind(this, view);
+
+        this.sitter_id = getArguments().getLong(Config.SITTER_ID, 0);
+        this.jobStatus = getArguments().getString(Config.JOB_STATUS);
 
         realm = Realm.getDefaultInstance();
         sitterModel = new SitterModel(realm);
@@ -80,15 +81,15 @@ public class JobListFragment extends Fragment {
     private void setupRecyclerView() {
         adapter = new JobListAdapter(jobList, this.getActivity(),
                 new RecyclerViewOnClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Job job = jobList.get(position);
-                Intent intent = new Intent(getActivity(), SitterJobDetailsActivity.class);
-                intent.putExtra(Config.JOB_ID, job.getId());
-                intent.putExtra(Config.JOB_STATUS, jobStatus);
-                startActivity(intent);
-            }
-        }, EntityType.OWNER);
+                    @Override
+                    public void onClick(View view, int position) {
+                        Job job = jobList.get(position);
+                        Intent intent = new Intent(getActivity(), SitterJobDetailsActivity.class);
+                        intent.putExtra(Config.JOB_ID, job.getId());
+                        intent.putExtra(Config.JOB_STATUS, jobStatus);
+                        startActivity(intent);
+                    }
+                }, EntityType.OWNER);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -99,12 +100,7 @@ public class JobListFragment extends Fragment {
 
     public void updateJobs(List<Job> jobList) {
         this.jobList = jobList;
-        if (adapter != null) {
-            adapter.setJobList(jobList);
-            adapter.notifyDataSetChanged();
-        } else {
-            setupRecyclerView();
-        }
+        adapter.setJobList(jobList);
     }
 
     public void getJobListFromDB() {

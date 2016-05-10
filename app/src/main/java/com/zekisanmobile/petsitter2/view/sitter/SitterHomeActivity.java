@@ -181,10 +181,21 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
                                 List<Job> nextJobs,
                                 List<Job> currentJobs,
                                 List<Job> finishedJobs) {
-        newJobsFragments.updateJobs(newJobs);
-        nextJobsFragments.updateJobs(nextJobs);
-        currentJobsFragments.updateJobs(currentJobs);
-        finishedJobsFragments.updateJobs(finishedJobs);
+
+        switch (tabLayout.getSelectedTabPosition()) {
+            case 0:
+                newJobsFragments.updateJobs(newJobs);
+                break;
+            case 1:
+                nextJobsFragments.updateJobs(nextJobs);
+                break;
+            case 2:
+                currentJobsFragments.updateJobs(currentJobs);
+                break;
+            case 3:
+                finishedJobsFragments.updateJobs(finishedJobs);
+                break;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
