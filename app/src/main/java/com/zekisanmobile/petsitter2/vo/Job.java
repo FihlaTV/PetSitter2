@@ -13,10 +13,7 @@ public class Job extends RealmObject {
 
     @PrimaryKey
     @JsonProperty("app_id")
-    private long id;
-
-    @JsonProperty("id")
-    private long apiId;
+    private String id;
 
     @JsonProperty("date_start")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="EST")
@@ -48,20 +45,12 @@ public class Job extends RealmObject {
 
     Owner owner;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public long getApiId() {
-        return apiId;
-    }
-
-    public void setApiId(long apiId) {
-        this.apiId = apiId;
     }
 
     public Date getDateStart() {

@@ -23,13 +23,13 @@ import retrofit2.Retrofit;
 public class SendJobRequestJob extends BaseJob {
 
     public static final int PRIORITY = 1;
-    private long job_id;
+    private String job_id;
     private static final String GROUP = "SendJobRequestJob";
 
     @Inject
     transient ApiService service;
 
-    public SendJobRequestJob(long job_id) {
+    public SendJobRequestJob(String job_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.job_id = job_id;
     }

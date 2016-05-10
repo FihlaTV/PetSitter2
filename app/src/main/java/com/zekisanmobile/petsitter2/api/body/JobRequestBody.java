@@ -4,9 +4,9 @@ import java.util.List;
 
 public class JobRequestBody {
 
-    long sitter_id, app_id;
+    long sitter_id;
 
-    String date_start, date_final, time_start, time_final;
+    String app_id, date_start, date_final, time_start, time_final;
 
     double total_value;
 
@@ -20,11 +20,11 @@ public class JobRequestBody {
         this.sitter_id = sitter_id;
     }
 
-    public long getApp_id() {
+    public String getApp_id() {
         return app_id;
     }
 
-    public void setApp_id(long app_id) {
+    public void setApp_id(String app_id) {
         this.app_id = app_id;
     }
 

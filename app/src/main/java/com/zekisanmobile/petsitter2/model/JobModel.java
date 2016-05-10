@@ -5,6 +5,8 @@ import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
+import java.util.UUID;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -35,6 +37,9 @@ public class JobModel {
     private Job createOrFind(Job jobToFind) {
         Job job = find(jobToFind.getId());
         if (job != null) {
+            realm.beginTransaction();
+            job.setStatus(jobToFind.getStatus());
+            realm.commitTransaction();
             return job;
         } else {
             return create(jobToFind);
@@ -42,7 +47,7 @@ public class JobModel {
     }
 
     public Job create(Job jobToCreate) {
-        long newId = jobToCreate.getId() == 0 ? getNextId() : jobToCreate.getId();
+        String newId = generateUniqueId();
         Owner owner = ownerModel.save(jobToCreate.getOwner());
         Sitter sitter = sitterModel.save(jobToCreate.getSitter());
         RealmList<Animal> animals = new RealmList<>();
@@ -55,7 +60,6 @@ public class JobModel {
         Job job = realm.createObject(Job.class);
 
         job.setId(newId);
-        job.setApiId(jobToCreate.getApiId());
         job.setDateStart(jobToCreate.getDateStart());
         job.setDateFinal(jobToCreate.getDateFinal());
         job.setTimeStart(jobToCreate.getTimeStart());
@@ -70,6 +74,10 @@ public class JobModel {
         return job;
     }
 
+    private String generateUniqueId() {
+        return UUID.randomUUID().toString();
+    }
+
     private long getNextId() {
         try {
             return realm.where(Job.class).max("id").longValue() + 1;
@@ -78,18 +86,18 @@ public class JobModel {
         }
     }
 
-    public Job find(long id) {
+    public Job find(String id) {
         return realm.where(Job.class).equalTo("id", id).findFirst();
     }
 
-    public void updateStatus(Realm realm, long id, int status) {
+    public void updateStatus(Realm realm, String id, int status) {
         Job job = realm.where(Job.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         job.setStatus(status);
         realm.commitTransaction();
     }
 
-    public void delete(Realm realm, long id) {
+    public void delete(Realm realm, String id) {
         Job job = realm.where(Job.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         job.deleteFromRealm();

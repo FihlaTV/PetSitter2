@@ -51,9 +51,11 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         switch (entity) {
             case EntityType.OWNER:
                 photoUrl = job.getOwner().getPhotoUrl().getMedium();
+                holder.tvName.setText(job.getOwner().getName());
                 break;
             default:
                 photoUrl = job.getSitter().getPhotoUrl().getMedium();
+                holder.tvName.setText(job.getSitter().getName());
                 break;
         }
 
@@ -62,7 +64,6 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
                 .transform(new CircleTransform())
                 .into(holder.ivPhoto);
 
-        holder.tvName.setText(job.getOwner().getName());
         holder.tvDateStart.setText(context.getString(R.string.beginning)
                 + " " + DateFormatter.formattedDateForView(job.getDateStart()));
     }

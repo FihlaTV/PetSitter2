@@ -33,7 +33,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
     private Realm realm;
 
     private String jobStatus;
-    private long jobId;
+    private String jobId;
     private Job job;
     private JobModel jobModel;
 
@@ -65,7 +65,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        jobId = getIntent().getLongExtra(Config.JOB_ID, 0);
+        jobId = getIntent().getStringExtra(Config.JOB_ID);
         jobStatus = getIntent().getStringExtra(Config.JOB_STATUS);
 
         defineMembers();

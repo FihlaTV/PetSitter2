@@ -52,7 +52,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
     private Realm realm;
 
     private String jobStatus;
-    private long jobId;
+    private String jobId;
     private Job job;
     private JobModel jobModel;
 
@@ -92,7 +92,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
 
         ButterKnife.bind(this);
 
-        jobId = getIntent().getLongExtra(Config.JOB_ID, 0);
+        jobId = getIntent().getStringExtra(Config.JOB_ID);
         jobStatus = getIntent().getStringExtra(Config.JOB_STATUS);
 
         defineMembers();
@@ -179,7 +179,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
 
     private void updateJobStatus(int status) {
         jobModel.updateStatus(realm, job.getId(), status);
-        jobManager.addJobInBackground(new SendJobStatusJob(job.getApiId(), status));
+        jobManager.addJobInBackground(new SendJobStatusJob(status, job.getId()));
     }
 
     private void keepDialog(Dialog dialog){

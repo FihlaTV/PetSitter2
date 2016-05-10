@@ -13,15 +13,15 @@ public class SendJobStatusJob extends BaseJob {
 
     private static final String GROUP = "SendJobStatusJob";
     public static final int PRIORITY = 1;
-    private long jobApiId;
+    private String jobId;
     private int status;
 
     @Inject
     transient ApiService service;
 
-    public SendJobStatusJob(long jobApiId, int status) {
+    public SendJobStatusJob(int status, String jobId) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
-        this.jobApiId = jobApiId;
+        this.jobId = jobId;
         this.status = status;
     }
 
@@ -40,7 +40,8 @@ public class SendJobStatusJob extends BaseJob {
     public void onRun() throws Throwable {
         JobStatusBody body = new JobStatusBody();
         body.setStatus(status);
-        service.sendJobStatusUpdate(jobApiId, body).execute();
+        body.setApp_id(jobId);
+        service.sendJobStatusUpdate(0, body).execute();
     }
 
     @Override

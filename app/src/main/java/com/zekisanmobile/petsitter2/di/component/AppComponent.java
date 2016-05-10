@@ -10,6 +10,7 @@ import com.zekisanmobile.petsitter2.job.job.FetchSitterJobsJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobStatusJob;
 import com.zekisanmobile.petsitter2.view.owner.NewJobRequestActivity;
+import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
 
@@ -33,4 +34,5 @@ public interface AppComponent {
     void inject(NewJobRequestActivity newJobRequestActivity);
     void inject(SitterHomeActivity sitterHomeActivity);
     void inject(SitterJobDetailsActivity sitterJobDetailsActivity);
+    void inject(OwnerHomeActivity ownerHomeActivity);
 }

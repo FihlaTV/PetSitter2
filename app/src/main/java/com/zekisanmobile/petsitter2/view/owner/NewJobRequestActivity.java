@@ -509,6 +509,7 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setAnimals(getAnimalsFromView());
             job.setSitter(sitter);
             job.setOwner(owner);
+            job.setStatus(10);
             Job createdJob = jobModel.create(job);
             jobManager.addJobInBackground(new SendJobRequestJob(createdJob.getId()));
             jobManager.addJobInBackground(new FetchOwnerJobsJob(owner.getId()));

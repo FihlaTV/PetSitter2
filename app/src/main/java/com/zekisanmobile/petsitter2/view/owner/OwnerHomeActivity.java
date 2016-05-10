@@ -11,11 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
 import com.zekisanmobile.petsitter2.fragment.owner.AnimalFilterFragment;
 import com.zekisanmobile.petsitter2.fragment.owner.ReservationsFragment;
+import com.zekisanmobile.petsitter2.job.job.FetchOwnerJobsJob;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
@@ -23,6 +26,8 @@ import com.zekisanmobile.petsitter2.view.HomeView;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.User;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +41,9 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
     private Owner owner;
     private OwnerModel ownerModel;
     private SessionManager sessionManager;
+
+    @Inject
+    JobManager jobManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -51,9 +59,12 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         defineMembers();
+        getJobs();
         setupToolbar();
         setupViewPager();
         setupTabLayout();
@@ -91,6 +102,10 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
         long user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());
+    }
+
+    private void getJobs() {
+        jobManager.addJobInBackground(new FetchOwnerJobsJob(owner.getId()));
     }
 
     private void setupToolbar() {
