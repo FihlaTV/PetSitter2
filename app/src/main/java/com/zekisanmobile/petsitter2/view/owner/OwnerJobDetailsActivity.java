@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -103,6 +104,9 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.menu_rate:
+                Intent intent = new Intent(OwnerJobDetailsActivity.this, RateJobActivity.class);
+                intent.putExtra(Config.JOB_ID, job.getId());
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

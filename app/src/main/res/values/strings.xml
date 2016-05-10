@@ -78,6 +78,9 @@
     <string name="reservation_list_current">Reservas Atuals</string>
     <string name="reservation_list_finished">Reservas Finalizadas</string>
 
+    <!-- Job Rate -->
+    <string name="rate_job_title">Avaliações do Pet Sitter</string>
+
     <!-- Search animal names -->
     <string-array name="animal_names">
         <item>Cão</item>
