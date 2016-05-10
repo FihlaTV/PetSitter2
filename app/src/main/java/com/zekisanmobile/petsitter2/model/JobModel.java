@@ -47,7 +47,7 @@ public class JobModel {
     }
 
     public Job create(Job jobToCreate) {
-        String newId = generateUniqueId();
+        String newId = jobToCreate.getId() == null ? generateUniqueId() : jobToCreate.getId();
         Owner owner = ownerModel.save(jobToCreate.getOwner());
         Sitter sitter = sitterModel.save(jobToCreate.getSitter());
         RealmList<Animal> animals = new RealmList<>();
