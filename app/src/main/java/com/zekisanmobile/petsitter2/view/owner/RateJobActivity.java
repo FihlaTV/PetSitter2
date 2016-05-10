@@ -4,9 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.JobModel;
+import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.vo.Job;
 
@@ -16,7 +22,6 @@ import io.realm.Realm;
 
 public class RateJobActivity extends AppCompatActivity {
 
-    private String jobStatus;
     private String jobId;
     private Job job;
     private JobModel jobModel;
@@ -25,6 +30,21 @@ public class RateJobActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.iv_sitter)
+    ImageView ivSitter;
+
+    @BindView(R.id.tv_owner)
+    TextView tvOwner;
+
+    @BindView(R.id.rating_bar)
+    RatingBar ratingBar;
+
+    @BindView(R.id.tv_rate_value)
+    TextView tvRateValue;
+
+    @BindView(R.id.et_owner_comment)
+    EditText etOwnerComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +57,8 @@ public class RateJobActivity extends AppCompatActivity {
 
         defineMembers();
         configureToolbar();
+        setupViews();
+        addListenerOnRatingBar();
     }
 
     @Override
@@ -71,4 +93,22 @@ public class RateJobActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
+
+    private void setupViews() {
+        Picasso.with(this)
+                .load(job.getSitter().getPhotoUrl().getMedium())
+                .transform(new CircleTransform())
+                .into(ivSitter);
+        tvOwner.setText(job.getSitter().getName());
+
+    }
+
+    public void addListenerOnRatingBar() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,  boolean fromUser) {
+                tvRateValue.setText(String.valueOf(Math.round(rating)));
+            }
+        });
+    }
+
 }
