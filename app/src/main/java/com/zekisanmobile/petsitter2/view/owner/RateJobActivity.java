@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.owner;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,6 +69,12 @@ public class RateJobActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_ok, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -75,6 +82,9 @@ public class RateJobActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 finish();
+                break;
+            case R.menu.menu_ok:
+                // TODO: Enviar rate para API
                 break;
         }
         return super.onOptionsItemSelected(item);

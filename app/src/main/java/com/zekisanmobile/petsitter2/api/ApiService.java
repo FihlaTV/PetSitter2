@@ -4,6 +4,7 @@ import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.JobRequestBody;
 import com.zekisanmobile.petsitter2.api.body.JobStatusBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
+import com.zekisanmobile.petsitter2.api.body.RateJobBody;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -49,4 +50,7 @@ public interface ApiService {
 
     @POST("contacts/{contact}/update_status")
     Call<Void> sendJobStatusUpdate(@Path("contact") long contact_id, @Body JobStatusBody body);
+
+    @POST("pet_owners/{owner}/rate_contact")
+    Call<Void> ratejob(@Path("owner") String owner_id, @Body RateJobBody body);
 }
