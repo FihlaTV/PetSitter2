@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.JobModel;
+import com.zekisanmobile.petsitter2.model.RateModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Rate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +28,7 @@ public class RateJobActivity extends AppCompatActivity {
     private String jobId;
     private Job job;
     private JobModel jobModel;
+    private RateModel rateModel;
 
     private Realm realm;
 
@@ -85,6 +88,10 @@ public class RateJobActivity extends AppCompatActivity {
                 break;
             case R.menu.menu_ok:
                 // TODO: Enviar rate para API
+                Rate rate = new Rate();
+                rate.setStarsQtd(ratingBar.getNumStars());
+
+                rateModel.save(rate);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -95,6 +102,8 @@ public class RateJobActivity extends AppCompatActivity {
 
         jobModel = new JobModel(realm);
         job = jobModel.find(jobId);
+
+        rateModel = new RateModel(realm);
     }
 
     private void configureToolbar() {

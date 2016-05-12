@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
@@ -40,6 +41,10 @@ public class Job extends RealmObject {
 
     @JsonProperty("total_value")
     double totalValue;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("rate")
+    Rate rate;
 
     Sitter sitter;
 
@@ -131,5 +136,13 @@ public class Job extends RealmObject {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public Rate getRate() {
+        return rate;
+    }
+
+    public void setRate(Rate rate) {
+        this.rate = rate;
     }
 }

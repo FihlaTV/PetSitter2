@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.model;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Rate;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
 import java.util.UUID;
@@ -16,12 +17,14 @@ public class JobModel {
     private OwnerModel ownerModel;
     private SitterModel sitterModel;
     private AnimalModel animalModel;
+    private RateModel rateModel;
 
     public JobModel(Realm realm) {
         this.realm = realm;
         ownerModel = new OwnerModel(realm);
         sitterModel = new SitterModel(realm);
         animalModel = new AnimalModel(realm);
+        rateModel = new RateModel(realm);
     }
 
     public Job save(Job job) {
@@ -55,6 +58,7 @@ public class JobModel {
             Animal animal = animalModel.find(a.getId());
             animals.add(animal);
         }
+        Rate rate = rateModel.save(jobToCreate.getRate());
 
         realm.beginTransaction();
         Job job = realm.createObject(Job.class);
@@ -69,6 +73,7 @@ public class JobModel {
         job.setSitter(sitter);
         job.setOwner(owner);
         job.setAnimals(animals);
+        job.setRate(rate);
         realm.commitTransaction();
 
         return job;
@@ -76,14 +81,6 @@ public class JobModel {
 
     private String generateUniqueId() {
         return UUID.randomUUID().toString();
-    }
-
-    private long getNextId() {
-        try {
-            return realm.where(Job.class).max("id").longValue() + 1;
-        } catch (NullPointerException e) {
-            return 1;
-        }
     }
 
     public Job find(String id) {
