@@ -52,5 +52,5 @@ public interface ApiService {
     Call<Void> sendJobStatusUpdate(@Path("contact") long contact_id, @Body JobStatusBody body);
 
     @POST("pet_owners/{owner}/rate_contact")
-    Call<Void> ratejob(@Path("owner") String owner_id, @Body RateJobBody body);
+    Call<Void> ratejob(@Path("owner") long owner_id, @Body RateJobBody body);
 }

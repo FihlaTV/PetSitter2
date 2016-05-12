@@ -58,7 +58,10 @@ public class JobModel {
             Animal animal = animalModel.find(a.getId());
             animals.add(animal);
         }
-        Rate rate = rateModel.save(jobToCreate.getRate());
+        Rate rate = null;
+        if (jobToCreate.getRate() != null ){
+            rate = rateModel.save(jobToCreate.getRate());
+        }
 
         realm.beginTransaction();
         Job job = realm.createObject(Job.class);
@@ -73,7 +76,7 @@ public class JobModel {
         job.setSitter(sitter);
         job.setOwner(owner);
         job.setAnimals(animals);
-        job.setRate(rate);
+        if (jobToCreate.getRate() != null ) { job.setRate(rate); }
         realm.commitTransaction();
 
         return job;

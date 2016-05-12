@@ -1,7 +1,8 @@
 package com.zekisanmobile.petsitter2.view.owner;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,14 +11,19 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.squareup.picasso.Picasso;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.job.job.SendJobRateJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.model.RateModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Rate;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +37,9 @@ public class RateJobActivity extends AppCompatActivity {
     private RateModel rateModel;
 
     private Realm realm;
+
+    @Inject
+    JobManager jobManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -54,6 +63,8 @@ public class RateJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_job);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
 
@@ -86,12 +97,18 @@ public class RateJobActivity extends AppCompatActivity {
                 onBackPressed();
                 finish();
                 break;
-            case R.menu.menu_ok:
-                // TODO: Enviar rate para API
+            case R.id.menu_ok:
                 Rate rate = new Rate();
                 rate.setStarsQtd(ratingBar.getNumStars());
-
+                rate.setOwnerComment(etOwnerComment.getText().toString().trim());
                 rateModel.save(rate);
+
+                jobManager.addJobInBackground(new SendJobRateJob(jobId, job.getOwner().getId(),
+                        rate.getId()));
+
+                Intent intent = new Intent(RateJobActivity.this, OwnerHomeActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
