@@ -10,6 +10,14 @@
     android:background="@color/white"
     tools:context="com.zekisanmobile.petsitter2.view.login.LoginActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView9"
+        android:src="@drawable/paw_print"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,5 +91,15 @@
         android:layout_alignEnd="@+id/btn_login"
         android:textColor="@color/colorPrimaryDark"
         style="?android:attr/borderlessButtonStyle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PetCare"
+        android:id="@+id/tv_brand"
+        android:textSize="50dp"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

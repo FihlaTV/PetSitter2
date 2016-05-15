@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.asyncTask.LoginTask;
@@ -32,12 +34,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.et_password)
     EditText etPassword;
 
+    @BindView(R.id.tv_brand)
+    TextView tvBrand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
+
+        tvBrand.setText(Html.fromHtml("Pet<b>Care</b>"));
     }
 
     @OnClick(R.id.btn_login)

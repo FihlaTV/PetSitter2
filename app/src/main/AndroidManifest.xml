@@ -73,7 +73,8 @@
             android:name=".view.login.LoginActivity"
             android:label="@string/app_login"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.owner.OwnerHomeActivity"
             android:screenOrientation="portrait"
