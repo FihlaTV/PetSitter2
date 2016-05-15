@@ -44,12 +44,6 @@ public class RateJobActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.iv_sitter)
-    ImageView ivSitter;
-
-    @BindView(R.id.tv_owner)
-    TextView tvOwner;
-
     @BindView(R.id.rating_bar)
     RatingBar ratingBar;
 
@@ -72,7 +66,6 @@ public class RateJobActivity extends AppCompatActivity {
 
         defineMembers();
         configureToolbar();
-        setupViews();
         addListenerOnRatingBar();
     }
 
@@ -128,15 +121,6 @@ public class RateJobActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    private void setupViews() {
-        Picasso.with(this)
-                .load(job.getSitter().getPhotoUrl().getMedium())
-                .transform(new CircleTransform())
-                .into(ivSitter);
-        tvOwner.setText(job.getSitter().getName());
-
     }
 
     public void addListenerOnRatingBar() {

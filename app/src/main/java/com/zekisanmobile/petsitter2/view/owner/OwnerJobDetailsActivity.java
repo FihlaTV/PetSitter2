@@ -92,7 +92,9 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
             case JobsStatusString.CURRENT:
                 break;
             default:
-                getMenuInflater().inflate(R.menu.menu_job_rate, menu);
+                if (job.getRate() == null) {
+                    getMenuInflater().inflate(R.menu.menu_job_rate, menu);
+                }
                 break;
         }
         return true;
