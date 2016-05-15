@@ -24,6 +24,8 @@
     <string name="tabs_current_jobs">Em Andamento</string>
     <string name="tabs_finished_jobs">Finalizados</string>
     <string name="tabs_finished_jobs_feminine">Finalizadas</string>
+    <string name="tab_information">Informações</string>
+    <string name="tab_rate">Avaliações</string>
 
     <!-- Sitters Fragment -->
     <string name="search_instruction">Qual seu pet?</string>

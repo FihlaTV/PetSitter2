@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.fragment.owner.SitterInfoFragment;
-import com.zekisanmobile.petsitter2.fragment.owner.SitterRateFragment;
+import com.zekisanmobile.petsitter2.fragment.owner.SitterRatesFragment;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.Sitter;
@@ -73,8 +73,8 @@ public class SitterProfileActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(SitterInfoFragment.newInstance(sitter_id), "Informações");
-        adapter.addFragment(SitterInfoFragment.newInstance(sitter_id), "Avaliações");
+        adapter.addFragment(SitterInfoFragment.newInstance(sitter_id), getString(R.string.tab_information));
+        adapter.addFragment(SitterRatesFragment.newInstance(sitter_id), getString(R.string.tab_rate));
         viewPager.setAdapter(adapter);
     }
 

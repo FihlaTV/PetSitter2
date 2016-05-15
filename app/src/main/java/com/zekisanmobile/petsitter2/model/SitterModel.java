@@ -3,8 +3,10 @@ package com.zekisanmobile.petsitter2.model;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
+import com.zekisanmobile.petsitter2.vo.Rate;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -117,5 +119,16 @@ public class SitterModel {
                 .lessThanOrEqualTo("dateStart", new Date())
                 .greaterThanOrEqualTo("dateFinal", new Date())
                 .findAllSorted("dateStart", Sort.DESCENDING);
+    }
+
+    public List<Job> getJobsWithRates(long sitter_id) {
+        List<Job> jobs = getFinishedJobs(sitter_id);
+        if (jobs != null) {
+            for (Job job : jobs) {
+                if (job.getRate() == null) jobs.remove(job);
+            }
+            return jobs;
+        }
+        return new ArrayList<Job>();
     }
 }
