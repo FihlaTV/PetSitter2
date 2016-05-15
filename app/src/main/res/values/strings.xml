@@ -26,7 +26,7 @@
     <string name="tabs_finished_jobs_feminine">Finalizadas</string>
 
     <!-- Sitters Fragment -->
-    <string name="search_instruction">Pesquise Pet Sitter por animais</string>
+    <string name="search_instruction">Qual seu pet?</string>
     <string name="search">Pesquisar</string>
     <string name="search_no_animals_selected">Você deve selecionar pelo um animal para a pesquisa de Pet Sitters.</string>
 

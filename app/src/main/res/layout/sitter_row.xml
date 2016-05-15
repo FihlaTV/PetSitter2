@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground">
 
@@ -40,4 +40,19 @@
         android:layout_alignBottom="@+id/iv_sitter"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_alignStart="@+id/tv_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/tv_sitter_rate_avg"
+        android:layout_alignTop="@+id/tv_name"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="3"
+        android:textColor="@color/colorPrimaryText"
+        android:background="@drawable/star_32"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="10sp" />
+
 </RelativeLayout>

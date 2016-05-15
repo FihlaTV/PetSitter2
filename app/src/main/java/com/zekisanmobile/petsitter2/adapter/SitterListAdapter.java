@@ -50,6 +50,7 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
 
         holder.tvName.setText(sitter.getName());
         holder.tvStatus.setText(sitter.getAboutMe());
+        holder.tvSitterRateAvg.setText(String.valueOf(sitter.getRateAvg()));
     }
 
     @Override
@@ -71,6 +72,9 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
 
         @BindView(R.id.tv_status)
         TextView tvStatus;
+
+        @BindView(R.id.tv_sitter_rate_avg)
+        TextView tvSitterRateAvg;
 
         public ViewHolder(View itemView) {
             super(itemView);

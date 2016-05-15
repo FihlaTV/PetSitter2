@@ -37,6 +37,9 @@ public class Sitter extends RealmObject {
     @JsonProperty("profile_photos")
     RealmList<PhotoUrl> profilePhotos;
 
+    @JsonProperty("rate_avg")
+    int rateAvg;
+
     public long getId() {
         return id;
     }
@@ -131,5 +134,13 @@ public class Sitter extends RealmObject {
 
     public void setProfilePhotos(RealmList<PhotoUrl> profilePhotos) {
         this.profilePhotos = profilePhotos;
+    }
+
+    public int getRateAvg() {
+        return rateAvg;
+    }
+
+    public void setRateAvg(int rateAvg) {
+        this.rateAvg = rateAvg;
     }
 }

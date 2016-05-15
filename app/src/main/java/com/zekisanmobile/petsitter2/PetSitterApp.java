@@ -26,7 +26,7 @@ public class PetSitterApp extends Application {
                 .build();
         Realm.setDefaultConfiguration(config);
 
-        //Realm.deleteRealm(config);
+        Realm.deleteRealm(config);
 
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))

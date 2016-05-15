@@ -37,6 +37,9 @@ public class SitterModel {
     private Sitter createOrFind(Sitter sitterToFind) {
         Sitter sitter = find(sitterToFind.getId());
         if (sitter != null) {
+            realm.beginTransaction();
+            sitter.setRateAvg(sitterToFind.getRateAvg());
+            realm.commitTransaction();
             return sitter;
         } else {
             return create(sitterToFind);
@@ -65,6 +68,7 @@ public class SitterModel {
         sitter.setAnimals(animals);
         sitter.setPhotoUrl(photoUrl);
         sitter.setProfilePhotos(profilePhotos);
+        sitter.setRateAvg(sitterToFind.getRateAvg());
         realm.commitTransaction();
 
         return sitter;
