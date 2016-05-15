@@ -99,12 +99,12 @@ public class RateJobActivity extends AppCompatActivity {
                 break;
             case R.id.menu_ok:
                 Rate rate = new Rate();
-                rate.setStarsQtd(ratingBar.getNumStars());
+                rate.setStarsQtd(Math.round(ratingBar.getRating()));
                 rate.setOwnerComment(etOwnerComment.getText().toString().trim());
-                rateModel.save(rate);
+                Rate savedRate = rateModel.save(rate);
 
                 jobManager.addJobInBackground(new SendJobRateJob(jobId, job.getOwner().getId(),
-                        rate.getId()));
+                        savedRate.getId()));
 
                 Intent intent = new Intent(RateJobActivity.this, OwnerHomeActivity.class);
                 startActivity(intent);
