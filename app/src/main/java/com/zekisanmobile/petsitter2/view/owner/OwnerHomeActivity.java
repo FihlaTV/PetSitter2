@@ -78,7 +78,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main_owner, menu);
         return true;
     }
 
