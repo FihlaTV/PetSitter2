@@ -53,7 +53,7 @@
                         android:layout_below="@+id/iv_sitter"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="9dp"
-                        android:text="Nome do Dono"
+                        android:text="Nome do Pet Sitter"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -79,7 +79,7 @@
                         android:layout_below="@+id/vw_divider1" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="New Text"
                         android:id="@+id/tv_period"
@@ -87,7 +87,10 @@
                         android:layout_alignBottom="@+id/iv_period"
                         android:gravity="center_vertical"
                         android:layout_alignRight="@+id/vw_divider1"
-                        android:layout_alignEnd="@+id/vw_divider1" />
+                        android:layout_alignEnd="@+id/vw_divider1"
+                        android:layout_toEndOf="@+id/iv_period"
+                        android:layout_toRightOf="@+id/iv_period"
+                        android:layout_marginLeft="10dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -100,17 +103,17 @@
                         android:layout_alignParentStart="true" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="New Text"
                         android:id="@+id/tv_time"
                         android:layout_alignBottom="@+id/iv_time"
-                        android:layout_alignLeft="@+id/tv_period"
-                        android:layout_alignStart="@+id/tv_period"
                         android:layout_alignTop="@+id/iv_time"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:layout_alignLeft="@+id/tv_period"
+                        android:layout_alignStart="@+id/tv_period" />
 
                     <View
                         android:id="@+id/vw_divider2"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -267,6 +268,10 @@ public class NewJobRequestActivity extends AppCompatActivity
     }
 
     private void setupViews() {
+        etDateStart.setInputType(InputType.TYPE_NULL);
+        etDateFinal.setInputType(InputType.TYPE_NULL);
+        etTimeStart.setInputType(InputType.TYPE_NULL);
+        etTimeFinal.setInputType(InputType.TYPE_NULL);
         tvSitter.setText(sitter.getName());
         Picasso.with(this)
                 .load(sitter.getPhotoUrl().getLarge())
