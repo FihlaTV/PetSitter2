@@ -73,8 +73,7 @@
             android:name=".view.login.LoginActivity"
             android:label="@string/app_login"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.owner.OwnerHomeActivity"
             android:screenOrientation="portrait"
@@ -112,8 +111,7 @@
             android:name=".view.owner.RateJobActivity"
             android:parentActivityName=".view.owner.OwnerJobDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.sitter.SitterHomeActivity"
             android:launchMode="singleTop"
@@ -121,6 +119,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.sitter.SitterJobDetailsActivity"
+            android:parentActivityName=".view.sitter.SitterHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.sitter.SitterRatesActivity"
             android:parentActivityName=".view.sitter.SitterHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
