@@ -127,6 +127,10 @@
             android:parentActivityName=".view.sitter.SitterHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.sitter.ReplyRateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
 
         <meta-data
