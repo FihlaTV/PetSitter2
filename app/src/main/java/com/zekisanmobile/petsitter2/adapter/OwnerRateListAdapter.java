@@ -21,12 +21,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RateListAdapter extends RecyclerView.Adapter<RateListAdapter.ViewHolder>{
+public class OwnerRateListAdapter extends RecyclerView.Adapter<OwnerRateListAdapter.ViewHolder>{
 
     private List<Job> jobsWithRate;
     private Context context;
 
-    public RateListAdapter(List<Job> jobsWithRate, Context context) {
+    public OwnerRateListAdapter(List<Job> jobsWithRate, Context context) {
         this.jobsWithRate = jobsWithRate;
         this.context = context;
     }

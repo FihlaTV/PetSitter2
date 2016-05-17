@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.RateListAdapter;
+import com.zekisanmobile.petsitter2.adapter.OwnerRateListAdapter;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
@@ -27,7 +27,7 @@ public class SitterRatesFragment extends Fragment{
     private long sitter_id;
     private SitterModel sitterModel;
     private List<Job> jobsWithRate;
-    private RateListAdapter adapter;
+    private OwnerRateListAdapter adapter;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -68,7 +68,7 @@ public class SitterRatesFragment extends Fragment{
     }
 
     private void setupRecyclerView() {
-        adapter = new RateListAdapter(jobsWithRate, this.getActivity());
+        adapter = new OwnerRateListAdapter(jobsWithRate, this.getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

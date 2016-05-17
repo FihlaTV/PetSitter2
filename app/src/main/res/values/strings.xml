@@ -85,6 +85,7 @@
     <string name="action_rates">Minhas Avaliações</string>
     <string name="my_rates">Minhas Avaliações</string>
     <string name="my_rate">Minha Avaliação</string>
+    <string name="hint_reply_rate">Comente sua avaliação</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.RateListAdapter;
+import com.zekisanmobile.petsitter2.adapter.OwnerRateListAdapter;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
@@ -25,7 +25,7 @@ public class SitterRatesActivity extends AppCompatActivity {
     private long sitter_id;
     private SitterModel sitterModel;
     private List<Job> jobsWithRate;
-    private RateListAdapter adapter;
+    private OwnerRateListAdapter adapter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -68,7 +68,7 @@ public class SitterRatesActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new RateListAdapter(jobsWithRate, this);
+        adapter = new OwnerRateListAdapter(jobsWithRate, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
