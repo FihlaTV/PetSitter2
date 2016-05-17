@@ -126,6 +126,7 @@
             android:name=".view.sitter.SitterRatesActivity"
             android:parentActivityName=".view.sitter.SitterHomeActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.sitter.ReplyRateActivity"

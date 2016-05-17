@@ -1,13 +1,16 @@
 package com.zekisanmobile.petsitter2.view.sitter;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.OwnerRateListAdapter;
+import com.zekisanmobile.petsitter2.adapter.SitterRateListAdapter;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
@@ -25,7 +28,7 @@ public class SitterRatesActivity extends AppCompatActivity {
     private long sitter_id;
     private SitterModel sitterModel;
     private List<Job> jobsWithRate;
-    private OwnerRateListAdapter adapter;
+    private SitterRateListAdapter adapter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -68,7 +71,14 @@ public class SitterRatesActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new OwnerRateListAdapter(jobsWithRate, this);
+        adapter = new SitterRateListAdapter(jobsWithRate, this, new RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(SitterRatesActivity.this, ReplyRateActivity.class);
+                intent.putExtra(Config.JOB_ID, jobsWithRate.get(position).getId());
+                startActivity(intent);
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
