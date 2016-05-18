@@ -5,6 +5,7 @@ import com.zekisanmobile.petsitter2.api.body.JobRequestBody;
 import com.zekisanmobile.petsitter2.api.body.JobStatusBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
 import com.zekisanmobile.petsitter2.api.body.RateJobBody;
+import com.zekisanmobile.petsitter2.api.body.ReplyRateBody;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -53,4 +54,7 @@ public interface ApiService {
 
     @POST("pet_owners/{owner}/rate_contact")
     Call<Void> ratejob(@Path("owner") long owner_id, @Body RateJobBody body);
+
+    @POST("rates/reply_rate")
+    Call<Void> replyRate(@Body ReplyRateBody body);
 }

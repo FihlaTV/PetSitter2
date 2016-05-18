@@ -59,4 +59,11 @@ public class RateModel {
     public Rate find(String id) {
         return realm.where(Rate.class).equalTo("id", id).findFirst();
     }
+
+    public void SetSitterComment(String rateId, String sitterComment) {
+        Rate rateToSave = find(rateId);
+        realm.beginTransaction();
+        rateToSave.setSitterComment(sitterComment);
+        realm.commitTransaction();
+    }
 }

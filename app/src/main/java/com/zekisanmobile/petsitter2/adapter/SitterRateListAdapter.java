@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -56,6 +57,13 @@ public class SitterRateListAdapter extends RecyclerView.Adapter<SitterRateListAd
         holder.tvStarsQtd.setText(Integer.toString(job.getRate().getStarsQtd()));
         holder.ratingBar.setRating(job.getRate().getStarsQtd());
         holder.tvOwnerComment.setText(job.getRate().getOwnerComment());
+
+        if (job.getRate().getSitterComment() != null) {
+            holder.tvReplyCreatedAt.setText(DateFormatter.formattedDateForView(new Date()));
+            holder.tvSitterComment.setText(job.getRate().getSitterComment());
+        } else {
+            holder.glSitterComment.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -81,6 +89,15 @@ public class SitterRateListAdapter extends RecyclerView.Adapter<SitterRateListAd
 
         @BindView(R.id.tv_owner_comment)
         public TextView tvOwnerComment;
+
+        @BindView(R.id.gl_sitter_comment)
+        public GridLayout glSitterComment;
+
+        @BindView(R.id.tv_reply_created_at)
+        public TextView tvReplyCreatedAt;
+
+        @BindView(R.id.tv_sitter_comment)
+        public TextView tvSitterComment;
 
         public ViewHolder(View itemView) {
             super(itemView);

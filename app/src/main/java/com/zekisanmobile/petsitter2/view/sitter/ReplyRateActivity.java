@@ -1,19 +1,29 @@
 package com.zekisanmobile.petsitter2.view.sitter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.job.job.ReplyRateJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
+import com.zekisanmobile.petsitter2.model.RateModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Rate;
 
 import java.util.Date;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +36,10 @@ public class ReplyRateActivity extends AppCompatActivity {
     private String jobId;
     private Job job;
     private JobModel jobModel;
+    private RateModel rateModel;
+
+    @Inject
+    JobManager jobManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -47,6 +61,8 @@ public class ReplyRateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply_rate);
 
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         this.jobId = getIntent().getStringExtra(Config.JOB_ID);
@@ -62,10 +78,39 @@ public class ReplyRateActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_reply_job, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.m_save:
+                rateModel.SetSitterComment(job.getRate().getId(),
+                        etSitterComment.getText().toString().trim());
+                jobModel.save(job);
+
+                jobManager.addJobInBackground(new ReplyRateJob(job.getRate().getId(),
+                        job.getRate().getSitterComment()));
+
+                Intent intent = new Intent(ReplyRateActivity.this, SitterRatesActivity.class);
+                intent.putExtra(Config.SITTER_ID, job.getSitter().getId());
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
 
         jobModel = new JobModel(realm);
+        rateModel = new RateModel(realm);
         job = jobModel.find(jobId);
     }
 

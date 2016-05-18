@@ -40,8 +40,14 @@ public class JobModel {
     private Job createOrFind(Job jobToFind) {
         Job job = find(jobToFind.getId());
         if (job != null) {
+            Rate rate = null;
+            if (jobToFind.getRate() != null ){
+                rate = rateModel.save(jobToFind.getRate());
+            }
+
             realm.beginTransaction();
             job.setStatus(jobToFind.getStatus());
+            if (jobToFind.getRate() != null ) { job.setRate(rate); }
             realm.commitTransaction();
             return job;
         } else {
