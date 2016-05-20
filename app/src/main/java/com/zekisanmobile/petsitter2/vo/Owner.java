@@ -27,6 +27,16 @@ public class Owner extends RealmObject {
     @JsonProperty("profile_photos")
     RealmList<PhotoUrl> profilePhotos;
 
+    RealmList<Pet> pets;
+
+    public RealmList<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(RealmList<Pet> pets) {
+        this.pets = pets;
+    }
+
     public long getId() {
         return id;
     }

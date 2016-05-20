@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.model;
 
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 
 import java.util.Date;
@@ -15,10 +16,12 @@ public class OwnerModel {
 
     Realm realm;
     private PhotoUrlModel photoUrlModel;
+    private PetModel petModel;
 
     public OwnerModel(Realm realm) {
         this.realm = realm;
         photoUrlModel = new PhotoUrlModel(realm);
+        petModel = new PetModel(realm);
     }
 
     public Owner save(Owner owner) {
@@ -47,6 +50,13 @@ public class OwnerModel {
             PhotoUrl photoToCreate = photoUrlModel.create(p);
             profilePhotos.add(photoToCreate);
         }
+
+        RealmList<Pet> pets = new RealmList<>();
+        for(Pet p : ownerToFind.getPets()) {
+            Pet pet = petModel.create(p);
+            pets.add(pet);
+        }
+
         realm.beginTransaction();
         Owner owner = realm.createObject(Owner.class);
 
@@ -58,6 +68,7 @@ public class OwnerModel {
         owner.setLongitude(ownerToFind.getLongitude());
         owner.setPhotoUrl(photoUrl);
         owner.setProfilePhotos(profilePhotos);
+        owner.setPets(pets);
         realm.commitTransaction();
 
         return owner;

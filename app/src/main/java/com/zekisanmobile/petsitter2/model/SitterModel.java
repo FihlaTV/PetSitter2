@@ -3,7 +3,6 @@ package com.zekisanmobile.petsitter2.model;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
-import com.zekisanmobile.petsitter2.vo.Rate;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
 import java.util.ArrayList;
