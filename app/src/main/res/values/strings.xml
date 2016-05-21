@@ -92,6 +92,7 @@
     <string name="pet_sitter">Pet sitter</string>
     <string name="register">Cadastrar</string>
     <string name="fill_all_fields">Por favor, preencha todos os campos antes de continuar.</string>
+    <string name="where_are_you">Onde voce está?</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

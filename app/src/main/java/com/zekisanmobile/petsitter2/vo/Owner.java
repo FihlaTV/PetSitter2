@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmList;
@@ -18,9 +19,20 @@ public class Owner extends RealmObject {
 
     String phone;
 
-    String address;
+    String street;
+
+    String address_number;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    String complement;
+
+    String cep;
 
     String district;
+
+    String city;
+
+    String state;
 
     float latitude;
 
@@ -56,14 +68,6 @@ public class Owner extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getDistrict() {
@@ -120,5 +124,53 @@ public class Owner extends RealmObject {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getAddress_number() {
+        return address_number;
+    }
+
+    public void setAddress_number(String address_number) {
+        this.address_number = address_number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

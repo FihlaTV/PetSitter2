@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.view.register;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -27,6 +29,7 @@ public class BasicRegisterActivity extends AppCompatActivity {
 
     private String entityType;
     private String entityId;
+    private String userId;
     private Realm realm;
 
     @BindView(R.id.toolbar)
@@ -100,6 +103,13 @@ public class BasicRegisterActivity extends AppCompatActivity {
                 break;
         }
         createUser();
+        redirectToAddressRegister();
+    }
+
+    private void redirectToAddressRegister() {
+        Intent intent = new Intent(BasicRegisterActivity.this, AddressRegisterActivity.class);
+        intent.putExtra(Config.USER_ID, userId);
+        startActivity(intent);
     }
 
     private void createUser() {
@@ -108,7 +118,11 @@ public class BasicRegisterActivity extends AppCompatActivity {
         user.setId(UniqueID.generateUniqueID());
         user.setEmail(etEmail.getText().toString().trim());
         user.setPassword(etPassword.getText().toString().trim());
+        user.setEntityType(entityType);
+        user.setEntityId(entityId);
         realm.commitTransaction();
+
+        this.userId = user.getId();
     }
 
     private void createSitter() {

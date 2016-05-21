@@ -142,6 +142,10 @@
             android:name=".view.register.BasicRegisterActivity"
             android:parentActivityName=".view.register.RegisterHomeActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.register.AddressRegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
 
@@ -151,7 +155,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBm-hbxgSk2bjQEXu9xIGPCUaL_L2dojk" />
-
     </application>
 
 </manifest>
