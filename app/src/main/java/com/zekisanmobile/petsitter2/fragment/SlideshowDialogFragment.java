@@ -32,7 +32,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     private TextView lblCount;
     private int selectedPosition = 0;
     private Realm realm;
-    private long sitter_id;
+    private String sitter_id;
     private Sitter sitter;
     private SitterModel sitterModel;
 
@@ -46,7 +46,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
-        this.sitter_id = getArguments().getLong(Config.SITTER_ID);
+        this.sitter_id = getArguments().getString(Config.SITTER_ID);
         this.selectedPosition = getArguments().getInt(Config.SELECTED_POSITION);
     }
 

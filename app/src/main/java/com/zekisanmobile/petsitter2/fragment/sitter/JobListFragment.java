@@ -32,7 +32,7 @@ public class JobListFragment extends Fragment {
 
     private JobListAdapter adapter;
     private List<Job> jobList = new ArrayList<>();
-    private long sitter_id;
+    private String sitter_id;
     private String jobStatus;
     private Realm realm;
     private SitterModel sitterModel;
@@ -51,7 +51,7 @@ public class JobListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_jobs, container, false);
         ButterKnife.bind(this, view);
 
-        this.sitter_id = getArguments().getLong(Config.SITTER_ID, 0);
+        this.sitter_id = getArguments().getString(Config.SITTER_ID);
         this.jobStatus = getArguments().getString(Config.JOB_STATUS);
 
         realm = Realm.getDefaultInstance();
@@ -69,10 +69,10 @@ public class JobListFragment extends Fragment {
         super.onDestroyView();
     }
 
-    public static JobListFragment newInstance(long sitter_id, String jobStatus) {
+    public static JobListFragment newInstance(String sitter_id, String jobStatus) {
         JobListFragment fragment = new JobListFragment();
         Bundle args = new Bundle();
-        args.putLong(Config.SITTER_ID, sitter_id);
+        args.putString(Config.SITTER_ID, sitter_id);
         args.putString(Config.JOB_STATUS, jobStatus);
         fragment.setArguments(args);
         return fragment;

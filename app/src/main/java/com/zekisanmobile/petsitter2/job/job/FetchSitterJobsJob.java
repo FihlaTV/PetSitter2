@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.job.job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.api.ApiService;
+import com.zekisanmobile.petsitter2.api.body.GetJobsBody;
 import com.zekisanmobile.petsitter2.di.component.AppComponent;
 import com.zekisanmobile.petsitter2.event.job.FetchedSitterJobsEvent;
 import com.zekisanmobile.petsitter2.job.BaseJob;
@@ -22,12 +23,12 @@ public class FetchSitterJobsJob extends BaseJob {
 
     public static final int PRIORITY = 1;
     private static final String GROUP = "FetchSitterJobsJob";
-    private long sitter_id;
+    private String sitter_id;
 
     @Inject
     transient ApiService service;
 
-    public FetchSitterJobsJob(long sitter_id) {
+    public FetchSitterJobsJob(String sitter_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.sitter_id = sitter_id;
     }
@@ -48,10 +49,14 @@ public class FetchSitterJobsJob extends BaseJob {
         Realm realm = Realm.getDefaultInstance();
         JobModel jobModel = new JobModel(realm);
 
-        Response<List<Job>> response = service.sitterJobs(sitter_id).execute();
+        GetJobsBody body = new GetJobsBody();
+        body.setApp_id(sitter_id);
+        Response<List<Job>> response = service.sitterJobs(body).execute();
         List<Job> jobs = response.body();
-        for (Job job : jobs) {
-            jobModel.save(job);
+        if (jobs != null) {
+            for (Job job : jobs) {
+                jobModel.save(job);
+            }
         }
         realm.close();
 

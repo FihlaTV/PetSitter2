@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLoggedUser() {
-        if (sessionManager.getUserId() != 0) {
+        if (!sessionManager.getUserId().isEmpty()) {
             User user = userModel.find(sessionManager.getUserId());
             redirectUser(user);
         } else {

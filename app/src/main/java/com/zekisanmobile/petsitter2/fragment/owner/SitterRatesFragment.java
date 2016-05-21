@@ -24,7 +24,7 @@ import io.realm.Realm;
 public class SitterRatesFragment extends Fragment{
 
     private Realm realm;
-    private long sitter_id;
+    private String sitter_id;
     private SitterModel sitterModel;
     private List<Job> jobsWithRate;
     private OwnerRateListAdapter adapter;
@@ -38,7 +38,7 @@ public class SitterRatesFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_sitter_rates, container, false);
         ButterKnife.bind(this, view);
 
-        this.sitter_id = getArguments().getLong(Config.SITTER_ID, 0);
+        this.sitter_id = getArguments().getString(Config.SITTER_ID);
 
         defineMembers();
         setupRecyclerView();
@@ -59,10 +59,10 @@ public class SitterRatesFragment extends Fragment{
         jobsWithRate = sitterModel.getJobsWithRates(sitter_id);
     }
 
-    public static SitterRatesFragment newInstance(long sitter_id) {
+    public static SitterRatesFragment newInstance(String sitter_id) {
         SitterRatesFragment fragment = new SitterRatesFragment();
         Bundle args = new Bundle();
-        args.putLong(Config.SITTER_ID, sitter_id);
+        args.putString(Config.SITTER_ID, sitter_id);
         fragment.setArguments(args);
         return fragment;
     }

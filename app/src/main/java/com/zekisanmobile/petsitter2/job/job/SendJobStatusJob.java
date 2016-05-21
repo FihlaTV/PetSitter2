@@ -41,7 +41,7 @@ public class SendJobStatusJob extends BaseJob {
         JobStatusBody body = new JobStatusBody();
         body.setStatus(status);
         body.setApp_id(jobId);
-        service.sendJobStatusUpdate(0, body).execute();
+        service.sendJobStatusUpdate(body).execute();
     }
 
     @Override

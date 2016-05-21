@@ -15,45 +15,11 @@ public class RateModel {
     }
 
     public Rate save(Rate rate) {
-        Rate rateToSave = createOrFind(rate);
-
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(rateToSave);
-        realm.commitTransaction();
-
-        return rateToSave;
-    }
-
-    private Rate createOrFind(Rate rateToFind) {
-        Rate rate = find(rateToFind.getId());
-        if (rate != null) {
-            realm.beginTransaction();
-            rate.setStarsQtd(rateToFind.getStarsQtd());
-            rate.setSitterComment(rateToFind.getSitterComment());
-            rate.setOwnerComment(rateToFind.getOwnerComment());
-            realm.commitTransaction();
-            return rate;
-        } else {
-            return create(rateToFind);
-        }
-    }
-
-    private Rate create(Rate rateToFind) {
-        String newId = rateToFind.getId() == null ? generateUniqueId() : rateToFind.getId();
-        realm.beginTransaction();
-        Rate rate = realm.createObject(Rate.class);
-
-        rate.setId(newId);
-        rate.setStarsQtd(rateToFind.getStarsQtd());
-        rate.setOwnerComment(rateToFind.getOwnerComment());
-        rate.setSitterComment(rateToFind.getSitterComment());
+        realm.copyToRealmOrUpdate(rate);
         realm.commitTransaction();
 
         return rate;
-    }
-
-    private String generateUniqueId() {
-        return UUID.randomUUID().toString();
     }
 
     public Rate find(String id) {

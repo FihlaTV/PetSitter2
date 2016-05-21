@@ -4,6 +4,7 @@ import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.api.ApiService;
+import com.zekisanmobile.petsitter2.api.body.GetJobsBody;
 import com.zekisanmobile.petsitter2.di.component.AppComponent;
 import com.zekisanmobile.petsitter2.job.BaseJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
@@ -21,12 +22,12 @@ public class FetchOwnerJobsJob extends BaseJob {
 
     public static final int PRIORITY = 1;
     private static final String GROUP = "FetchOwnerJobsJob";
-    private long owner_id;
+    private String owner_id;
 
     @Inject
     transient ApiService service;
 
-    public FetchOwnerJobsJob(long owner_id) {
+    public FetchOwnerJobsJob(String owner_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.owner_id = owner_id;
     }
@@ -47,7 +48,9 @@ public class FetchOwnerJobsJob extends BaseJob {
         Realm realm = Realm.getDefaultInstance();
         JobModel jobModel = new JobModel(realm);
 
-        Response<List<Job>> response = service.ownerJobs(owner_id).execute();
+        GetJobsBody body = new GetJobsBody();
+        body.setApp_id(owner_id);
+        Response<List<Job>> response = service.ownerJobs(body).execute();
         List<Job> jobs = response.body();
         for (Job job : jobs) {
             jobModel.save(job);

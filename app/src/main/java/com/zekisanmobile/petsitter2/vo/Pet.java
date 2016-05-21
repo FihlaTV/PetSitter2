@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmList;
@@ -23,6 +24,7 @@ public class Pet extends RealmObject {
     private String breed;
 
     @JsonProperty("pet_cares")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private RealmList<PetCare> petCares;
 
     public String getId() {

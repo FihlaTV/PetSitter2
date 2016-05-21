@@ -27,8 +27,8 @@ public class SessionManagerTest {
 
     @Test
     public void shouldSetUserId() {
-        sessionManager.setUserId(15);
-        assertEquals(15, sessionManager.getUserId());
+        sessionManager.setUserId("asdasd");
+        assertEquals("asdasd", sessionManager.getUserId());
     }
 
     @Test
@@ -39,10 +39,10 @@ public class SessionManagerTest {
 
     @Test
     public void shouldCleanAllEntries() {
-        sessionManager.setUserId(15);
+        sessionManager.setUserId("asdasd");
         sessionManager.setTokenSentToServer(true);
         sessionManager.cleanAllEntries();
-        assertEquals(0, sessionManager.getUserId());
+        assertEquals("asdasd", sessionManager.getUserId());
         assertEquals(false, sessionManager.getTokenSentToServer());
     }
 

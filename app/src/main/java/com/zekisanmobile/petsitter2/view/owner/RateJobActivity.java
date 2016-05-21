@@ -20,6 +20,7 @@ import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.model.RateModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
+import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Rate;
 
@@ -92,6 +93,7 @@ public class RateJobActivity extends AppCompatActivity {
                 break;
             case R.id.menu_ok:
                 Rate rate = new Rate();
+                rate.setId(UniqueID.generateUniqueID());
                 rate.setStarsQtd(Math.round(ratingBar.getRating()));
                 rate.setOwnerComment(etOwnerComment.getText().toString().trim());
                 Rate savedRate = rateModel.save(rate);

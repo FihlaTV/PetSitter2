@@ -12,7 +12,15 @@ public class PetModel {
         this.realm = realm;
     }
 
-    public Pet create(Pet p) {
-        return null;
+    public Pet save(Pet pet) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(pet);
+        realm.commitTransaction();
+
+        return pet;
+    }
+
+    public Pet find(String id) {
+        return realm.where(Pet.class).equalTo("id", id).findFirst();
     }
 }

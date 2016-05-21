@@ -1,10 +1,8 @@
 package com.zekisanmobile.petsitter2.api.body;
 
-public class DeviceTokenBody {
+public class GetSitterBody {
 
     private String app_id;
-
-    private String token;
 
     public String getApp_id() {
         return app_id;
@@ -14,11 +12,4 @@ public class DeviceTokenBody {
         this.app_id = app_id;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

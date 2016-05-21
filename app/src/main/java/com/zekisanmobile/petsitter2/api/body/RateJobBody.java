@@ -2,7 +2,10 @@ package com.zekisanmobile.petsitter2.api.body;
 
 public class RateJobBody {
 
-    String app_id;
+    // owner id
+    String owner_app_id;
+
+    String contact_app_id;
 
     String rate_app_id;
 
@@ -10,12 +13,20 @@ public class RateJobBody {
 
     String owner_comment;
 
-    public String getApp_id() {
-        return app_id;
+    public String getOwner_app_id() {
+        return owner_app_id;
     }
 
-    public void setApp_id(String app_id) {
-        this.app_id = app_id;
+    public void setOwner_app_id(String owner_app_id) {
+        this.owner_app_id = owner_app_id;
+    }
+
+    public String getContact_app_id() {
+        return contact_app_id;
+    }
+
+    public void setContact_app_id(String contact_app_id) {
+        this.contact_app_id = contact_app_id;
     }
 
     public String getRate_app_id() {

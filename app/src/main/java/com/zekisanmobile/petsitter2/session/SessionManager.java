@@ -13,16 +13,16 @@ public class SessionManager {
         this.context = context;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         SharedPreferences.Editor editor = context
                 .getSharedPreferences(Config.SESSION, Context.MODE_PRIVATE).edit();
-        editor.putLong(Config.USER_ID, userId);
+        editor.putString(Config.USER_ID, userId);
         editor.apply();
     }
 
-    public long getUserId() {
+    public String getUserId() {
         SharedPreferences prefs = context.getSharedPreferences(Config.SESSION,	Context.MODE_PRIVATE);
-        return prefs.getLong(Config.USER_ID, 0);
+        return prefs.getString(Config.USER_ID, "");
     }
 
     public void setTokenSentToServer(boolean tokenSentToServer) {

@@ -8,7 +8,8 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject {
 
     @PrimaryKey
-    private long id;
+    @JsonProperty("app_id")
+    private String id;
 
     private String email;
 
@@ -16,16 +17,16 @@ public class User extends RealmObject {
     private String entityType;
 
     @JsonProperty("entity_id")
-    private long entityId;
+    private String entityId;
 
     @JsonProperty("photo")
     private PhotoUrl photoUrl;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,11 +46,11 @@ public class User extends RealmObject {
         this.entityType = entityType;
     }
 
-    public long getEntityId() {
+    public String getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(long entityId) {
+    public void setEntityId(String entityId) {
         this.entityId = entityId;
     }
 

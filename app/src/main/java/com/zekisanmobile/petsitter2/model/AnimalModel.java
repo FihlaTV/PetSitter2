@@ -13,30 +13,8 @@ public class AnimalModel {
     }
 
     public Animal save(Animal animal) {
-        Animal animalToSave = createOrFind(animal);
-
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(animalToSave);
-        realm.commitTransaction();
-
-        return animalToSave;
-    }
-
-    private Animal createOrFind(Animal animalToFind) {
-        Animal animal = find(animalToFind.getId());
-        if (animal != null) {
-            return animal;
-        } else {
-            return create(animalToFind);
-        }
-    }
-
-    private Animal create(Animal animalToFind) {
-        realm.beginTransaction();
-        Animal animal = realm.createObject(Animal.class);
-
-        animal.setId(animalToFind.getId());
-        animal.setName(animalToFind.getName());
+        realm.copyToRealmOrUpdate(animal);
         realm.commitTransaction();
 
         return animal;

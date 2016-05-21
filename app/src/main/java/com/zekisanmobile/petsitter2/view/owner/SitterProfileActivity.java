@@ -29,7 +29,7 @@ public class SitterProfileActivity extends AppCompatActivity {
     private Sitter sitter;
     private SitterModel sitterModel;
 
-    private long sitter_id;
+    private String sitter_id;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -50,7 +50,7 @@ public class SitterProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        sitter_id = getIntent().getLongExtra("sitter_id", 0);
+        sitter_id = getIntent().getStringExtra("sitter_id");
 
         defineMembers();
         configureToolbar();

@@ -58,7 +58,8 @@ public class SendJobRequestJob extends BaseJob {
         }
 
         JobRequestBody body = new JobRequestBody();
-        body.setApp_id(job.getId());
+        body.setApp_id(job.getOwner().getId());
+        body.setContact_app_id(job.getId());
         body.setDate_start(DateFormatter.formattedDateForAPI(job.getDateStart()));
         body.setDate_final(DateFormatter.formattedDateForAPI(job.getDateFinal()));
         body.setTime_start(job.getTimeStart());
@@ -67,7 +68,7 @@ public class SendJobRequestJob extends BaseJob {
         body.setSitter_id(job.getSitter().getId());
         body.setAnimal_contacts(animals);
 
-        service.sendJobRequest(job.getOwner().getId(), body).execute();
+        service.sendJobRequest(body).execute();
         realm.close();
     }
 

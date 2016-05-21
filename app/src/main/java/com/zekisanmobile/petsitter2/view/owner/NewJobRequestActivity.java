@@ -43,6 +43,7 @@ import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.util.KeyboardUtils;
+import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -70,7 +71,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
 
-    private long sitter_id;
+    private String sitter_id;
     private int selectedAnimalsCount;
     private Sitter sitter;
     private SitterModel sitterModel;
@@ -131,7 +132,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         ((PetSitterApp)getApplication()).getAppComponent().inject(this);
         ButterKnife.bind(this);
 
-        sitter_id = getIntent().getLongExtra(Extra.SITTER_ID, 0);
+        sitter_id = getIntent().getStringExtra(Extra.SITTER_ID);
 
         defineMembers();
         configureToolbar();
@@ -253,7 +254,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         sessionManager = new SessionManager(this);
 
         sitter = sitterModel.find(sitter_id);
-        long user_id = sessionManager.getUserId();
+        String user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());
         jobModel = new JobModel(realm);
@@ -506,6 +507,7 @@ public class NewJobRequestActivity extends AppCompatActivity
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             Job job = new Job();
+            job.setId(UniqueID.generateUniqueID());
             job.setDateStart(format.parse(etDateStart.getText().toString().trim()));
             job.setDateFinal(format.parse(etDateFinal.getText().toString().trim()));
             job.setTimeStart(etTimeStart.getText().toString().trim());
@@ -515,7 +517,7 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setSitter(sitter);
             job.setOwner(owner);
             job.setStatus(10);
-            Job createdJob = jobModel.create(job);
+            Job createdJob = jobModel.save(job);
             jobManager.addJobInBackground(new SendJobRequestJob(createdJob.getId()));
             jobManager.addJobInBackground(new FetchOwnerJobsJob(owner.getId()));
         } catch (ParseException e) {

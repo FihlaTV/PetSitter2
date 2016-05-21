@@ -113,7 +113,7 @@ public class SearchResultsActivity extends AppCompatActivity implements SearchRe
         userModel = new UserModel(realm);
         ownerModel = new OwnerModel(realm);
 
-        long user_id = sessionManager.getUserId();
+        String user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());
     }

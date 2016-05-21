@@ -4,19 +4,30 @@ import java.util.List;
 
 public class JobRequestBody {
 
-    long sitter_id;
+    String sitter_id;
 
-    String app_id, date_start, date_final, time_start, time_final;
+    // owner app_id
+    String app_id;
+
+    String contact_app_id, date_start, date_final, time_start, time_final;
 
     double total_value;
 
     List<AnimalBody> animal_contacts;
 
-    public long getSitter_id() {
+    public String getContact_app_id() {
+        return contact_app_id;
+    }
+
+    public void setContact_app_id(String contact_app_id) {
+        this.contact_app_id = contact_app_id;
+    }
+
+    public String getSitter_id() {
         return sitter_id;
     }
 
-    public void setSitter_id(long sitter_id) {
+    public void setSitter_id(String sitter_id) {
         this.sitter_id = sitter_id;
     }
 

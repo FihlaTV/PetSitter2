@@ -10,6 +10,8 @@ import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
+import com.zekisanmobile.petsitter2.api.body.GetOwnerBody;
+import com.zekisanmobile.petsitter2.api.body.GetSitterBody;
 import com.zekisanmobile.petsitter2.api.body.LoginBody;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.SitterModel;
@@ -84,7 +86,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         return true;
     }
 
-    private void getEntity(long entityId, String entityType) {
+    private void getEntity(String entityId, String entityType) {
         switch (entityType) {
             case EntityType.OWNER:
                 getOwner(entityId);
@@ -95,8 +97,10 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         }
     }
 
-    private void getSitter(long entityId) {
-        Call<Sitter> call = service.getSitter(entityId);
+    private void getSitter(String entityId) {
+        GetSitterBody body = new GetSitterBody();
+        body.setApp_id(entityId);
+        Call<Sitter> call = service.getSitter(body);
         try {
             Sitter sitter = call.execute().body();
             Realm realm = Realm.getDefaultInstance();
@@ -108,8 +112,10 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         }
     }
 
-    private void getOwner(long entityId) {
-        Call<Owner> call = service.getOwner(entityId);
+    private void getOwner(String entityId) {
+        GetOwnerBody body = new GetOwnerBody();
+        body.setApp_id(entityId);
+        Call<Owner> call = service.getOwner(body);
         try {
             Owner owner = call.execute().body();
             Realm realm = Realm.getDefaultInstance();
@@ -121,7 +127,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         }
     }
 
-    private void saveSharedPreferences(long id) {
+    private void saveSharedPreferences(String id) {
         SessionManager sessionManager = new SessionManager(view.getContext());
         sessionManager.setUserId(id);
         sessionManager.setTokenSentToServer(true);
@@ -138,12 +144,13 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         }
     }
 
-    private void sendTokenToServer(long id) {
+    private void sendTokenToServer(String id) {
         DeviceTokenBody body = new DeviceTokenBody();
         body.setToken(token);
+        body.setApp_id(id);
 
         try {
-            service.updateDeviceToken(id, body).execute();
+            service.updateDeviceToken(body).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }

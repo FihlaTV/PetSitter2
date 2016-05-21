@@ -18,13 +18,13 @@ public class SendJobRateJob extends BaseJob {
     public static final int PRIORITY = 1;
     private static final String GROUP = "SendJobRateJob";
     private String job_id;
-    private long owner_id;
+    private String owner_id;
     private String rate_app_id;
 
     @Inject
     transient ApiService service;
 
-    public SendJobRateJob(String job_id, long owner_id, String rate_app_id) {
+    public SendJobRateJob(String job_id, String owner_id, String rate_app_id) {
         super(new Params(PRIORITY).addTags(GROUP).requireNetwork().persist());
         this.job_id = job_id;
         this.owner_id = owner_id;
@@ -49,12 +49,13 @@ public class SendJobRateJob extends BaseJob {
         Rate rate = rateModel.find(rate_app_id);
 
         RateJobBody body = new RateJobBody();
-        body.setApp_id(job_id);
+        body.setOwner_app_id(owner_id);
+        body.setContact_app_id(job_id);
         body.setRate_app_id(rate_app_id);
         body.setOwner_comment(rate.getOwnerComment());
         body.setStars_qtd(rate.getStarsQtd());
 
-        service.ratejob(owner_id, body).execute();
+        service.ratejob(body).execute();
         realm.close();
     }
 

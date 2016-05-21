@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
+import com.zekisanmobile.petsitter2.api.body.LogoutBody;
 import com.zekisanmobile.petsitter2.view.HomeView;
 
 import java.io.IOException;
@@ -18,12 +19,12 @@ public class LogoutTask extends AsyncTask<Void, Void, Void>{
 
     private HomeView view;
     private ProgressDialog progressDialog;
-    private long user_id;
+    private String user_id;
 
     @Inject
     ApiService service;
 
-    public LogoutTask(HomeView view, long user_id) {
+    public LogoutTask(HomeView view, String user_id) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
         this.view = view;
         this.user_id = user_id;
@@ -41,7 +42,9 @@ public class LogoutTask extends AsyncTask<Void, Void, Void>{
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            service.logout(user_id).execute();
+            LogoutBody body = new LogoutBody();
+            body.setApp_id(user_id);
+            service.logout(body).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }

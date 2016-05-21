@@ -152,7 +152,7 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
         userModel = new UserModel(realm);
         sitterModel = new SitterModel(realm);
         sessionManager = new SessionManager(this);
-        long user_id = sessionManager.getUserId();
+        String user_id = sessionManager.getUserId();
         user = userModel.find(user_id);
         sitter = sitterModel.find(user.getEntityId());
 

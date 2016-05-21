@@ -25,7 +25,7 @@ import io.realm.Realm;
 public class SitterRatesActivity extends AppCompatActivity {
 
     private Realm realm;
-    private long sitter_id;
+    private String sitter_id;
     private SitterModel sitterModel;
     private List<Job> jobsWithRate;
     private SitterRateListAdapter adapter;
@@ -43,7 +43,7 @@ public class SitterRatesActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        this.sitter_id = getIntent().getLongExtra(Config.SITTER_ID, 0);
+        this.sitter_id = getIntent().getStringExtra(Config.SITTER_ID);
 
         defineMembers();
         configureToolbar();

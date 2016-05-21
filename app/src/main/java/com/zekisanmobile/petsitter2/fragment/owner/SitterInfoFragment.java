@@ -39,7 +39,7 @@ public class SitterInfoFragment extends Fragment {
     private Realm realm;
     private Sitter sitter;
     private SitterModel sitterModel;
-    private long sitter_id;
+    private String sitter_id;
 
     @BindView(R.id.tv_value_hour)
     TextView tvValueHour;
@@ -65,7 +65,7 @@ public class SitterInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sitter_info, container, false);
         ButterKnife.bind(this, view);
 
-        this.sitter_id = getArguments().getLong(Config.SITTER_ID, 0);
+        this.sitter_id = getArguments().getString(Config.SITTER_ID);
 
         defineMembers();
         defineViewsValues();
@@ -90,10 +90,10 @@ public class SitterInfoFragment extends Fragment {
         }
     }
 
-    public static SitterInfoFragment newInstance(long sitter_id) {
+    public static SitterInfoFragment newInstance(String sitter_id) {
         SitterInfoFragment fragment = new SitterInfoFragment();
         Bundle args = new Bundle();
-        args.putLong(Config.SITTER_ID, sitter_id);
+        args.putString(Config.SITTER_ID, sitter_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -152,7 +152,7 @@ public class SitterInfoFragment extends Fragment {
                     @Override
                     public void onClick(View view, int position) {
                         Bundle args = new Bundle();
-                        args.putLong(Config.SITTER_ID, sitter.getId());
+                        args.putString(Config.SITTER_ID, sitter.getId());
                         args.putInt(Config.SELECTED_POSITION, position);
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager()

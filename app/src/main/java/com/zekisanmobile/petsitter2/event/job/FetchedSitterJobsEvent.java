@@ -6,9 +6,9 @@ public class FetchedSitterJobsEvent {
 
     private final boolean success;
     @Nullable
-    private final Long sitterId;
+    private final String sitterId;
 
-    public FetchedSitterJobsEvent(boolean success, @Nullable Long sitterId) {
+    public FetchedSitterJobsEvent(boolean success, @Nullable String sitterId) {
         this.success = success;
         this.sitterId = sitterId;
     }
@@ -18,7 +18,7 @@ public class FetchedSitterJobsEvent {
     }
 
     @Nullable
-    public Long getSitterId() {
+    public String getSitterId() {
         return sitterId;
     }
 

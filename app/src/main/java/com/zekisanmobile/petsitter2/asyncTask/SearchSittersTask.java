@@ -27,14 +27,14 @@ import retrofit2.Call;
 public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
     private ProgressDialog progressDialog;
-    private long owner_id;
+    private String owner_id;
     private List<String> animals = new ArrayList<>();
     private List<Sitter> sitters = new ArrayList<>();
 
     @Inject
     ApiService service;
 
-    public SearchSittersTask(SearchResultsView view, long owner_id, ArrayList<String> animals) {
+    public SearchSittersTask(SearchResultsView view, String owner_id, ArrayList<String> animals) {
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
         this.owner_id = owner_id;
         this.animals = animals;
@@ -53,9 +53,10 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
     @Override
     protected List<Sitter> doInBackground(String... params) {
         SearchSittersBody body = new SearchSittersBody();
+        body.setApp_id(owner_id);
         body.setAnimals(animals);
 
-        Call<List<Sitter>> call = service.searchSitters(owner_id, body);
+        Call<List<Sitter>> call = service.searchSitters(body);
 
         try {
             sitters = call.execute().body();
