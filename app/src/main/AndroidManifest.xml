@@ -136,7 +136,8 @@
         <activity
             android:name=".view.register.RegisterHomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.login.LoginActivity"/>
         <!-- [END UI Activity] -->
 
         <meta-data
