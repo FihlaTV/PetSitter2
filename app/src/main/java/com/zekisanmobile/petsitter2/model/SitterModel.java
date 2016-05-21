@@ -26,6 +26,12 @@ public class SitterModel {
         return sitter;
     }
 
+    public void saveList(List<Sitter> sitters) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(sitters);
+        realm.commitTransaction();
+    }
+
     public Sitter find(String id) {
         return realm.where(Sitter.class).equalTo("id", id).findFirst();
     }

@@ -52,8 +52,8 @@ public class FetchOwnerJobsJob extends BaseJob {
         body.setApp_id(owner_id);
         Response<List<Job>> response = service.ownerJobs(body).execute();
         List<Job> jobs = response.body();
-        for (Job job : jobs) {
-            jobModel.save(job);
+        if (jobs != null && !jobs.isEmpty()) {
+            jobModel.saveList(jobs);
         }
         realm.close();
     }

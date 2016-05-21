@@ -2,6 +2,8 @@ package com.zekisanmobile.petsitter2.model;
 
 import com.zekisanmobile.petsitter2.vo.Job;
 
+import java.util.List;
+
 import io.realm.Realm;
 
 public class JobModel {
@@ -18,6 +20,12 @@ public class JobModel {
         realm.commitTransaction();
 
         return job;
+    }
+
+    public void saveList(List<Job> jobs) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(jobs);
+        realm.commitTransaction();
     }
 
     public Job find(String id) {

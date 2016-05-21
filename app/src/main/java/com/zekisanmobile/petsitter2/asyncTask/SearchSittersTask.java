@@ -60,17 +60,11 @@ public class SearchSittersTask extends AsyncTask<String, Void, List<Sitter>> {
 
         try {
             sitters = call.execute().body();
-
-            for (Sitter sitter : sitters) {
+            if (sitters != null && !sitters.isEmpty()) {
                 Realm realm = Realm.getDefaultInstance();
-
                 SitterModel sitterModel = new SitterModel(realm);
-                sitterModel.save(sitter);
-
+                sitterModel.saveList(sitters);
                 realm.close();
-            }
-
-            if (sitters != null) {
                 return sitters;
             }
         } catch (IOException e) {

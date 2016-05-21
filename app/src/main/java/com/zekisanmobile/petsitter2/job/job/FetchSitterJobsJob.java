@@ -53,16 +53,11 @@ public class FetchSitterJobsJob extends BaseJob {
         body.setApp_id(sitter_id);
         Response<List<Job>> response = service.sitterJobs(body).execute();
         List<Job> jobs = response.body();
-        if (jobs != null) {
-            for (Job job : jobs) {
-                jobModel.save(job);
-            }
-        }
-        realm.close();
-
         if (jobs != null && !jobs.isEmpty()) {
+            jobModel.saveList(jobs);
             EventBus.getDefault().post(new FetchedSitterJobsEvent(true, sitter_id));
         }
+        realm.close();
     }
 
     @Override
