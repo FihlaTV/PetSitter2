@@ -91,6 +91,7 @@
     <string name="owner">Dono de pet</string>
     <string name="pet_sitter">Pet sitter</string>
     <string name="register">Cadastrar</string>
+    <string name="fill_all_fields">Por favor, preencha todos os campos antes de continuar.</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">
