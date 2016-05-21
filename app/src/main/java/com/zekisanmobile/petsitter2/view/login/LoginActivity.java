@@ -19,6 +19,7 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.asyncTask.LoginTask;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
+import com.zekisanmobile.petsitter2.view.register.RegisterHomeActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
 import com.zekisanmobile.petsitter2.vo.User;
 
@@ -54,6 +55,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                     etPassword.getText().toString().trim() };
             new LoginTask(this).execute(params);
         }
+    }
+
+    @OnClick(R.id.btn_register)
+    public void register() {
+        Intent intent = new Intent(LoginActivity.this, RegisterHomeActivity.class);
+        startActivity(intent);
     }
 
     private boolean validateLoginFields() {
