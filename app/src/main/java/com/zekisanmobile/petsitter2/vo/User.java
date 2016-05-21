@@ -1,8 +1,10 @@
 package com.zekisanmobile.petsitter2.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
@@ -12,6 +14,10 @@ public class User extends RealmObject {
     private String id;
 
     private String email;
+
+    @JsonIgnore
+    @Ignore
+    private String password;
 
     @JsonProperty("entity_type")
     private String entityType;
@@ -60,5 +66,13 @@ public class User extends RealmObject {
 
     public void setPhotoUrl(PhotoUrl photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

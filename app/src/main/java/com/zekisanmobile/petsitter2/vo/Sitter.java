@@ -14,6 +14,8 @@ public class Sitter extends RealmObject {
 
     String name;
 
+    String surname;
+
     String address;
 
     String district;
@@ -143,5 +145,13 @@ public class Sitter extends RealmObject {
 
     public void setRateAvg(int rateAvg) {
         this.rateAvg = rateAvg;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

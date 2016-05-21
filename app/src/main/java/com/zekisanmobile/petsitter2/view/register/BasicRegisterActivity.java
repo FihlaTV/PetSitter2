@@ -13,14 +13,21 @@ import android.widget.EditText;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.UniqueID;
+import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Sitter;
+import com.zekisanmobile.petsitter2.vo.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class BasicRegisterActivity extends AppCompatActivity {
 
     private String entityType;
+    private String entityId;
+    private Realm realm;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,7 +56,14 @@ public class BasicRegisterActivity extends AppCompatActivity {
 
         this.entityType = getIntent().getStringExtra(EntityType.TYPE);
 
+        defineMembers();
         configureToolbar();
+    }
+
+    @Override
+    protected void onDestroy() {
+        realm.close();
+        super.onDestroy();
     }
 
     @Override
@@ -66,15 +80,59 @@ public class BasicRegisterActivity extends AppCompatActivity {
     @OnClick(R.id.btn_register)
     public void register() {
         if (validateRegisterFields()) {
-            switch (entityType) {
-                case EntityType.OWNER:
-                    break;
-                case EntityType.SITTER:
-                    break;
-            }
+            saveUser();
         } else {
             showRegisterDialog(getString(R.string.fill_all_fields));
         }
+    }
+
+    private void defineMembers() {
+        realm = Realm.getDefaultInstance();
+    }
+
+    private void saveUser() {
+        switch (entityType) {
+            case EntityType.OWNER:
+                createOwner();
+                break;
+            case EntityType.SITTER:
+                createSitter();
+                break;
+        }
+        createUser();
+    }
+
+    private void createUser() {
+        realm.beginTransaction();
+        User user = realm.createObject(User.class);
+        user.setId(UniqueID.generateUniqueID());
+        user.setEmail(etEmail.getText().toString().trim());
+        user.setPassword(etPassword.getText().toString().trim());
+        realm.commitTransaction();
+    }
+
+    private void createSitter() {
+        realm.beginTransaction();
+        Sitter sitter = realm.createObject(Sitter.class);
+        sitter.setId(UniqueID.generateUniqueID());
+        sitter.setName(etName.getText().toString().trim());
+        sitter.setSurname(etSurname.getText().toString().trim());
+        sitter.setPhone(etPhone.getText().toString().trim());
+        realm.commitTransaction();
+
+        entityId = sitter.getId();
+    }
+
+    private void createOwner() {
+        realm.beginTransaction();
+        Owner owner = realm.createObject(Owner.class);
+        owner.setId(UniqueID.generateUniqueID());
+        owner.setName(etName.getText().toString().trim());
+        owner.setSurname(etSurname.getText().toString().trim());
+        owner.setPhone(etPhone.getText().toString().trim());
+        realm.commitTransaction();
+
+        entityId = owner.getId();
     }
 
     private boolean validateRegisterFields() {

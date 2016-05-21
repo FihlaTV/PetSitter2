@@ -14,6 +14,10 @@ public class Owner extends RealmObject {
 
     String name;
 
+    String surname;
+
+    String phone;
+
     String address;
 
     String district;
@@ -100,5 +104,21 @@ public class Owner extends RealmObject {
 
     public void setProfilePhotos(RealmList<PhotoUrl> profilePhotos) {
         this.profilePhotos = profilePhotos;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
