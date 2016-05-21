@@ -87,6 +87,9 @@
     <string name="my_rate">Minha Avaliação</string>
     <string name="hint_reply_rate">Comente sua avaliação</string>
     <string name="welcome">Bem-vindo ao Pet Care</string>
+    <string name="you_are">Você é...</string>
+    <string name="owner">Dono de pet</string>
+    <string name="pet_sitter">Pet sitter</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

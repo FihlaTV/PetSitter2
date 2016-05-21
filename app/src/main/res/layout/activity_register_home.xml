@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    tools:context=".view.owner.RateJobActivity">
+    tools:context=".view.register.RegisterHomeActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -19,6 +20,43 @@
             <include layout="@layout/toolbar" />
 
         </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:gravity="center_vertical|center_horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/you_are"
+                android:id="@+id/textView3"
+                android:layout_gravity="center" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/owner"
+                android:id="@+id/btn_owner"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pet_sitter"
+                android:id="@+id/btn_pet_sitter"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
     </android.support.design.widget.CoordinatorLayout>
 
 </android.support.v4.widget.DrawerLayout>
