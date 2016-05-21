@@ -39,7 +39,8 @@
         android:inputType="textEmailAddress"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/et_password"
-        android:layout_alignStart="@+id/et_password" />
+        android:layout_alignStart="@+id/et_password"
+        android:drawablePadding="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,7 +63,8 @@
         android:layout_below="@+id/et_email"
         android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_lock"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:drawablePadding="10dp"/>
 
     <Button
         android:layout_width="wrap_content"

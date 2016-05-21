@@ -6,12 +6,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.util.EntityType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class BasicRegisterActivity extends AppCompatActivity {
+
+    private String entityType;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -22,6 +25,8 @@ public class BasicRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_basic_register);
 
         ButterKnife.bind(this);
+
+        this.entityType = getIntent().getStringExtra(EntityType.TYPE);
 
         configureToolbar();
     }
@@ -37,18 +42,8 @@ public class BasicRegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.btn_owner)
-    public void ownerRegister() {
-
-    }
-
-    @OnClick(R.id.btn_pet_sitter)
-    public void sitterRegister() {
-
-    }
-
     private void configureToolbar() {
-        toolbar.setTitle(getString(R.string.welcome));
+        toolbar.setTitle(getString(R.string.register));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
