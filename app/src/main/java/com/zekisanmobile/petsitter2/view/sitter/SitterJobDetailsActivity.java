@@ -239,7 +239,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
                 .load(job.getOwner().getPhotoUrl().getLarge())
                 .transform(new CircleTransform())
                 .into(ivOwner);
-        tvAddress.setText(job.getOwner().getAddress());
+        tvAddress.setText(job.getOwner().getDistrict());
         tvPeriod.setText(DateFormatter.formattedDatePeriodForView(job.getDateStart(),
                 job.getDateFinal()));
         tvTime.setText(DateFormatter.formattedTimePeriodForView(job.getTimeStart(),
