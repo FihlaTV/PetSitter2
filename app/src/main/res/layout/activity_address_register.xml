@@ -42,8 +42,9 @@
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:digits="0123456789"
+                android:maxLength="8"
                 android:inputType="number"
-                android:maxLength="9"
                 android:hint="CEP"
                 android:layout_marginTop="15dp" />
 
@@ -74,6 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:hint="Complemento" />
             </LinearLayout>
 
