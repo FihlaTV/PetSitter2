@@ -84,8 +84,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
-                android:id="@+id/btn_register"
+                android:text="@string/actions.next"
+                android:id="@+id/btn_next"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/white"

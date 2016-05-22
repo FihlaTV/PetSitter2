@@ -80,7 +80,7 @@ public class BasicRegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.btn_register)
+    @OnClick(R.id.btn_next)
     public void register() {
         if (validateRegisterFields()) {
             saveUser();

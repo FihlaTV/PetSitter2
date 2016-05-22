@@ -94,6 +94,8 @@
     <string name="fill_all_fields">Por favor, preencha todos os campos antes de continuar.</string>
     <string name="where_are_you">Onde voce mora?</string>
     <string name="failed_get_location">Não foi possível buscar sua localização atual.</string>
+    <string name="search_for_cep">Pesquisando seu CEP...</string>
+    <string name="actions.next">Próximo</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">
