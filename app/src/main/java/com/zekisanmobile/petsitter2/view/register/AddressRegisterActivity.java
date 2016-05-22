@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import io.realm.Realm;
 
@@ -84,11 +86,13 @@ public class AddressRegisterActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @OnClick(R.id.btn_my_location)
-    public void getMyLocation() {
-        buildGoogleApiClient();
-        if(googleApiClient!= null){
-            googleApiClient.connect();
+    @OnCheckedChanged(R.id.sw_my_location)
+    public void getMyLocation(boolean isChecked) {
+        if (isChecked) {
+            buildGoogleApiClient();
+            if(googleApiClient!= null){
+                googleApiClient.connect();
+            }
         }
     }
 

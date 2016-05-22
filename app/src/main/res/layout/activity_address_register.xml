@@ -28,16 +28,14 @@
             android:padding="@dimen/activity_horizontal_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <Button
-                android:layout_width="wrap_content"
+            <Switch
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Usar minha localização atual"
-                android:id="@+id/btn_my_location"
-                android:layout_marginTop="25dp"
+                android:id="@+id/sw_my_location"
+                android:layout_gravity="right"
                 android:textColor="@color/colorPrimaryDark"
-                style="?android:attr/borderlessButtonStyle"
-                android:drawableLeft="@drawable/ic_place_black_24dp"
-                android:layout_gravity="center_horizontal" />
+                android:drawableLeft="@drawable/ic_place_black_24dp"/>
 
             <EditText
                 android:id="@+id/et_cep"
@@ -46,7 +44,8 @@
                 android:layout_gravity="left"
                 android:inputType="number"
                 android:maxLength="9"
-                android:hint="CEP" />
+                android:hint="CEP"
+                android:layout_marginTop="15dp" />
 
             <EditText
                 android:id="@+id/et_street"
