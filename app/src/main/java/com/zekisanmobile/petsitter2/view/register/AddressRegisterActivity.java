@@ -26,9 +26,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.asyncTask.LocationTask;
+import com.zekisanmobile.petsitter2.model.OwnerModel;
+import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.State;
 import com.zekisanmobile.petsitter2.vo.User;
 import com.zekisanmobile.petsitter2.vo.ViaCep;
@@ -52,6 +56,8 @@ public class AddressRegisterActivity extends AppCompatActivity
     private String userId;
     private UserModel userModel;
     private User user;
+    private OwnerModel ownerModel;
+    private SitterModel sitterModel;
     private Realm realm;
 
     private float latitude;
@@ -74,6 +80,9 @@ public class AddressRegisterActivity extends AppCompatActivity
 
     @BindView(R.id.et_address_number)
     EditText etAddressNumber;
+
+    @BindView(R.id.et_complement)
+    EditText etComplement;
 
     @BindView(R.id.tv_district)
     TextView tvDistrict;
@@ -133,27 +142,77 @@ public class AddressRegisterActivity extends AppCompatActivity
     @OnClick(R.id.btn_next)
     public void registerAddress() {
         if (validateRegisterFields()) {
-            saveUser();
+            saveEntity();
         } else {
             showRegisterDialog(getString(R.string.fill_all_fields));
         }
     }
 
-    private void saveUser() {
+    private void saveEntity() {
+        getLatitudeAndLongitude();
         switch (user.getEntityType()) {
             case EntityType.OWNER:
-
+                saveOwner();
                 break;
             case EntityType.SITTER:
-
+                saveSitter();
                 break;
         }
+    }
+
+    private void getLatitudeAndLongitude() {
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(
+                    etStreet.getText().toString() + ", " +
+                            etAddressNumber.getText().toString() + " - " +
+                            tvDistrict.getText().toString() + ", " +
+                            tvCity.getText().toString() + " - " +
+                            tvState.getText().toString(), 1);
+            Address address = addresses.get(0);
+            this.latitude = (float) address.getLatitude();
+            this.longitude = (float) address.getLongitude();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSitter() {
+        Sitter sitter = new Sitter();
+        sitter.setId(user.getEntityId());
+        sitter.setCep(etCep.getText().toString().trim());
+        sitter.setStreet(etStreet.getText().toString().trim());
+        sitter.setAddress_number(etAddressNumber.getText().toString().trim());
+        sitter.setComplement(etComplement.getText().toString().trim());
+        sitter.setDistrict(tvDistrict.getText().toString().trim());
+        sitter.setCity(tvCity.getText().toString().trim());
+        sitter.setState(tvState.getText().toString().trim());
+        sitter.setLatitude(latitude);
+        sitter.setLongitude(longitude);
+        sitterModel.updateLocationData(sitter);
+    }
+
+    private void saveOwner() {
+        Owner owner = new Owner();
+        owner.setId(user.getEntityId());
+        owner.setCep(etCep.getText().toString().trim());
+        owner.setStreet(etStreet.getText().toString().trim());
+        owner.setAddress_number(etAddressNumber.getText().toString().trim());
+        owner.setComplement(etComplement.getText().toString().trim());
+        owner.setDistrict(tvDistrict.getText().toString().trim());
+        owner.setCity(tvCity.getText().toString().trim());
+        owner.setState(tvState.getText().toString().trim());
+        owner.setLatitude(latitude);
+        owner.setLongitude(longitude);
+        ownerModel.updateLocationData(owner);
     }
 
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
         userModel = new UserModel(realm);
         user = userModel.find(userId);
+        ownerModel = new OwnerModel(realm);
+        sitterModel = new SitterModel(realm);
     }
 
     private void configureToolbar() {
@@ -245,9 +304,9 @@ public class AddressRegisterActivity extends AppCompatActivity
         if (TextUtils.isEmpty(etCep.getText().toString().trim()) ||
                 TextUtils.isEmpty(etStreet.getText().toString().trim()) ||
                 TextUtils.isEmpty(etAddressNumber.getText().toString().trim()) ||
-                !tvDistrict.getText().toString().trim().equalsIgnoreCase("Bairro") ||
-                !tvCity.getText().toString().trim().equalsIgnoreCase("Cidade") ||
-                !tvState.getText().toString().trim().equalsIgnoreCase("Estado")
+                tvDistrict.getText().toString().trim().equalsIgnoreCase("Bairro") ||
+                tvCity.getText().toString().trim().equalsIgnoreCase("Cidade") ||
+                tvState.getText().toString().trim().equalsIgnoreCase("Estado")
                 ) {
             return false;
         }

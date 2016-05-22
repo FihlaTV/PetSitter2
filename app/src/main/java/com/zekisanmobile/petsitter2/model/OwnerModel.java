@@ -25,6 +25,22 @@ public class OwnerModel {
         return owner;
     }
 
+    public void updateLocationData(Owner owner) {
+        Owner ownerToUpdate = find(owner.getId());
+        realm.beginTransaction();
+        ownerToUpdate.setStreet(owner.getStreet());
+        ownerToUpdate.setAddress_number(owner.getAddress_number());
+        ownerToUpdate.setComplement(owner.getComplement());
+        ownerToUpdate.setCep(owner.getCep());
+        ownerToUpdate.setDistrict(owner.getDistrict());
+        ownerToUpdate.setCity(owner.getCity());
+        ownerToUpdate.setState(owner.getState());
+        ownerToUpdate.setLatitude(owner.getLatitude());
+        ownerToUpdate.setLongitude(owner.getLongitude());
+
+        realm.commitTransaction();
+    }
+
     public Owner find(String id) {
         return realm.where(Owner.class).equalTo("id", id).findFirst();
     }

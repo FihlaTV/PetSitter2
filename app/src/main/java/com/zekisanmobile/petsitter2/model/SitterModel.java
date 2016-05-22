@@ -32,6 +32,22 @@ public class SitterModel {
         realm.commitTransaction();
     }
 
+    public void updateLocationData(Sitter sitter) {
+        Sitter sitterToUpdate = find(sitter.getId());
+        realm.beginTransaction();
+        sitterToUpdate.setStreet(sitter.getStreet());
+        sitterToUpdate.setAddress_number(sitter.getAddress_number());
+        sitterToUpdate.setComplement(sitter.getComplement());
+        sitterToUpdate.setCep(sitter.getCep());
+        sitterToUpdate.setDistrict(sitter.getDistrict());
+        sitterToUpdate.setCity(sitter.getCity());
+        sitterToUpdate.setState(sitter.getState());
+        sitterToUpdate.setLatitude(sitter.getLatitude());
+        sitterToUpdate.setLongitude(sitter.getLongitude());
+
+        realm.commitTransaction();
+    }
+
     public Sitter find(String id) {
         return realm.where(Sitter.class).equalTo("id", id).findFirst();
     }
