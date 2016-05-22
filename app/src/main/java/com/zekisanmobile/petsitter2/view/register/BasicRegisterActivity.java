@@ -81,7 +81,7 @@ public class BasicRegisterActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_next)
-    public void register() {
+    public void registerBasic() {
         if (validateRegisterFields()) {
             saveUser();
         } else {

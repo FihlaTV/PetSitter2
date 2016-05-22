@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,8 +15,10 @@ import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
 import com.zekisanmobile.petsitter2.vo.Animal;
+import com.zekisanmobile.petsitter2.vo.State;
 import com.zekisanmobile.petsitter2.vo.User;
 
+import java.io.InputStream;
 import java.util.List;
 
 import io.realm.Realm;
@@ -40,15 +43,42 @@ public class MainActivity extends AppCompatActivity {
         userModel = new UserModel(realm);
 
         saveAnimalsToDB();
+        saveStatesToDB();
         getLoggedUser();
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        if (sharedPreferences.getInt("flag", 0) == 0) {
+            sharedPreferences.edit().putInt("flag", 1).apply();
+        }
+    }
+
+    private void saveStatesToDB() {
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        if (sharedPreferences.getInt("flag", 0) == 0) {
+            Log.i("LOG", "init()");
+            try {
+                AssetManager assetManager = getAssets();
+                InputStream inputStream = assetManager.open("states.json");
+                realm.beginTransaction();
+                realm.createOrUpdateAllFromJson(State.class, inputStream);
+                realm.commitTransaction();
+            } catch (Exception e) {
+                e.printStackTrace();
+                realm.cancelTransaction();
+            }
+        } else {
+            List<State> states = realm.where(State.class).findAll();
+            for (State state : states) {
+                Log.i("LOG", "Estado: { id: " + state.getId() + ", name: "
+                        + state.getNome() + ", sigla: " + state.getSigla() + "}");
+            }
+        }
     }
 
     private void saveAnimalsToDB() {
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         if (sharedPreferences.getInt("flag", 0) == 0) {
             Log.i("LOG", "init()");
-            sharedPreferences.edit().putInt("flag", 1).apply();
-
             String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
 
             for (int i = 0; i < animalNames.length; i++) {

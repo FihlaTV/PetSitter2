@@ -1,17 +1,21 @@
 package com.zekisanmobile.petsitter2.view.register;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +28,8 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.asyncTask.LocationTask;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.util.Config;
+import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.vo.State;
 import com.zekisanmobile.petsitter2.vo.User;
 import com.zekisanmobile.petsitter2.vo.ViaCep;
 
@@ -105,9 +111,6 @@ public class AddressRegisterActivity extends AppCompatActivity
             if(googleApiClient!= null){
                 googleApiClient.connect();
             }
-        } else {
-            btnRefreshLocation.setVisibility(View.VISIBLE);
-            cleanViews();
         }
     }
 
@@ -124,6 +127,26 @@ public class AddressRegisterActivity extends AppCompatActivity
     public void refreshLocation() {
         if (!TextUtils.isEmpty(etCep.getText().toString().trim())) {
             new LocationTask(this, etCep.getText().toString().trim()).execute();
+        }
+    }
+
+    @OnClick(R.id.btn_next)
+    public void registerAddress() {
+        if (validateRegisterFields()) {
+            saveUser();
+        } else {
+            showRegisterDialog(getString(R.string.fill_all_fields));
+        }
+    }
+
+    private void saveUser() {
+        switch (user.getEntityType()) {
+            case EntityType.OWNER:
+
+                break;
+            case EntityType.SITTER:
+
+                break;
         }
     }
 
@@ -184,15 +207,6 @@ public class AddressRegisterActivity extends AppCompatActivity
                 .build();
     }
 
-    private void cleanViews() {
-        etCep.setText("");
-        etStreet.setText("");
-        etAddressNumber.setText("");
-        tvDistrict.setText("Bairro");
-        tvCity.setText("Cidade");
-        tvState.setText("Estado");
-    }
-
     public void setAddressFromCep(ViaCep viaCep) {
         setupAddressViews(viaCep.getCep(), viaCep.getLogradouro(), "", viaCep.getBairro(),
                 viaCep.getLocalidade(), viaCep.getUf());
@@ -205,7 +219,16 @@ public class AddressRegisterActivity extends AppCompatActivity
         etAddressNumber.setText(addressNumber);
         tvDistrict.setText(district);
         tvCity.setText(city);
-        tvState.setText(state);
+        setupStateView(state);
+    }
+
+    private void setupStateView(String state) {
+        if (state.length() > 2) {
+            String sigla = realm.where(State.class).equalTo("nome", state).findFirst().getSigla();
+            tvState.setText(sigla);
+        } else {
+            tvState.setText(state);
+        }
     }
 
     @Override
@@ -216,5 +239,39 @@ public class AddressRegisterActivity extends AppCompatActivity
     @Override
     public Context getContext() {
         return getApplicationContext();
+    }
+
+    private boolean validateRegisterFields() {
+        if (TextUtils.isEmpty(etCep.getText().toString().trim()) ||
+                TextUtils.isEmpty(etStreet.getText().toString().trim()) ||
+                TextUtils.isEmpty(etAddressNumber.getText().toString().trim()) ||
+                !tvDistrict.getText().toString().trim().equalsIgnoreCase("Bairro") ||
+                !tvCity.getText().toString().trim().equalsIgnoreCase("Cidade") ||
+                !tvState.getText().toString().trim().equalsIgnoreCase("Estado")
+                ) {
+            return false;
+        }
+        return true;
+    }
+
+    public void showRegisterDialog(String message) {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void keepDialog(Dialog dialog) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
     }
 }
