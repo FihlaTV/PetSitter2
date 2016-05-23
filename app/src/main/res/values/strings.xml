@@ -96,6 +96,7 @@
     <string name="failed_get_location">Não foi possível buscar sua localização atual.</string>
     <string name="search_for_cep">Pesquisando seu CEP...</string>
     <string name="actions.next">Próximo</string>
+    <string name="choose_your_photo">Escolha sua foto</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

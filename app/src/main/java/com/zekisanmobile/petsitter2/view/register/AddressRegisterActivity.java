@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -158,6 +159,9 @@ public class AddressRegisterActivity extends AppCompatActivity
                 saveSitter();
                 break;
         }
+        Intent intent = new Intent(AddressRegisterActivity.this, ChoosePhotoRegisterActivity.class);
+        intent.putExtra(Config.USER_ID, userId);
+        startActivity(intent);
     }
 
     private void getLatitudeAndLongitude() {
