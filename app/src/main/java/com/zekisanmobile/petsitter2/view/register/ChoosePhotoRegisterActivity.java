@@ -15,8 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.util.Config;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.ImageUtility;
+import com.zekisanmobile.petsitter2.util.UniqueID;
+import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.PhotoUrl;
+import com.zekisanmobile.petsitter2.vo.Sitter;
+import com.zekisanmobile.petsitter2.vo.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,6 +48,8 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
     private Uri fileUri;
 
     private String userId;
+    private UserModel userModel;
+    private User user;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -72,8 +81,43 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         selectImage();
     }
 
+    @OnClick(R.id.btn_next)
+    public void registerPhoto() {
+        PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
+        photoUrl.setId(UniqueID.generateUniqueID());
+        photoUrl.setLarge(fileUri.toString());
+        saveEntity(photoUrl);
+    }
+
+    private void saveEntity(PhotoUrl photoUrl) {
+        switch (user.getEntityType()) {
+            case EntityType.OWNER:
+                saveOwner(photoUrl);
+                break;
+            case EntityType.SITTER:
+                saveSitter(photoUrl);
+                break;
+        }
+    }
+
+    private void saveOwner(PhotoUrl photoUrl) {
+        realm.beginTransaction();
+        Owner owner = realm.where(Owner.class).equalTo("id", user.getEntityId()).findFirst();
+        owner.setPhotoUrl(photoUrl);
+        realm.commitTransaction();
+    }
+
+    private void saveSitter(PhotoUrl photoUrl) {
+        realm.beginTransaction();
+        Sitter sitter = realm.where(Sitter.class).equalTo("id", user.getEntityId()).findFirst();
+        sitter.setPhotoUrl(photoUrl);
+        realm.commitTransaction();
+    }
+
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
+        userModel = new UserModel(realm);
+        user = userModel.find(userId);
     }
 
     private void configureToolbar() {
@@ -127,10 +171,13 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
                 onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
+                fileUri = data.getData();
+            }
+            else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
+            }
         }
     }
 
