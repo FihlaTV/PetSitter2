@@ -16,6 +16,9 @@ public class Summary extends RealmObject {
     @JsonProperty("photo")
     private PhotoUrl photoUrl;
 
+    @JsonProperty("created_at")
+    private String createdAt;
+
     public String getId() {
         return id;
     }
@@ -38,5 +41,13 @@ public class Summary extends RealmObject {
 
     public void setPhotoUrl(PhotoUrl photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }
