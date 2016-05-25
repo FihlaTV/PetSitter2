@@ -137,6 +137,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".view.summary.DailySummariesListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".view.register.RegisterHomeActivity"
             android:parentActivityName=".view.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -162,8 +166,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBm-hbxgSk2bjQEXu9xIGPCUaL_L2dojk" />
-
-        <activity android:name=".view.sitter.DailySummariesListActivity"></activity>
     </application>
 
 </manifest>

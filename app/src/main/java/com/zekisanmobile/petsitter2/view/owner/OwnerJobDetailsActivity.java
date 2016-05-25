@@ -19,7 +19,9 @@ import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
+import com.zekisanmobile.petsitter2.view.summary.DailySummariesListActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
@@ -90,6 +92,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
             case JobsStatusString.NEXT:
                 break;
             case JobsStatusString.CURRENT:
+                getMenuInflater().inflate(R.menu.menu_summaries, menu);
                 break;
             default:
                 if (job.getRate() == null) {
@@ -103,11 +106,19 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent;
 
         switch (id) {
             case R.id.menu_rate:
-                Intent intent = new Intent(OwnerJobDetailsActivity.this, RateJobActivity.class);
+                intent = new Intent(OwnerJobDetailsActivity.this, RateJobActivity.class);
                 intent.putExtra(Config.JOB_ID, job.getId());
+                startActivity(intent);
+                break;
+            case R.id.menu_summary:
+                intent = new Intent(OwnerJobDetailsActivity.this,
+                        DailySummariesListActivity.class);
+                intent.putExtra(Config.JOB_ID, jobId);
+                intent.putExtra(EntityType.TYPE, EntityType.OWNER);
                 startActivity(intent);
                 break;
         }

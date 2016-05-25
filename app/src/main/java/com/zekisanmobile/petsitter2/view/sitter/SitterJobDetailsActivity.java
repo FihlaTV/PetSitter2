@@ -33,7 +33,9 @@ import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
+import com.zekisanmobile.petsitter2.view.summary.DailySummariesListActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
@@ -147,6 +149,11 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
             case R.id.menu_rate:
                 break;
             case R.id.menu_summary:
+                Intent intent = new Intent(SitterJobDetailsActivity.this,
+                        DailySummariesListActivity.class);
+                intent.putExtra(Config.JOB_ID, jobId);
+                intent.putExtra(EntityType.TYPE, EntityType.SITTER);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
