@@ -9,6 +9,7 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="album_title">#4c4c4c</color>
 
     <!-- basic colors -->
     <color name="green">#27D34D</color>
