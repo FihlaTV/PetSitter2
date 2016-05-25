@@ -46,6 +46,9 @@ public class Job extends RealmObject {
     @JsonProperty("rate")
     Rate rate;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    RealmList<Summary> summaries;
+
     Sitter sitter;
 
     Owner owner;
@@ -144,5 +147,13 @@ public class Job extends RealmObject {
 
     public void setRate(Rate rate) {
         this.rate = rate;
+    }
+
+    public RealmList<Summary> getSummaries() {
+        return summaries;
+    }
+
+    public void setSummaries(RealmList<Summary> summaries) {
+        this.summaries = summaries;
     }
 }
