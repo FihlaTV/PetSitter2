@@ -13,13 +13,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.job.job.SendSummaryJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.Config;
+import com.zekisanmobile.petsitter2.util.DateFormatter;
+import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.PhotoUrl;
+import com.zekisanmobile.petsitter2.vo.Summary;
 
 import java.io.File;
+import java.util.Date;
 import java.util.UUID;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +47,9 @@ public class NewSummaryActivity extends AppCompatActivity {
     private String jobId;
     private JobModel jobModel;
     private Job job;
+    private PhotoUrl photoUrl;
+    private Summary summary;
+    private String entityType;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -46,14 +60,20 @@ public class NewSummaryActivity extends AppCompatActivity {
     @BindView(R.id.et_comment)
     EditText etComment;
 
+    @Inject
+    JobManager jobManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_summary);
 
+        ((PetSitterApp)getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         this.jobId = getIntent().getStringExtra(Config.JOB_ID);
+        this.entityType = getIntent().getStringExtra(EntityType.TYPE);
 
         configureToolbar();
         defineMembers();
@@ -85,7 +105,11 @@ public class NewSummaryActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_send)
     public void send() {
-
+        savePhoto();
+        saveSummary();
+        saveJob();
+        enqueueJob();
+        redirectToSummaryList();
     }
 
     private void configureToolbar() {
@@ -133,5 +157,45 @@ public class NewSummaryActivity extends AppCompatActivity {
         Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
 
         ivPhoto.setImageURI(fileUri);
+    }
+
+    private void savePhoto() {
+        realm.beginTransaction();
+        PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
+        photoUrl.setId(UniqueID.generateUniqueID());
+        photoUrl.setLarge(fileUri.toString());
+        realm.commitTransaction();
+
+        this.photoUrl = photoUrl;
+    }
+
+    private void saveSummary() {
+        realm.beginTransaction();
+        Summary summary = realm.createObject(Summary.class);
+        summary.setId(UniqueID.generateUniqueID());
+        summary.setPhotoUrl(this.photoUrl);
+        summary.setText(etComment.getText().toString().trim());
+        summary.setCreatedAt(DateFormatter.formattedDateForAPI(new Date()));
+        realm.commitTransaction();
+
+        this.summary = summary;
+    }
+
+    private void saveJob() {
+        realm.beginTransaction();
+        job.getSummaries().add(this.summary);
+        realm.commitTransaction();
+    }
+
+    private void enqueueJob() {
+        jobManager.addJobInBackground(new SendSummaryJob(jobId, summary.getId()));
+    }
+
+    private void redirectToSummaryList() {
+        Intent intent = new Intent(NewSummaryActivity.this, DailySummariesListActivity.class);
+        intent.putExtra(Config.JOB_ID, jobId);
+        intent.putExtra(EntityType.TYPE, entityType);
+        startActivity(intent);
+        finish();
     }
 }

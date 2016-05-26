@@ -12,12 +12,14 @@ import com.zekisanmobile.petsitter2.job.job.ReplyRateJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRateJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobStatusJob;
+import com.zekisanmobile.petsitter2.job.job.SendSummaryJob;
 import com.zekisanmobile.petsitter2.view.owner.NewJobRequestActivity;
 import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.owner.RateJobActivity;
 import com.zekisanmobile.petsitter2.view.sitter.ReplyRateActivity;
-import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
 import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
+import com.zekisanmobile.petsitter2.view.sitter.SitterJobDetailsActivity;
+import com.zekisanmobile.petsitter2.view.summary.NewSummaryActivity;
 
 import javax.inject.Singleton;
 
@@ -38,6 +40,7 @@ public interface AppComponent {
     void inject(SendJobStatusJob sendJobStatusJob);
     void inject(SendJobRateJob sendJobRateJob);
     void inject(ReplyRateJob replyRateJob);
+    void inject(SendSummaryJob sendSummaryJob);
 
     void inject(NewJobRequestActivity newJobRequestActivity);
     void inject(SitterHomeActivity sitterHomeActivity);
@@ -45,4 +48,5 @@ public interface AppComponent {
     void inject(OwnerHomeActivity ownerHomeActivity);
     void inject(RateJobActivity rateJobActivity);
     void inject(ReplyRateActivity replyRateActivity);
+    void inject(NewSummaryActivity newSummaryActivity);
 }

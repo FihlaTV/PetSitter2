@@ -14,12 +14,17 @@ import android.view.MenuItem;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SummaryListAdapter;
+import com.zekisanmobile.petsitter2.event.summary.UpdateSummariesUIEvent;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.GridSpacingItemDecoration;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Summary;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +65,19 @@ public class DailySummariesListActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
+    @Override
     protected void onDestroy() {
         realm.close();
         super.onDestroy();
@@ -90,6 +108,7 @@ public class DailySummariesListActivity extends AppCompatActivity {
             case R.id.menu_add_summary:
                 Intent intent = new Intent(DailySummariesListActivity.this, NewSummaryActivity.class);
                 intent.putExtra(Config.JOB_ID, jobId);
+                intent.putExtra(EntityType.TYPE, entityType);
                 startActivity(intent);
                 break;
         }
@@ -128,5 +147,12 @@ public class DailySummariesListActivity extends AppCompatActivity {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 r.getDisplayMetrics()));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleEvent(UpdateSummariesUIEvent event) {
+        this.summaryList = jobModel.find(jobId).getSummaries();
+        adapter.updateSummaryList(summaryList);
+        adapter.notifyDataSetChanged();
     }
 }

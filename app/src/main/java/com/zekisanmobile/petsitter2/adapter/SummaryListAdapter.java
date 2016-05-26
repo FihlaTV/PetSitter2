@@ -54,6 +54,10 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         return summaryList.size();
     }
 
+    public void updateSummaryList(List<Summary> summaryList) {
+        this.summaryList = summaryList;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail)

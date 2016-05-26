@@ -11,6 +11,7 @@ import com.zekisanmobile.petsitter2.api.body.LogoutBody;
 import com.zekisanmobile.petsitter2.api.body.RateJobBody;
 import com.zekisanmobile.petsitter2.api.body.ReplyRateBody;
 import com.zekisanmobile.petsitter2.api.body.SearchSittersBody;
+import com.zekisanmobile.petsitter2.api.body.SendSummaryBody;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
@@ -18,10 +19,12 @@ import com.zekisanmobile.petsitter2.vo.User;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -61,4 +64,13 @@ public interface ApiService {
 
     @POST("rates/reply_rate")
     Call<Void> replyRate(@Body ReplyRateBody body);
+
+    @Multipart
+    @POST("contacts/save_summary")
+    Call<Job> saveSummary(@Part("app_id") RequestBody app_id,
+                          @Part("summary_app_id") RequestBody summary_app_id,
+                          @Part("text") RequestBody text,
+                          @Part("created_at") RequestBody created_at,
+                          @Part("photo_app_id") RequestBody photo_app_id,
+                          @Part("image\"; filename=\"summary_image.jpg\"") RequestBody image);
 }
