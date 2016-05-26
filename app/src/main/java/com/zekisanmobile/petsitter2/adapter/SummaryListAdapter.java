@@ -46,7 +46,6 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
 
         Picasso.with(context)
                 .load(summary.getPhotoUrl().getMedium())
-                .transform(new CircleTransform())
                 .into(holder.thumbnail);
     }
 
