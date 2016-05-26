@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
 import com.zekisanmobile.petsitter2.vo.Summary;
@@ -22,12 +23,15 @@ import butterknife.ButterKnife;
 
 public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.MyViewHolder> {
 
-    Context context;
+    private Context context;
     private List<Summary> summaryList;
+    private RecyclerViewOnClickListener listener;
 
-    public SummaryListAdapter(Context context, List<Summary> summaryList) {
+    public SummaryListAdapter(Context context, List<Summary> summaryList,
+                              RecyclerViewOnClickListener listener) {
         this.context = context;
         this.summaryList = summaryList;
+        this.listener = listener;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         this.summaryList = summaryList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.thumbnail)
         public ImageView thumbnail;
@@ -73,6 +77,15 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (listener != null) {
+                listener.onClick(v, getAdapterPosition());
+            }
         }
     }
 }

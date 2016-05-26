@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.summary;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,10 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SummaryListAdapter;
+import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.event.summary.UpdateSummariesUIEvent;
+import com.zekisanmobile.petsitter2.fragment.SummarySlideShowDialogFragment;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
@@ -132,7 +136,21 @@ public class DailySummariesListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new SummaryListAdapter(this, summaryList);
+        adapter = new SummaryListAdapter(this, summaryList, new RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Bundle args = new Bundle();
+                args.putString(Config.JOB_ID, jobId);
+                args.putInt(Config.SELECTED_POSITION, position);
+
+                FragmentTransaction ft = getSupportFragmentManager()
+                        .beginTransaction();
+                SummarySlideShowDialogFragment fragment =
+                        SummarySlideShowDialogFragment.newInstance();
+                fragment.setArguments(args);
+                fragment.show(ft, "slideshow");
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
