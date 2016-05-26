@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PetSitter 2</string>
+    <string name="app_name">Pet Care</string>
     <string name="app_login">Login</string>
 
     <string name="login.login">Entrar</string>
@@ -98,6 +98,9 @@
     <string name="actions.next">Próximo</string>
     <string name="choose_your_photo">Escolha sua foto</string>
     <string name="daily_summaries">Resumos diários</string>
+    <string name="add_comment">Adicione um comentário</string>
+    <string name="send_daily_summary">Enviar resumo diário</string>
+    <string name="actions.send">Enviar</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

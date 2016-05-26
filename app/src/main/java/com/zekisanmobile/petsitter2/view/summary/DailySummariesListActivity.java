@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.summary;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -87,6 +88,9 @@ public class DailySummariesListActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menu_add_summary:
+                Intent intent = new Intent(DailySummariesListActivity.this, NewSummaryActivity.class);
+                intent.putExtra(Config.JOB_ID, jobId);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
