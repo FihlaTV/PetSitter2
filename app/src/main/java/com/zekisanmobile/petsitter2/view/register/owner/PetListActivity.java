@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-public class PetRegisterActivity extends AppCompatActivity {
+public class PetListActivity extends AppCompatActivity {
 
     private Realm realm;
     private PetListAdapter adapter;
@@ -40,7 +40,7 @@ public class PetRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pet_register);
+        setContentView(R.layout.activity_pet_list);
 
         ButterKnife.bind(this);
 
