@@ -3,6 +3,7 @@ package com.zekisanmobile.petsitter2.view.summary;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class DailySummariesListActivity extends AppCompatActivity {
@@ -49,6 +51,9 @@ public class DailySummariesListActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -65,6 +70,7 @@ public class DailySummariesListActivity extends AppCompatActivity {
 
         configureToolbar();
         defineMembers();
+        setupViews();
         setupRecyclerView();
     }
 
@@ -88,19 +94,6 @@ public class DailySummariesListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        switch (entityType) {
-            case EntityType.OWNER:
-
-                break;
-            case EntityType.SITTER:
-                getMenuInflater().inflate(R.menu.menu_summary_sitter, menu);
-                break;
-        }
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -109,14 +102,16 @@ public class DailySummariesListActivity extends AppCompatActivity {
                 onBackPressed();
                 finish();
                 break;
-            case R.id.menu_add_summary:
-                Intent intent = new Intent(DailySummariesListActivity.this, NewSummaryActivity.class);
-                intent.putExtra(Config.JOB_ID, jobId);
-                intent.putExtra(EntityType.TYPE, entityType);
-                startActivity(intent);
-                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab)
+    public void addSummary() {
+        Intent intent = new Intent(DailySummariesListActivity.this, NewSummaryActivity.class);
+        intent.putExtra(Config.JOB_ID, jobId);
+        intent.putExtra(EntityType.TYPE, entityType);
+        startActivity(intent);
     }
 
     private void configureToolbar() {
@@ -132,6 +127,16 @@ public class DailySummariesListActivity extends AppCompatActivity {
         job = jobModel.find(jobId);
         if ((summaryList = job.getSummaries()) == null){
             summaryList = new ArrayList<Summary>();
+        }
+    }
+
+    private void setupViews() {
+        switch (entityType) {
+            case EntityType.OWNER:
+                fab.setVisibility(View.GONE);
+                break;
+            case EntityType.SITTER:
+                break;
         }
     }
 

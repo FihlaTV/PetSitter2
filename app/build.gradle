@@ -75,4 +75,6 @@ dependencies {
     compile 'javax.annotation:jsr250-api:1.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.github.jkwiecien:EasyImage:1.2.3'
+    compile 'com.github.tajchert:nammu:1.1.1'
 }

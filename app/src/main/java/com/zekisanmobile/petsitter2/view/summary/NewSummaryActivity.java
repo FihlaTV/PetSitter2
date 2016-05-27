@@ -1,19 +1,20 @@
 package com.zekisanmobile.petsitter2.view.summary;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
+import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.job.job.SendSummaryJob;
@@ -28,7 +29,6 @@ import com.zekisanmobile.petsitter2.vo.Summary;
 
 import java.io.File;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -36,11 +36,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
 public class NewSummaryActivity extends AppCompatActivity {
 
     private Uri fileUri;
-    private static final int RC_TAKE_PICTURE = 101;
     private static final String TAG = "NewSummaryActivity";
 
     private Realm realm;
@@ -72,6 +75,11 @@ public class NewSummaryActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        EasyImage.configuration(this)
+                .setImagesFolderName("PetCare")
+                .saveInAppExternalFilesDir()
+                .setCopyExistingPicturesToPublicLocation(true);
+
         this.jobId = getIntent().getStringExtra(Config.JOB_ID);
         this.entityType = getIntent().getStringExtra(EntityType.TYPE);
 
@@ -80,8 +88,15 @@ public class NewSummaryActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     protected void onDestroy() {
         realm.close();
+        EasyImage.clearConfiguration(this);
         super.onDestroy();
     }
 
@@ -126,37 +141,56 @@ public class NewSummaryActivity extends AppCompatActivity {
     }
 
     private void launchCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            EasyImage.openCamera(this, 0);
+        } else {
+            Nammu.askForPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    new PermissionCallback() {
+                        @Override
+                        public void permissionGranted() {
+                            EasyImage.openCamera(NewSummaryActivity.this, 0);
+                        }
 
-        File file = new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString()
-                + ".jpg");
-        fileUri = Uri.fromFile(file);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                        @Override
+                        public void permissionRefused() {
 
-        startActivityForResult(takePictureIntent, RC_TAKE_PICTURE);
+                        }
+                    });
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
 
-        if (requestCode == RC_TAKE_PICTURE) {
-            if (resultCode == RESULT_OK) {
-                if (fileUri != null) {
-                    uploadFromUri(fileUri);
-                } else {
-                    Log.w(TAG, "File URI is null");
-                }
-            } else {
-                Toast.makeText(this, "Taking picture failed.", Toast.LENGTH_SHORT).show();
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePicked(File file, EasyImage.ImageSource imageSource, int i) {
+                fileUri = Uri.fromFile(file);
+                onPhotoReturned(file);
             }
-        }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(NewSummaryActivity.this);
+                    if (photoFile != null) photoFile.delete();
+                }
+            }
+        });
+
     }
 
-    private void uploadFromUri(Uri fileUri) {
-        Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
-
-        ivPhoto.setImageURI(fileUri);
+    private void onPhotoReturned(File file) {
+        Picasso.with(this)
+                .load(file)
+                .fit()
+                .centerCrop()
+                .into(ivPhoto);
     }
 
     private void savePhoto() {
