@@ -1,49 +1,36 @@
 package com.zekisanmobile.petsitter2.view.register;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
-import com.zekisanmobile.petsitter2.util.ImageUtility;
 import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
 
 public class ChoosePhotoRegisterActivity extends AppCompatActivity {
 
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Realm realm;
-    private String userChoosenTask;
 
     private Uri fileUri;
 
@@ -64,6 +51,11 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        EasyImage.configuration(this)
+                .setImagesFolderName("PetCare")
+                .saveInAppExternalFilesDir()
+                .setCopyExistingPicturesToPublicLocation(true);
+
         this.userId = getIntent().getStringExtra(Config.USER_ID);
 
         defineMembers();
@@ -71,8 +63,15 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     protected void onDestroy() {
         realm.close();
+        EasyImage.clearConfiguration(this);
         super.onDestroy();
     }
 
@@ -83,9 +82,12 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_next)
     public void registerPhoto() {
+        realm.beginTransaction();
         PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
         photoUrl.setId(UniqueID.generateUniqueID());
         photoUrl.setLarge(fileUri.toString());
+        realm.commitTransaction();
+
         saveEntity(photoUrl);
     }
 
@@ -128,137 +130,42 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"Câmera", "Galeria", "Cancelar"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChoosePhotoRegisterActivity.this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                boolean result = ImageUtility.checkPermission(ChoosePhotoRegisterActivity.this);
-
-                if (items[item].equals("Câmera")) {
-                    userChoosenTask = "Câmera";
-                    if (result)
-                        cameraIntent();
-
-                } else if (items[item].equals("Galeria")) {
-                    userChoosenTask = "Galeria";
-                    if (result)
-                        galleryIntent();
-
-                } else if (items[item].equals("Cancelar")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    private void galleryIntent() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Selecione um arquivo"), SELECT_FILE);
-    }
-
-    private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        EasyImage.openChooserWithGallery(this, "Escolha sua foto", 0);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE) {
-                onSelectFromGalleryResult(data);
-                fileUri = data.getData();
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
             }
-            else if (requestCode == REQUEST_CAMERA) {
-                onCaptureImageResult(data);
-            }
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case ImageUtility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (userChoosenTask.equals("Câmera"))
-                        cameraIntent();
-                    else if (userChoosenTask.equals("Galeria"))
-                        galleryIntent();
-                } else {
-                    //code for deny
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                //Handle the image
+                fileUri = Uri.fromFile(imageFile);
+                onPhotoReturned(imageFile);
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(ChoosePhotoRegisterActivity.this);
+                    if (photoFile != null) photoFile.delete();
                 }
-                break;
-        }
-    }
-
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ivPhoto.setImageBitmap(thumbnail);
-        resizeImageView();
-        fileUri = Uri.fromFile(getOutputMediaFile());
-    }
-
-    private File getOutputMediaFile() {
-        File file = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                Config.IMAGE_DIRECTORY
-        );
-
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                return null;
             }
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File picture = new File(file.getPath() + File.separator
-        + "IMG_" + timeStamp + ".jpg");
-
-        return picture;
+        });
     }
 
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-
-        Bitmap bm = null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ivPhoto.setImageBitmap(bm);
-        resizeImageView();
-    }
-
-    private void resizeImageView() {
-        ivPhoto.getLayoutParams().height = 400;
+    private void onPhotoReturned(File photoFile) {
+        Picasso.with(this)
+                .load(photoFile)
+                .fit()
+                .centerCrop()
+                .into(ivPhoto);
     }
 }
