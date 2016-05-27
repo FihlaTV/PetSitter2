@@ -173,4 +173,5 @@ public class Owner extends RealmObject {
     public void setState(String state) {
         this.state = state;
     }
+
 }
