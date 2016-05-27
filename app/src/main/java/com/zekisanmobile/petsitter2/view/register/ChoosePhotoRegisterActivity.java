@@ -13,6 +13,7 @@ import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.UniqueID;
+import com.zekisanmobile.petsitter2.view.register.owner.PetRegisterActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 import com.zekisanmobile.petsitter2.vo.Sitter;
@@ -89,6 +90,12 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         realm.commitTransaction();
 
         saveEntity(photoUrl);
+        redirectToRegisterPets();
+    }
+
+    private void redirectToRegisterPets() {
+        Intent intent = new Intent(ChoosePhotoRegisterActivity.this, PetRegisterActivity.class);
+        startActivity(intent);
     }
 
     private void saveEntity(PhotoUrl photoUrl) {

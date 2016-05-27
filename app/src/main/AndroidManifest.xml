@@ -144,7 +144,7 @@
         <activity
             android:name=".view.summary.NewSummaryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.register.RegisterHomeActivity"
             android:parentActivityName=".view.login.LoginActivity"
@@ -163,6 +163,10 @@
             android:name=".view.register.ChoosePhotoRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.register.owner.PetRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
 
         <meta-data

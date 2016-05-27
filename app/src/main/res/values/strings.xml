@@ -101,6 +101,7 @@
     <string name="add_comment">Adicione um comentário</string>
     <string name="send_daily_summary">Enviar resumo diário</string>
     <string name="actions.send">Enviar</string>
+    <string name="your_pets">Seus pets</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">
