@@ -90,11 +90,11 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         realm.commitTransaction();
 
         saveEntity(photoUrl);
-        redirectToRegisterPets();
     }
 
     private void redirectToRegisterPets() {
         Intent intent = new Intent(ChoosePhotoRegisterActivity.this, PetRegisterActivity.class);
+        intent.putExtra(Config.OWNER_ID, user.getEntityId());
         startActivity(intent);
     }
 
@@ -102,6 +102,7 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         switch (user.getEntityType()) {
             case EntityType.OWNER:
                 saveOwner(photoUrl);
+                redirectToRegisterPets();
                 break;
             case EntityType.SITTER:
                 saveSitter(photoUrl);
