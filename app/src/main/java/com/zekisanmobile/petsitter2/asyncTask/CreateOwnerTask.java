@@ -10,10 +10,19 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.api.ApiService;
 import com.zekisanmobile.petsitter2.api.body.CreateOwnerBody;
 import com.zekisanmobile.petsitter2.api.body.CreatePetBody;
+import com.zekisanmobile.petsitter2.api.body.GetOwnerBody;
+import com.zekisanmobile.petsitter2.api.body.GetSitterBody;
+import com.zekisanmobile.petsitter2.api.body.LoginBody;
+import com.zekisanmobile.petsitter2.model.OwnerModel;
+import com.zekisanmobile.petsitter2.model.SitterModel;
+import com.zekisanmobile.petsitter2.model.UserModel;
+import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.view.register.RegisterView;
 import com.zekisanmobile.petsitter2.view.register.owner.PetListActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Pet;
+import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
 
 import java.io.File;
@@ -26,6 +35,8 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
@@ -33,6 +44,7 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     private String userId;
     private ProgressDialog progressDialog;
     private RegisterView view;
+    private User user;
 
     @Inject
     ApiService service;
@@ -55,36 +67,130 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        CreateOwnerBody ownerBody = getCreateOwnerBody();
-        List<CreatePetBody> petBodyList = getCreatePetBodyList();
-
         try {
-            service.createOwner(ownerBody).execute();
-
-            RequestBody owner_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
-                    ownerId);
-            RequestBody owner_photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
-                    getOwnerPhotoAppId(ownerId));
-            Uri ownerFileUri = Uri.parse(getOwnerPhotoFile(ownerId));
-            File ownerFile =  new File(ownerFileUri.getPath());
-            RequestBody ownerFileBody = RequestBody.create(MediaType.parse("image/*"), ownerFile);
-            service.insertOwnerPhoto(owner_app_id, owner_photo_app_id, ownerFileBody).execute();
-            for(CreatePetBody body : petBodyList) {
-                service.createPet(body).execute();
-
-                RequestBody app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
-                        body.getApp_id());
-                RequestBody photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
-                        getPetPhotoAppId(body.getApp_id()));
-                Uri fileUri = Uri.parse(getPetPhotoFile(body.getApp_id()));
-                File file =  new File(fileUri.getPath());
-                RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-                service.insertPetPhoto(app_id, photo_app_id, fileBody).execute();
-            }
+            createOwner();
+            createPets();
+            login();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void login() {
+        LoginBody body = new LoginBody();
+        body.setEmail(getUserEmail());
+        body.setPassword(getUserPassword());
+
+        try {
+            Response<User> response = service.login(body).execute();
+            if (response.isSuccessful()) {
+                User user = response.body();
+                Realm realm = Realm.getDefaultInstance();
+                UserModel userModel = new UserModel(realm);
+                userModel.save(user);
+                realm.close();
+                this.user = user;
+
+                saveSharedPreferences(user.getId());
+                getEntity(user.getEntityId(), user.getEntityType());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getEntity(String entityId, String entityType) {
+        switch (entityType) {
+            case EntityType.OWNER:
+                getOwner(entityId);
+                break;
+            default:
+                getSitter(entityId);
+                break;
+        }
+    }
+
+    private void getSitter(String entityId) {
+        GetSitterBody body = new GetSitterBody();
+        body.setApp_id(entityId);
+        Call<Sitter> call = service.getSitter(body);
+        try {
+            Sitter sitter = call.execute().body();
+            Realm realm = Realm.getDefaultInstance();
+            SitterModel sitterModel = new SitterModel(realm);
+            sitterModel.save(sitter);
+            realm.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getOwner(String entityId) {
+        GetOwnerBody body = new GetOwnerBody();
+        body.setApp_id(entityId);
+        Call<Owner> call = service.getOwner(body);
+        try {
+            Owner owner = call.execute().body();
+            Realm realm = Realm.getDefaultInstance();
+            OwnerModel ownerModel = new OwnerModel(realm);
+            ownerModel.save(owner);
+            realm.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSharedPreferences(String id) {
+        SessionManager sessionManager = new SessionManager(view.getContext());
+        sessionManager.setUserId(id);
+        sessionManager.setTokenSentToServer(true);
+    }
+
+    private String getUserPassword() {
+        Realm realm = Realm.getDefaultInstance();
+        String password = realm.where(User.class).equalTo("id", userId).findFirst().getPassword();
+        realm.close();
+
+        return password;
+    }
+
+    private String getUserEmail() {
+        Realm realm = Realm.getDefaultInstance();
+        String email = realm.where(User.class).equalTo("id", userId).findFirst().getEmail();
+        realm.close();
+
+        return email;
+    }
+
+    private void createPets() throws IOException {
+        List<CreatePetBody> petBodyList = getCreatePetBodyList();
+        for(CreatePetBody body : petBodyList) {
+            service.createPet(body).execute();
+
+            RequestBody app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    body.getApp_id());
+            RequestBody photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    getPetPhotoAppId(body.getApp_id()));
+            Uri fileUri = Uri.parse(getPetPhotoFile(body.getApp_id()));
+            File file =  new File(fileUri.getPath());
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+            service.insertPetPhoto(app_id, photo_app_id, fileBody).execute();
+        }
+    }
+
+    private void createOwner() throws IOException {
+        CreateOwnerBody ownerBody = getCreateOwnerBody();
+        service.createOwner(ownerBody).execute();
+
+        RequestBody owner_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                ownerId);
+        RequestBody owner_photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                getOwnerPhotoAppId(ownerId));
+        Uri ownerFileUri = Uri.parse(getOwnerPhotoFile(ownerId));
+        File ownerFile =  new File(ownerFileUri.getPath());
+        RequestBody ownerFileBody = RequestBody.create(MediaType.parse("image/*"), ownerFile);
+        service.insertOwnerPhoto(owner_app_id, owner_photo_app_id, ownerFileBody).execute();
     }
 
     private String getOwnerPhotoFile(String ownerId) {
@@ -176,7 +282,10 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {;
+    protected void onPostExecute(Void aVoid) {
         progressDialog.dismiss();
+        if (view != null) {
+            ((PetListActivity) view).redirectUser(user);
+        }
     }
 }

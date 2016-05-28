@@ -15,7 +15,10 @@ import com.zekisanmobile.petsitter2.asyncTask.CreateOwnerTask;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
+import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.view.owner.OwnerHomeActivity;
 import com.zekisanmobile.petsitter2.view.register.RegisterView;
+import com.zekisanmobile.petsitter2.view.sitter.SitterHomeActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.User;
@@ -111,5 +114,19 @@ public class PetListActivity extends AppCompatActivity implements RegisterView {
     @Override
     public Context getContext() {
         return getApplicationContext();
+    }
+
+    public void redirectUser(User user) {
+        Intent intent;
+        switch (user.getEntityType()) {
+            case EntityType.OWNER:
+                intent = new Intent(PetListActivity.this, OwnerHomeActivity.class);
+                break;
+            default: // EntityType.SITTER
+                intent = new Intent(PetListActivity.this, SitterHomeActivity.class);
+                break;
+        }
+        startActivity(intent);
+        finish();
     }
 }
