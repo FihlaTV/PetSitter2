@@ -28,10 +28,12 @@ public class Pet extends RealmObject {
 
     @JsonProperty("pet_care")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private PetCare petCare;
+    private String petCare;
 
     @JsonProperty("photo")
     private PhotoUrl photoUrl;
+
+    private Animal animal;
 
     public String getId() {
         return id;
@@ -81,11 +83,11 @@ public class Pet extends RealmObject {
         this.breed = breed;
     }
 
-    public PetCare getPetCare() {
+    public String getPetCare() {
         return petCare;
     }
 
-    public void setPetCare(PetCare petCare) {
+    public void setPetCare(String petCare) {
         this.petCare = petCare;
     }
 
@@ -103,5 +105,13 @@ public class Pet extends RealmObject {
 
     public void setAgeText(String ageText) {
         this.ageText = ageText;
+    }
+
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
     }
 }

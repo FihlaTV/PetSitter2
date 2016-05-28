@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.view.register.owner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,7 +60,9 @@ public class PetListActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_add_pet)
     public void addPet() {
-
+        Intent intent = new Intent(PetListActivity.this, PetRegisterActivity.class);
+        intent.putExtra(Config.OWNER_ID, ownerId);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btn_next)

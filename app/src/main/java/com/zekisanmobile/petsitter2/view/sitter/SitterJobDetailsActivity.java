@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
+import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.job.job.SendJobStatusJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
@@ -260,7 +260,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
 
     private void setupRecyclerView() {
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
-        AnimalListAdapter adapter = new AnimalListAdapter(animalItems);
+        SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

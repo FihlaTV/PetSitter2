@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
+import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.adapter.PhotoListAdapter;
 import com.zekisanmobile.petsitter2.fragment.SlideshowDialogFragment;
 import com.zekisanmobile.petsitter2.model.SitterModel;
@@ -133,7 +133,7 @@ public class SitterInfoFragment extends Fragment {
         return animalItems;
     }
     public void setupAnimalsRecyclerView(List<SearchAnimalItem> animalItems) {
-        AnimalListAdapter adapter = new AnimalListAdapter(animalItems);
+        SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewAnimals.setLayoutManager(linearLayoutManager);

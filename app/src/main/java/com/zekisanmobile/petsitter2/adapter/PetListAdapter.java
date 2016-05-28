@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.vo.Pet;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,18 +41,26 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Pet pet = petList.get(position);
 
-        Picasso.with(context)
-                .load(pet.getPhotoUrl().getLarge())
-                .transform(new CircleTransform())
-                .into(holder.ivPhoto);
+        if (pet.getPhotoUrl().getLarge().contains("http")) {
+            Picasso.with(context)
+                    .load(pet.getPhotoUrl().getLarge())
+                    .transform(new CircleTransform())
+                    .into(holder.ivPhoto);
+        } else {
+            File file = new File(Uri.parse(pet.getPhotoUrl().getLarge()).getPath());
+            Picasso.with(context)
+                    .load(file)
+                    .transform(new CircleTransform())
+                    .into(holder.ivPhoto);
+        }
 
         holder.tvName.setText(pet.getName());
-        holder.tvAge.setText(pet.getAge());
+        holder.tvAge.setText(String.valueOf(pet.getAge()));
         holder.tvAgeText.setText(pet.getAgeText());
         holder.tvSize.setText(pet.getSize());
         holder.tvWeight.setText(String.valueOf(pet.getWeight()));
         holder.tvBreed.setText(pet.getBreed());
-        holder.tvCare.setText(pet.getPetCare().getCare());
+        holder.tvCare.setText(pet.getPetCare());
     }
 
     @Override

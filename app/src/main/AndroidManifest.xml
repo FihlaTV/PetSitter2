@@ -166,6 +166,10 @@
         <activity
             android:name=".view.register.owner.PetListActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.register.owner.PetRegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!-- [END UI Activity] -->
 

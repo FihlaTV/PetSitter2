@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
-import com.zekisanmobile.petsitter2.adapter.AnimalListAdapter;
+import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
 import com.zekisanmobile.petsitter2.util.Config;
@@ -169,7 +169,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
-        AnimalListAdapter adapter = new AnimalListAdapter(animalItems);
+        SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
