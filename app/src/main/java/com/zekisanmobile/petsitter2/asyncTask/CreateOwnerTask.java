@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.asyncTask;
 
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
@@ -15,6 +16,7 @@ import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
@@ -56,13 +60,66 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
         try {
             service.createOwner(ownerBody).execute();
+
+            RequestBody owner_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    ownerId);
+            RequestBody owner_photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    getOwnerPhotoAppId(ownerId));
+            Uri ownerFileUri = Uri.parse(getOwnerPhotoFile(ownerId));
+            File ownerFile =  new File(ownerFileUri.getPath());
+            RequestBody ownerFileBody = RequestBody.create(MediaType.parse("image/*"), ownerFile);
+            service.insertOwnerPhoto(owner_app_id, owner_photo_app_id, ownerFileBody).execute();
             for(CreatePetBody body : petBodyList) {
                 service.createPet(body).execute();
+
+                RequestBody app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                        body.getApp_id());
+                RequestBody photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                        getPetPhotoAppId(body.getApp_id()));
+                Uri fileUri = Uri.parse(getPetPhotoFile(body.getApp_id()));
+                File file =  new File(fileUri.getPath());
+                RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+                service.insertPetPhoto(app_id, photo_app_id, fileBody).execute();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String getOwnerPhotoFile(String ownerId) {
+        Realm realm = Realm.getDefaultInstance();
+        String file = realm.where(Owner.class).equalTo("id", ownerId).findFirst().getPhotoUrl()
+                .getLarge();
+        realm.close();
+
+        return file;
+    }
+
+    private String getOwnerPhotoAppId(String ownerId) {
+        Realm realm = Realm.getDefaultInstance();
+        String photo_app_id = realm.where(Owner.class).equalTo("id", ownerId).findFirst()
+                .getPhotoUrl().getId();
+        realm.close();
+        return photo_app_id;
+    }
+
+    private String getPetPhotoFile(String app_id) {
+        Realm realm = Realm.getDefaultInstance();
+        String file = realm.where(Pet.class).equalTo("id", app_id).findFirst().getPhotoUrl()
+                .getLarge();
+        realm.close();
+
+        return file;
+    }
+
+    private String getPetPhotoAppId(String app_id) {
+        Realm realm = Realm.getDefaultInstance();
+        String photoAppId = realm.where(Pet.class).equalTo("id", app_id).findFirst().getPhotoUrl()
+                .getId();
+        realm.close();
+
+        return photoAppId;
     }
 
     private List<CreatePetBody> getCreatePetBodyList() {
@@ -73,6 +130,7 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
             CreatePetBody body = new CreatePetBody();
             body.setOwner_app_id(ownerId);
             body.setAnimal_id(pet.getAnimal().getId());
+            body.setApp_id(pet.getId());
             body.setName(pet.getName());
             body.setAge(pet.getAge());
             body.setAge_text(pet.getAgeText());

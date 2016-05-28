@@ -81,4 +81,16 @@ public interface ApiService {
 
     @POST("pets/create_pet")
     Call<Void> createPet(@Body CreatePetBody body);
+
+    @Multipart
+    @POST("pets/insert_photo")
+    Call<Void> insertPetPhoto(@Part("app_id") RequestBody app_id,
+                              @Part("photo_app_id") RequestBody photo_app_id,
+                              @Part("image\"; filename=\"pet_image.jpg\"") RequestBody image);
+
+    @Multipart
+    @POST("pet_owners/insert_photo")
+    Call<Void> insertOwnerPhoto(@Part("app_id") RequestBody app_id,
+                              @Part("photo_app_id") RequestBody photo_app_id,
+                              @Part("image\"; filename=\"pet_image.jpg\"") RequestBody image);
 }
