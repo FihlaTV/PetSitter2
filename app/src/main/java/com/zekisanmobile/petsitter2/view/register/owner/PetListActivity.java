@@ -74,7 +74,7 @@ public class PetListActivity extends AppCompatActivity implements RegisterView {
         startActivity(intent);
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick(R.id.btn_finish)
     public void next() {
         new CreateOwnerTask(ownerId, user.getId(), this).execute();
     }

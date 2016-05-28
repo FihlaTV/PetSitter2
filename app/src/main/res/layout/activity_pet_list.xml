@@ -46,13 +46,13 @@
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@color/colorPrimaryDark"
-                android:text="@string/actions.next"
+                android:background="@color/colorAccent"
+                android:text="@string/actions.finish"
                 android:textColor="@color/white" />
 
         </LinearLayout>

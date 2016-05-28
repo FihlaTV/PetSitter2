@@ -105,6 +105,7 @@
     <string name="actions.add_pet">Adicionar Pet</string>
     <string name="register_pet">Cadastrar pet</string>
     <string name="saving_registry">Salvando cadastro...</string>
+    <string name="actions.finish">Concluir Cadastro</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">
