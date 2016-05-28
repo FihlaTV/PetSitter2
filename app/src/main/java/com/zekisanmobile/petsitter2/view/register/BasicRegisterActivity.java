@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.GCMToken;
 import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Sitter;
@@ -120,6 +121,8 @@ public class BasicRegisterActivity extends AppCompatActivity {
         user.setPassword(etPassword.getText().toString().trim());
         user.setEntityType(entityType);
         user.setEntityId(entityId);
+        user.setDeviceToken(GCMToken.getTokenFromCGM(getApplicationContext(),
+                getString(R.string.gcm_sender_id)));
         realm.commitTransaction();
 
         this.userId = user.getId();

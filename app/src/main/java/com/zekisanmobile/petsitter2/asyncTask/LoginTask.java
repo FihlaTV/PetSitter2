@@ -18,6 +18,7 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.GCMToken;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.view.login.LoginView;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -73,7 +74,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
                 realm.close();
                 this.user = user;
 
-                getTokenFromCGM();
+                token = GCMToken.getTokenFromCGM(view.getContext(), view.getSenderId());
                 sendTokenToServer(user.getId());
                 saveSharedPreferences(user.getId());
                 getEntity(user.getEntityId(), user.getEntityType());
@@ -151,17 +152,6 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
 
         try {
             service.updateDeviceToken(body).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getTokenFromCGM() {
-        InstanceID instanceID = InstanceID.getInstance(view.getContext());
-        try {
-            token = instanceID.getToken(view.getSenderId(),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            Log.i("DeviceToken", "GCM Registration Token: " + token);
         } catch (IOException e) {
             e.printStackTrace();
         }

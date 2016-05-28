@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.di.component;
 
+import com.zekisanmobile.petsitter2.asyncTask.CreateOwnerTask;
 import com.zekisanmobile.petsitter2.asyncTask.LocationTask;
 import com.zekisanmobile.petsitter2.asyncTask.LoginTask;
 import com.zekisanmobile.petsitter2.asyncTask.LogoutTask;
@@ -33,6 +34,7 @@ public interface AppComponent {
     void inject(SearchSittersTask searchSittersTask);
     void inject(LogoutTask logoutTask);
     void inject(LocationTask locationTask);
+    void inject(CreateOwnerTask createOwnerTask);
 
     void inject(SendJobRequestJob sendJobRequestJob);
     void inject(FetchOwnerJobsJob fetchOwnerJobsJob);

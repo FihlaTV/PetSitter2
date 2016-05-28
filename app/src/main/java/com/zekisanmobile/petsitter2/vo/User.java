@@ -23,8 +23,8 @@ public class User extends RealmObject {
     @JsonProperty("entity_id")
     private String entityId;
 
-    @JsonProperty("photo")
-    private PhotoUrl photoUrl;
+    @JsonProperty("device_token")
+    private String deviceToken;
 
     public String getId() {
         return id;
@@ -58,19 +58,19 @@ public class User extends RealmObject {
         this.entityId = entityId;
     }
 
-    public PhotoUrl getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(PhotoUrl photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

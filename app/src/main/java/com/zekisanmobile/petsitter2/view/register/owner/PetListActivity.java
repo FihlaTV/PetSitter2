@@ -1,5 +1,7 @@
 package com.zekisanmobile.petsitter2.view.register.owner;
 
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import com.zekisanmobile.petsitter2.adapter.PetListAdapter;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
+import com.zekisanmobile.petsitter2.view.register.RegisterView;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Pet;
 
@@ -23,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-public class PetListActivity extends AppCompatActivity {
+public class PetListActivity extends AppCompatActivity implements RegisterView {
 
     private Realm realm;
     private PetListAdapter adapter;
@@ -94,5 +97,15 @@ public class PetListActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public Application getPetSitterApp() {
+        return getApplication();
+    }
+
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
     }
 }

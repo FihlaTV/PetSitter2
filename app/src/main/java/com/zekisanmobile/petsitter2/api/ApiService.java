@@ -1,5 +1,6 @@
 package com.zekisanmobile.petsitter2.api;
 
+import com.zekisanmobile.petsitter2.api.body.CreateOwnerBody;
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.GetJobsBody;
 import com.zekisanmobile.petsitter2.api.body.GetOwnerBody;
@@ -73,4 +74,7 @@ public interface ApiService {
                           @Part("created_at") RequestBody created_at,
                           @Part("photo_app_id") RequestBody photo_app_id,
                           @Part("image\"; filename=\"summary_image.jpg\"") RequestBody image);
+
+    @POST("pet_owners/create_pet_owner")
+    Call<Void> createOwner(@Body CreateOwnerBody body);
 }
