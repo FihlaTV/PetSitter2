@@ -11,12 +11,14 @@ import android.support.v7.widget.Toolbar;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.PetListAdapter;
+import com.zekisanmobile.petsitter2.asyncTask.CreateOwnerTask;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.view.register.RegisterView;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.Pet;
+import com.zekisanmobile.petsitter2.vo.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class PetListActivity extends AppCompatActivity implements RegisterView {
     private List<Pet> petList;
     private OwnerModel ownerModel;
     private Owner owner;
+    private User user;
     private String ownerId;
 
     @BindView(R.id.toolbar)
@@ -70,13 +73,14 @@ public class PetListActivity extends AppCompatActivity implements RegisterView {
 
     @OnClick(R.id.btn_next)
     public void next() {
-
+        new CreateOwnerTask(ownerId, user.getId(), this).execute();
     }
 
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
         ownerModel = new OwnerModel(realm);
         owner = ownerModel.find(ownerId);
+        user = realm.where(User.class).equalTo("entityId", ownerId).findFirst();
         if ((petList = owner.getPets()) == null){
             petList = new ArrayList<Pet>();
         }

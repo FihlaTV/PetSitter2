@@ -17,23 +17,25 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
+
 public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
-    private Owner owner;
-    private User user;
+    private String ownerId;
+    private String userId;
     private ProgressDialog progressDialog;
     private RegisterView view;
 
     @Inject
     ApiService service;
 
-    public CreateOwnerTask(Owner owner, User user, RegisterView view) {
-        this.owner = owner;
-        this.user = user;
+    public CreateOwnerTask(String ownerId, String userId, RegisterView view) {
+        this.ownerId = ownerId;
+        this.userId = userId;
         this.view = view;
         ((PetSitterApp) view.getPetSitterApp()).getAppComponent().inject(this);
         progressDialog = new ProgressDialog((PetListActivity) view);
-        progressDialog.setMessage(view.getContext().getString(R.string.login_dialog_message));
+        progressDialog.setMessage(view.getContext().getString(R.string.saving_registry));
         progressDialog.setCancelable(false);
     }
 
@@ -57,6 +59,8 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
 
     @NonNull
     private CreateOwnerBody getCreateOwnerBody() {
+        Realm realm = Realm.getDefaultInstance();
+        Owner owner = realm.where(Owner.class).equalTo("id", ownerId).findFirst();
         CreateOwnerBody body = new CreateOwnerBody();
         body.setOwner_app_id(owner.getId());
         body.setName(owner.getName());
@@ -72,12 +76,15 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
         body.setLatitude(owner.getLatitude());
         body.setLongitude(owner.getLongitude());
 
+        User user = realm.where(User.class).equalTo("id", userId).findFirst();
         body.setUser_app_id(user.getId());
         body.setEmail(user.getEmail());
         body.setPassword(user.getPassword());
         body.setEntity_id(user.getEntityId());
         body.setEntity_type(user.getEntityType());
         body.setDevice_token(user.getDeviceToken());
+
+        realm.close();
         return body;
     }
 

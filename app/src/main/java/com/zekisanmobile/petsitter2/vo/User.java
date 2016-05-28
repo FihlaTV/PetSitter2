@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
@@ -23,6 +24,7 @@ public class User extends RealmObject {
     @JsonProperty("entity_id")
     private String entityId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("device_token")
     private String deviceToken;
 
