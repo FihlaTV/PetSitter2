@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.api;
 
 import com.zekisanmobile.petsitter2.api.body.CreateOwnerBody;
+import com.zekisanmobile.petsitter2.api.body.CreatePetBody;
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.GetJobsBody;
 import com.zekisanmobile.petsitter2.api.body.GetOwnerBody;
@@ -77,4 +78,7 @@ public interface ApiService {
 
     @POST("pet_owners/create_pet_owner")
     Call<Void> createOwner(@Body CreateOwnerBody body);
+
+    @POST("pets/create_pet")
+    Call<Void> createPet(@Body CreatePetBody body);
 }
