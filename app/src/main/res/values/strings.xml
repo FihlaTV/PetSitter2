@@ -106,6 +106,8 @@
     <string name="register_pet">Cadastrar pet</string>
     <string name="saving_registry">Salvando cadastro...</string>
     <string name="actions.finish">Concluir Cadastro</string>
+    <string name="which_pets_do_you_care">Quais pets você cuida?</string>
+    <string name="registry_no_animals_selected">Você deve selecionar pelo menos um animal para finalizar seu cadastro.</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

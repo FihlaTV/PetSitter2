@@ -14,6 +14,7 @@ import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.view.register.owner.PetListActivity;
+import com.zekisanmobile.petsitter2.view.register.sitter.AnimalListActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
 import com.zekisanmobile.petsitter2.vo.PhotoUrl;
 import com.zekisanmobile.petsitter2.vo.Sitter;
@@ -98,6 +99,12 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void redirectToRegisterAnimals() {
+        Intent intent = new Intent(ChoosePhotoRegisterActivity.this, AnimalListActivity.class);
+        intent.putExtra(Config.SITTER_ID, user.getEntityId());
+        startActivity(intent);
+    }
+
     private void saveEntity(PhotoUrl photoUrl) {
         switch (user.getEntityType()) {
             case EntityType.OWNER:
@@ -106,6 +113,7 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
                 break;
             case EntityType.SITTER:
                 saveSitter(photoUrl);
+                redirectToRegisterAnimals();
                 break;
         }
     }
