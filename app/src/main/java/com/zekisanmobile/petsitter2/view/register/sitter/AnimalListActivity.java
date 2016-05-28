@@ -85,7 +85,9 @@ public class AnimalListActivity extends AppCompatActivity {
     }
 
     private void redirectToAboutMeRegister() {
-
+        Intent intent = new Intent(AnimalListActivity.this, AboutMeRegisterActivity.class);
+        intent.putExtra(Config.SITTER_ID, sitterId);
+        startActivity(intent);
     }
 
     private void saveSitter(ArrayList<String> selectedAnimals) {

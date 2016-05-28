@@ -2,6 +2,7 @@ package com.zekisanmobile.petsitter2.api;
 
 import com.zekisanmobile.petsitter2.api.body.CreateOwnerBody;
 import com.zekisanmobile.petsitter2.api.body.CreatePetBody;
+import com.zekisanmobile.petsitter2.api.body.CreateSitterBody;
 import com.zekisanmobile.petsitter2.api.body.DeviceTokenBody;
 import com.zekisanmobile.petsitter2.api.body.GetJobsBody;
 import com.zekisanmobile.petsitter2.api.body.GetOwnerBody;
@@ -82,6 +83,9 @@ public interface ApiService {
     @POST("pets/create_pet")
     Call<Void> createPet(@Body CreatePetBody body);
 
+    @POST("sitters/create_sitter")
+    Call<Void> createSitter(@Body CreateSitterBody body);
+
     @Multipart
     @POST("pets/insert_photo")
     Call<Void> insertPetPhoto(@Part("app_id") RequestBody app_id,
@@ -93,4 +97,10 @@ public interface ApiService {
     Call<Void> insertOwnerPhoto(@Part("app_id") RequestBody app_id,
                               @Part("photo_app_id") RequestBody photo_app_id,
                               @Part("image\"; filename=\"pet_image.jpg\"") RequestBody image);
+
+    @Multipart
+    @POST("sitters/insert_photo")
+    Call<Void> insertSitterPhoto(@Part("app_id") RequestBody app_id,
+                                @Part("photo_app_id") RequestBody photo_app_id,
+                                @Part("image\"; filename=\"pet_image.jpg\"") RequestBody image);
 }
