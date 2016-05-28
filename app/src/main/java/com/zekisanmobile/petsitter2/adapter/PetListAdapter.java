@@ -55,10 +55,9 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
         }
 
         holder.tvName.setText(pet.getName());
-        holder.tvAge.setText(String.valueOf(pet.getAge()));
-        holder.tvAgeText.setText(pet.getAgeText());
+        holder.tvAge.setText(String.valueOf(pet.getAge()) + " " + pet.getAgeText());
         holder.tvSize.setText(pet.getSize());
-        holder.tvWeight.setText(String.valueOf(pet.getWeight()));
+        holder.tvWeight.setText(String.valueOf(pet.getWeight()) + " Kg");
         holder.tvBreed.setText(pet.getBreed());
         holder.tvCare.setText(pet.getPetCare());
     }
@@ -82,9 +81,6 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
 
         @BindView(R.id.tv_age)
         public TextView tvAge;
-
-        @BindView(R.id.tv_age_text)
-        public TextView tvAgeText;
 
         @BindView(R.id.tv_size)
         public TextView tvSize;
