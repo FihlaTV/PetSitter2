@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -161,7 +162,16 @@ public class BasicRegisterActivity extends AppCompatActivity {
                 ) {
             return false;
         }
+
+        if (!validateEmail()) {
+            showRegisterDialog(getString(R.string.login_invalid_email));
+            return false;
+        }
         return true;
+    }
+
+    private boolean validateEmail() {
+        return Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches();
     }
 
     private void configureToolbar() {
