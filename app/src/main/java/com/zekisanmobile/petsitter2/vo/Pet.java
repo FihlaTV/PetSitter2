@@ -1,10 +1,12 @@
 package com.zekisanmobile.petsitter2.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class Pet extends RealmObject {
@@ -34,6 +36,10 @@ public class Pet extends RealmObject {
     private PhotoUrl photoUrl;
 
     private Animal animal;
+
+    @JsonIgnore
+    @Ignore
+    private boolean selected;
 
     public String getId() {
         return id;
@@ -113,5 +119,13 @@ public class Pet extends RealmObject {
 
     public void setAnimal(Animal animal) {
         this.animal = animal;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

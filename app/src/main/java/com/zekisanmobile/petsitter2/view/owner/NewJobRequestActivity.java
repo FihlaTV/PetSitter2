@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -32,6 +36,7 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.PetListForJobAdapter;
 import com.zekisanmobile.petsitter2.job.job.FetchOwnerJobsJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.model.AnimalModel;
@@ -41,12 +46,14 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
+import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.util.KeyboardUtils;
 import com.zekisanmobile.petsitter2.util.UniqueID;
 import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
 import com.zekisanmobile.petsitter2.vo.Owner;
+import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 import com.zekisanmobile.petsitter2.vo.User;
 
@@ -82,6 +89,10 @@ public class NewJobRequestActivity extends AppCompatActivity
     private UserModel userModel;
     private JobModel jobModel;
     private SessionManager sessionManager;
+
+    private BottomSheetBehavior bottomSheetBehavior;
+    private PetListForJobAdapter adapter;
+    private List<Pet> petsToSelect;
 
     private int year, month, day, hour, minute;
     private Calendar tDefault;
@@ -124,6 +135,12 @@ public class NewJobRequestActivity extends AppCompatActivity
     @BindView(R.id.sp_animal)
     Spinner spAnimal;
 
+    @BindView(R.id.bottom_sheet)
+    NestedScrollView bottomSheet;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,11 +149,14 @@ public class NewJobRequestActivity extends AppCompatActivity
         ((PetSitterApp)getApplication()).getAppComponent().inject(this);
         ButterKnife.bind(this);
 
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
         sitter_id = getIntent().getStringExtra(Extra.SITTER_ID);
 
         defineMembers();
         configureToolbar();
         setupViews();
+        setupRecyclerView();
         configureSpinner();
         hideKeyboard();
     }
@@ -216,6 +236,16 @@ public class NewJobRequestActivity extends AppCompatActivity
         calculateTotalValue();
     }
 
+    @OnClick(R.id.bt_add_animal)
+    public void addAnimal() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @OnClick(R.id.btn_finish)
+    public void finishSelectingPets () {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
     @OnClick(R.id.et_date_start)
     public void doScheduleDateStart() {
         KeyboardUtils.hideKeyboard(this);
@@ -258,6 +288,8 @@ public class NewJobRequestActivity extends AppCompatActivity
         user = userModel.find(user_id);
         owner = ownerModel.find(user.getEntityId());
         jobModel = new JobModel(realm);
+
+        petsToSelect = owner.getPets();
     }
 
     private void configureToolbar() {
@@ -540,5 +572,15 @@ public class NewJobRequestActivity extends AppCompatActivity
         }
 
         return list;
+    }
+
+    private void setupRecyclerView() {
+        adapter = new PetListForJobAdapter(this, petsToSelect);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapter);
     }
 }
