@@ -156,7 +156,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
     private void setupViews() {
         tvSitter.setText(job.getSitter().getName());
         Picasso.with(this)
-                .load(job.getSitter().getPhotoUrl().getLarge())
+                .load(job.getSitter().getPhotoUrl().getImage())
                 .transform(new CircleTransform())
                 .into(ivSitter);
         tvPeriod.setText(DateFormatter.formattedDatePeriodForView(job.getDateStart(),

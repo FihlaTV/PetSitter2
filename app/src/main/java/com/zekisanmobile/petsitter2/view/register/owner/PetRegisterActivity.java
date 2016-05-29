@@ -149,7 +149,7 @@ public class PetRegisterActivity extends AppCompatActivity {
         realm.beginTransaction();
         PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
         photoUrl.setId(UniqueID.generateUniqueID());
-        photoUrl.setLarge(fileUri.toString());
+        photoUrl.setImage(fileUri.toString());
         realm.commitTransaction();
 
         return photoUrl;

@@ -44,7 +44,7 @@ public class OwnerRateListAdapter extends RecyclerView.Adapter<OwnerRateListAdap
         Job job = jobsWithRate.get(position);
 
         Picasso.with(context)
-                .load(job.getOwner().getPhotoUrl().getMedium())
+                .load(job.getOwner().getPhotoUrl().getImage())
                 .transform(new CircleTransform())
                 .into(holder.ivPhoto);
 

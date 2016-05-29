@@ -18,6 +18,7 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.GCMToken;
 import com.zekisanmobile.petsitter2.view.register.RegisterView;
 import com.zekisanmobile.petsitter2.view.register.owner.PetListActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -196,7 +197,7 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     private String getOwnerPhotoFile(String ownerId) {
         Realm realm = Realm.getDefaultInstance();
         String file = realm.where(Owner.class).equalTo("id", ownerId).findFirst().getPhotoUrl()
-                .getLarge();
+                .getImage();
         realm.close();
 
         return file;
@@ -213,7 +214,7 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     private String getPetPhotoFile(String app_id) {
         Realm realm = Realm.getDefaultInstance();
         String file = realm.where(Pet.class).equalTo("id", app_id).findFirst().getPhotoUrl()
-                .getLarge();
+                .getImage();
         realm.close();
 
         return file;
@@ -276,7 +277,9 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
         body.setPassword(user.getPassword());
         body.setEntity_id(user.getEntityId());
         body.setEntity_type(user.getEntityType());
-        body.setDevice_token(user.getDeviceToken());
+
+        String token = GCMToken.getTokenFromCGM(view.getContext(), view.getSenderId());
+        body.setDevice_token(token);
         realm.close();
         return body;
     }

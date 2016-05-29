@@ -129,7 +129,7 @@ public class SlideshowDialogFragment extends DialogFragment {
             PhotoUrl photo = photos.get(position);
 
             Picasso.with(getActivity())
-                    .load(photo.getLarge())
+                    .load(photo.getImage())
                     .into(ivPhotoPreview);
 
             container.addView(view);

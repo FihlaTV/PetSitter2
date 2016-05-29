@@ -275,7 +275,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         etTimeFinal.setInputType(InputType.TYPE_NULL);
         tvSitter.setText(sitter.getName());
         Picasso.with(this)
-                .load(sitter.getPhotoUrl().getLarge())
+                .load(sitter.getPhotoUrl().getImage())
                 .transform(new CircleTransform())
                 .into(ivSitter);
     }

@@ -17,6 +17,7 @@ import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
 import com.zekisanmobile.petsitter2.util.EntityType;
+import com.zekisanmobile.petsitter2.util.GCMToken;
 import com.zekisanmobile.petsitter2.view.register.RegisterView;
 import com.zekisanmobile.petsitter2.view.register.sitter.AboutMeRegisterActivity;
 import com.zekisanmobile.petsitter2.vo.Animal;
@@ -178,7 +179,7 @@ public class CreateSitterTask extends AsyncTask<Void, Void, Void> {
     private String getOwnerPhotoFile(String sitterId) {
         Realm realm = Realm.getDefaultInstance();
         String file = realm.where(Sitter.class).equalTo("id", sitterId).findFirst().getPhotoUrl()
-                .getLarge();
+                .getImage();
         realm.close();
 
         return file;
@@ -227,7 +228,8 @@ public class CreateSitterTask extends AsyncTask<Void, Void, Void> {
         body.setPassword(user.getPassword());
         body.setEntity_id(user.getEntityId());
         body.setEntity_type(user.getEntityType());
-        body.setDevice_token(user.getDeviceToken());
+        String token = GCMToken.getTokenFromCGM(view.getContext(), view.getSenderId());
+        body.setDevice_token(token);
         realm.close();
         return body;
     }

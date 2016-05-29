@@ -9,4 +9,6 @@ public interface RegisterView {
 
     Context getContext();
 
+    String getSenderId();
+
 }

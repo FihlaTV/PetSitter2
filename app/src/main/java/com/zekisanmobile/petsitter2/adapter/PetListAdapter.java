@@ -41,13 +41,13 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Pet pet = petList.get(position);
 
-        if (pet.getPhotoUrl().getLarge().contains("http")) {
+        if (pet.getPhotoUrl().getImage().contains("http")) {
             Picasso.with(context)
-                    .load(pet.getPhotoUrl().getLarge())
+                    .load(pet.getPhotoUrl().getImage())
                     .transform(new CircleTransform())
                     .into(holder.ivPhoto);
         } else {
-            File file = new File(Uri.parse(pet.getPhotoUrl().getLarge()).getPath());
+            File file = new File(Uri.parse(pet.getPhotoUrl().getImage()).getPath());
             Picasso.with(context)
                     .load(file)
                     .transform(new CircleTransform())

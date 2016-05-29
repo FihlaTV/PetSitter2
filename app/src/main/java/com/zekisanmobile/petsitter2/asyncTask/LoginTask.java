@@ -67,14 +67,17 @@ public class LoginTask extends AsyncTask<String, Void, Boolean>{
         try {
             Response<User> response = service.login(body).execute();
             if (response.isSuccessful()) {
+                token = GCMToken.getTokenFromCGM(view.getContext(), view.getSenderId());
+
                 User user = response.body();
+                user.setDeviceToken(token);
+
                 Realm realm = Realm.getDefaultInstance();
                 UserModel userModel = new UserModel(realm);
                 userModel.save(user);
                 realm.close();
                 this.user = user;
 
-                token = GCMToken.getTokenFromCGM(view.getContext(), view.getSenderId());
                 sendTokenToServer(user.getId());
                 saveSharedPreferences(user.getId());
                 getEntity(user.getEntityId(), user.getEntityType());

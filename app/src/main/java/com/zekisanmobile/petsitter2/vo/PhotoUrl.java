@@ -11,11 +11,7 @@ public class PhotoUrl extends RealmObject {
     @JsonProperty("app_id")
     private String id;
 
-    private String thumb;
-
-    private String medium;
-
-    private String large;
+    private String image;
 
     public String getId() {
         return id;
@@ -25,27 +21,11 @@ public class PhotoUrl extends RealmObject {
         this.id = id;
     }
 
-    public String getThumb() {
-        return thumb;
+    public String getImage() {
+        return image;
     }
 
-    public void setThumb(String thumb) {
-        this.thumb = thumb;
-    }
-
-    public String getMedium() {
-        return medium;
-    }
-
-    public void setMedium(String medium) {
-        this.medium = medium;
-    }
-
-    public String getLarge() {
-        return large;
-    }
-
-    public void setLarge(String large) {
-        this.large = large;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

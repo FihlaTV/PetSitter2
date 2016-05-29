@@ -44,12 +44,12 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
         Sitter sitter = sitters.get(position);
 
         Picasso.with(context)
-                .load(sitter.getPhotoUrl().getMedium())
+                .load(sitter.getPhotoUrl().getImage())
                 .transform(new CircleTransform())
                 .into(holder.ivSitter);
 
         holder.tvName.setText(sitter.getName());
-        holder.tvStatus.setText(sitter.getAboutMe());
+        holder.tvValueHour.setText(String.valueOf(sitter.getValueHour()));
         holder.tvSitterRateAvg.setText(String.valueOf(sitter.getRateAvg()));
     }
 
@@ -70,8 +70,8 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
         @BindView(R.id.tv_name)
         TextView tvName;
 
-        @BindView(R.id.tv_status)
-        TextView tvStatus;
+        @BindView(R.id.tv_value_hour)
+        TextView tvValueHour;
 
         @BindView(R.id.tv_sitter_rate_avg)
         TextView tvSitterRateAvg;

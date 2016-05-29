@@ -96,7 +96,7 @@ public class SitterProfileActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         Picasso.with(this)
-                .load(sitter.getPhotoUrl().getLarge())
+                .load(sitter.getPhotoUrl().getImage())
                 .into(ivSitter);
     }
 

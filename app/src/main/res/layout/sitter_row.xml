@@ -33,13 +33,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/tv_status"
+        android:id="@+id/tv_value_hour"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="@color/colorSecondaryText"
+        android:textColor="@color/colorAccent"
         android:layout_alignBottom="@+id/iv_sitter"
         android:layout_alignLeft="@+id/tv_name"
-        android:layout_alignStart="@+id/tv_name" />
+        android:layout_alignStart="@+id/tv_name"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"

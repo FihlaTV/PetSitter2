@@ -122,8 +122,6 @@ public class BasicRegisterActivity extends AppCompatActivity {
         user.setPassword(etPassword.getText().toString().trim());
         user.setEntityType(entityType);
         user.setEntityId(entityId);
-        user.setDeviceToken(GCMToken.getTokenFromCGM(getApplicationContext(),
-                getString(R.string.gcm_sender_id)));
         realm.commitTransaction();
 
         this.userId = user.getId();

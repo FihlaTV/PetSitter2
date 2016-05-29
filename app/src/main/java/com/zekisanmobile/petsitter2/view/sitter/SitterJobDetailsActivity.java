@@ -246,7 +246,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
     private void setupViews() {
         tvOwner.setText(job.getOwner().getName());
         Picasso.with(this)
-                .load(job.getOwner().getPhotoUrl().getLarge())
+                .load(job.getOwner().getPhotoUrl().getImage())
                 .transform(new CircleTransform())
                 .into(ivOwner);
         tvAddress.setText(job.getOwner().getDistrict());

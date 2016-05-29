@@ -67,7 +67,7 @@ public class SendSummaryJob extends BaseJob {
         RequestBody photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
                 summary.getPhotoUrl().getId());
 
-        Uri fileUri = Uri.parse(summary.getPhotoUrl().getLarge());
+        Uri fileUri = Uri.parse(summary.getPhotoUrl().getImage());
         File file =  new File(fileUri.getPath());
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
 

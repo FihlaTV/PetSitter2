@@ -116,6 +116,11 @@ public class PetListActivity extends AppCompatActivity implements RegisterView {
         return getApplicationContext();
     }
 
+    @Override
+    public String getSenderId() {
+        return getString(R.string.gcm_sender_id);
+    }
+
     public void redirectUser(User user) {
         Intent intent;
         switch (user.getEntityType()) {

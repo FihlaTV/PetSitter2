@@ -49,7 +49,7 @@ public class SummaryListAdapter extends RecyclerView.Adapter<SummaryListAdapter.
         holder.dateSummary.setText(DateFormatter.formattedDateForView(new Date()));
 
         Picasso.with(context)
-                .load(summary.getPhotoUrl().getMedium())
+                .load(summary.getPhotoUrl().getImage())
                 .into(holder.thumbnail);
     }
 

@@ -40,7 +40,7 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
         PhotoUrl photo = photoList.get(position);
 
         Picasso.with(context)
-                .load(photo.getMedium())
+                .load(photo.getImage())
                 .resize(60, 60)
                 .into(holder.ivPhoto);
     }
