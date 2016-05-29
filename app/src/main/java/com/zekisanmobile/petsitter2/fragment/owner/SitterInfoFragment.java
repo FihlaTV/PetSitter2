@@ -15,6 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.adapter.PhotoListAdapter;
@@ -34,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-public class SitterInfoFragment extends Fragment {
+public class SitterInfoFragment extends Fragment implements OnMapReadyCallback {
 
     private Realm realm;
     private Sitter sitter;
@@ -44,8 +51,8 @@ public class SitterInfoFragment extends Fragment {
     @BindView(R.id.tv_value_hour)
     TextView tvValueHour;
 
-    @BindView(R.id.tv_district)
-    TextView tvDistrict;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
 
     @BindView(R.id.tv_about_me)
     TextView tvAboutMe;
@@ -69,6 +76,7 @@ public class SitterInfoFragment extends Fragment {
 
         defineMembers();
         defineViewsValues();
+        configureMap();
 
         return view;
     }
@@ -108,7 +116,7 @@ public class SitterInfoFragment extends Fragment {
     private void defineViewsValues() {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         tvValueHour.setText(format.format(sitter.getValueHour()) + "/h");
-        tvDistrict.setText(sitter.getDistrict());
+        tvLocation.setText(sitter.getDistrict() + " - " + sitter.getCity() + " / " + sitter.getState());
         tvAboutMe.setText(sitter.getAboutMe());
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
         setupAnimalsRecyclerView(animalItems);
@@ -167,5 +175,24 @@ public class SitterInfoFragment extends Fragment {
 
                     }
                 }));
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng latLng = new LatLng(sitter.getLatitude(), sitter.getLongitude());
+        double radiusInMeters = 200.0;
+        int strokeColor = 0xffff0000;
+        int shadeColor = 0x44ff0000;
+        CircleOptions circleOptions = new CircleOptions().center(latLng).radius(radiusInMeters)
+                .fillColor(shadeColor).strokeColor(strokeColor).strokeWidth(2);
+        googleMap.addCircle(circleOptions);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+        googleMap.animateCamera(cameraUpdate);
+    }
+
+    private void configureMap() {
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 }
