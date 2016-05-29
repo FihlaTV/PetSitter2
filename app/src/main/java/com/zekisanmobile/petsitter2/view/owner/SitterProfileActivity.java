@@ -99,6 +99,4 @@ public class SitterProfileActivity extends AppCompatActivity {
                 .load(sitter.getPhotoUrl().getImage())
                 .into(ivSitter);
     }
-
-
 }
