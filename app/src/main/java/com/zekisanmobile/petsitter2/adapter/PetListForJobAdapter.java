@@ -25,6 +25,7 @@ public class PetListForJobAdapter extends RecyclerView.Adapter<PetListForJobAdap
 
     private Context context;
     private List<Pet> petList;
+    private List<String> selectedIds = new ArrayList<>();
 
     public PetListForJobAdapter(Context context, List<Pet> petList) {
         this.context = context;
@@ -51,7 +52,11 @@ public class PetListForJobAdapter extends RecyclerView.Adapter<PetListForJobAdap
         holder.cbPet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                petList.get(position).setSelected(isChecked);
+                if (isChecked) {
+                    selectedIds.add(petList.get(position).getId());
+                } else {
+                    selectedIds.remove(petList.get(position).getId());
+                }
             }
         });
     }
@@ -80,13 +85,15 @@ public class PetListForJobAdapter extends RecyclerView.Adapter<PetListForJobAdap
     }
 
     public ArrayList<Pet> getSelectedPets() {
-        ArrayList<Pet> selectedPet = new ArrayList<>();
-        for (Pet pet : petList) {
-            if (pet.isSelected()) {
-                selectedPet.add(pet);
+        ArrayList<Pet> selectedPets = new ArrayList<>();
+        for (String id : selectedIds) {
+            for (Pet pet : petList) {
+                if (pet.getId().equalsIgnoreCase(id)) {
+                    selectedPets.add(pet);
+                }
             }
         }
 
-        return selectedPet;
+        return selectedPets;
     }
 }

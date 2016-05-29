@@ -29,7 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.birbit.android.jobqueue.JobManager;
-import com.birbit.android.jobqueue.config.Configuration;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -37,6 +36,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.PetListForJobAdapter;
+import com.zekisanmobile.petsitter2.adapter.SelectedPetListForJobAdapter;
 import com.zekisanmobile.petsitter2.job.job.FetchOwnerJobsJob;
 import com.zekisanmobile.petsitter2.job.job.SendJobRequestJob;
 import com.zekisanmobile.petsitter2.model.AnimalModel;
@@ -91,8 +91,10 @@ public class NewJobRequestActivity extends AppCompatActivity
     private SessionManager sessionManager;
 
     private BottomSheetBehavior bottomSheetBehavior;
-    private PetListForJobAdapter adapter;
+    private PetListForJobAdapter adapterPetsSelect;
+    private SelectedPetListForJobAdapter adapterSelectedPets;
     private List<Pet> petsToSelect;
+    private List<Pet> selectedPets;
 
     private int year, month, day, hour, minute;
     private Calendar tDefault;
@@ -101,7 +103,6 @@ public class NewJobRequestActivity extends AppCompatActivity
     private int flag;
 
     private Realm realm;
-    private Configuration config;
 
     private List<String> animals = new ArrayList<>();
 
@@ -132,14 +133,17 @@ public class NewJobRequestActivity extends AppCompatActivity
     @BindView(R.id.tv_total_value)
     TextView tvTotalValue;
 
-    @BindView(R.id.sp_animal)
-    Spinner spAnimal;
+    /*@BindView(R.id.sp_animal)
+    Spinner spAnimal;*/
 
     @BindView(R.id.bottom_sheet)
     NestedScrollView bottomSheet;
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.rv_selected_pets)
+    RecyclerView rvSelectedPets;
+
+    @BindView(R.id.rv_pets_to_select)
+    RecyclerView rvPetsToSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +160,9 @@ public class NewJobRequestActivity extends AppCompatActivity
         defineMembers();
         configureToolbar();
         setupViews();
-        setupRecyclerView();
-        configureSpinner();
+        rvSelectedPets();
+        setupRvPetsToSelect();
+        //configureSpinner();
         hideKeyboard();
     }
 
@@ -243,6 +248,9 @@ public class NewJobRequestActivity extends AppCompatActivity
 
     @OnClick(R.id.btn_finish)
     public void finishSelectingPets () {
+        selectedPets = adapterPetsSelect.getSelectedPets();
+        adapterSelectedPets.setSelectedPetsList(selectedPets);
+        adapterSelectedPets.notifyDataSetChanged();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
@@ -290,6 +298,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         jobModel = new JobModel(realm);
 
         petsToSelect = owner.getPets();
+        selectedPets = new ArrayList<>();
     }
 
     private void configureToolbar() {
@@ -326,7 +335,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, animals);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spAnimal.setAdapter(dataAdapter);
+        //spAnimal.setAdapter(dataAdapter);
 
         View btRemoveAnimal = findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
@@ -346,7 +355,7 @@ public class NewJobRequestActivity extends AppCompatActivity
     }
 
     public void callAddAnimal(View view) {
-        createPetForView(view, animals);
+        //createPetForView(view, animals);
     }
 
     private void callRemoveAnimal(View view) {
@@ -574,13 +583,23 @@ public class NewJobRequestActivity extends AppCompatActivity
         return list;
     }
 
-    private void setupRecyclerView() {
-        adapter = new PetListForJobAdapter(this, petsToSelect);
+    private void setupRvPetsToSelect() {
+        adapterPetsSelect = new PetListForJobAdapter(this, petsToSelect);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+        rvPetsToSelect.setLayoutManager(linearLayoutManager);
+        rvPetsToSelect.addItemDecoration(new DividerItemDecoration(this,
                 LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(adapter);
+        rvPetsToSelect.setAdapter(adapterPetsSelect);
+    }
+
+    private void rvSelectedPets() {
+        adapterSelectedPets = new SelectedPetListForJobAdapter(this, selectedPets);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvSelectedPets.setLayoutManager(linearLayoutManager);
+        rvSelectedPets.addItemDecoration(new DividerItemDecoration(this,
+                LinearLayoutManager.VERTICAL));
+        rvSelectedPets.setAdapter(adapterSelectedPets);
     }
 }
