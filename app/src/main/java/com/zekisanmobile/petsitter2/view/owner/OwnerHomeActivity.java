@@ -109,7 +109,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
     }
 
     private void setupToolbar() {
-        toolbar.setTitle(owner.getName());
+        toolbar.setTitle(owner.getName() + " " + owner.getSurname());
         setSupportActionBar(toolbar);
     }
 

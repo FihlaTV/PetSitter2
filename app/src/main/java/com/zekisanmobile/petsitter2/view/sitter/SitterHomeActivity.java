@@ -163,7 +163,7 @@ public class SitterHomeActivity extends AppCompatActivity implements HomeView {
     }
 
     private void setupToolbar() {
-        toolbar.setTitle(sitter.getName());
+        toolbar.setTitle(sitter.getName() + " " + sitter.getSurname());
         setSupportActionBar(toolbar);
     }
 
