@@ -6,14 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.customListener.RecyclerViewOnClickListener;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
+import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Sitter;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,9 +51,26 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
                 .transform(new CircleTransform())
                 .into(holder.ivSitter);
 
-        holder.tvName.setText(sitter.getName());
-        holder.tvValueHour.setText(String.valueOf(sitter.getValueHour()));
+        holder.tvName.setText(sitter.getName() + " " + sitter.getSurname());
+        holder.tvValueHour.setText(NumberFormat.getCurrencyInstance().format(sitter.getValueHour())  + "/hora");
         holder.tvSitterRateAvg.setText(String.valueOf(sitter.getRateAvg()));
+
+        for (Animal animal : sitter.getAnimals()) {
+            ImageView ivAnimal = new ImageView(context);
+
+            String[] animalNames = context.getResources().getStringArray(R.array.animal_names);
+            String[] animalIcons = context.getResources().getStringArray(R.array.animal_icons);
+
+            for (int i = 0; i < animalNames.length; i++) {
+                if (animalNames[i].equalsIgnoreCase(animal.getName())) {
+                    int resourceId = context.getResources().getIdentifier(animalIcons[i],
+                            "drawable", context.getPackageName());
+                    ivAnimal.setImageResource(resourceId);
+                    holder.llPetsImages.addView(ivAnimal);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -75,6 +95,9 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
 
         @BindView(R.id.tv_sitter_rate_avg)
         TextView tvSitterRateAvg;
+
+        @BindView(R.id.ll_pets_images)
+        LinearLayout llPetsImages;
 
         public ViewHolder(View itemView) {
             super(itemView);

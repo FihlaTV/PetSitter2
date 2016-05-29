@@ -37,10 +37,10 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorAccent"
-        android:layout_alignBottom="@+id/iv_sitter"
+        android:textStyle="bold"
+        android:layout_below="@+id/tv_name"
         android:layout_alignLeft="@+id/tv_name"
-        android:layout_alignStart="@+id/tv_name"
-        android:textStyle="bold" />
+        android:layout_alignStart="@+id/tv_name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,5 +55,16 @@
         android:background="@drawable/star_32"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="10sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_pets_images"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_value_hour"
+        android:layout_alignLeft="@+id/tv_value_hour"
+        android:layout_alignStart="@+id/tv_value_hour"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"></LinearLayout>
 
 </RelativeLayout>
