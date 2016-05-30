@@ -3,14 +3,14 @@ package com.zekisanmobile.petsitter2.job.job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.api.ApiService;
-import com.zekisanmobile.petsitter2.api.body.AnimalBody;
 import com.zekisanmobile.petsitter2.api.body.JobRequestBody;
+import com.zekisanmobile.petsitter2.api.body.PetBody;
 import com.zekisanmobile.petsitter2.di.component.AppComponent;
 import com.zekisanmobile.petsitter2.job.BaseJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.DateFormatter;
-import com.zekisanmobile.petsitter2.vo.Animal;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Pet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.realm.Realm;
-import retrofit2.Retrofit;
 
 public class SendJobRequestJob extends BaseJob {
 
@@ -50,11 +49,11 @@ public class SendJobRequestJob extends BaseJob {
         Realm realm = Realm.getDefaultInstance();
         JobModel jobModel = new JobModel(realm);
         Job job = jobModel.find(job_id);
-        List<AnimalBody> animals = new ArrayList<>();
-        for (Animal animal : job.getAnimals()) {
-            AnimalBody animalBody = new AnimalBody();
-            animalBody.setAnimal_id(animal.getId());
-            animals.add(animalBody);
+        List<PetBody> pets = new ArrayList<>();
+        for (Pet pet : job.getPets()) {
+            PetBody petBody = new PetBody();
+            petBody.setPet_app_id(pet.getId());
+            pets.add(petBody);
         }
 
         JobRequestBody body = new JobRequestBody();
@@ -66,7 +65,7 @@ public class SendJobRequestJob extends BaseJob {
         body.setTime_final(job.getTimeFinal());
         body.setTotal_value(job.getTotalValue());
         body.setSitter_id(job.getSitter().getId());
-        body.setAnimal_contacts(animals);
+        body.setPet_contacts(pets);
 
         service.sendJobRequest(body).execute();
         realm.close();

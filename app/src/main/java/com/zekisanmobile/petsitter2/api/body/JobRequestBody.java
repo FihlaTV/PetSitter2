@@ -13,7 +13,7 @@ public class JobRequestBody {
 
     double total_value;
 
-    List<AnimalBody> animal_contacts;
+    List<PetBody> pet_contacts;
 
     public String getContact_app_id() {
         return contact_app_id;
@@ -79,12 +79,11 @@ public class JobRequestBody {
         this.total_value = total_value;
     }
 
-    public List<AnimalBody> getAnimal_contacts() {
-        return animal_contacts;
+    public List<PetBody> getPet_contacts() {
+        return pet_contacts;
     }
 
-    public void setAnimal_contacts(List<AnimalBody> animal_contacts) {
-        this.animal_contacts = animal_contacts;
+    public void setPet_contacts(List<PetBody> pet_contacts) {
+        this.pet_contacts = pet_contacts;
     }
-
 }

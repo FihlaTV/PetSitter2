@@ -36,8 +36,8 @@ public class Job extends RealmObject {
     @JsonProperty("status_cd")
     int status;
 
-    @JsonProperty("animals")
-    RealmList<Animal> animals;
+    @JsonProperty("pets")
+    RealmList<Pet> pets;
 
     @JsonProperty("total_value")
     double totalValue;
@@ -109,12 +109,12 @@ public class Job extends RealmObject {
         this.status = status;
     }
 
-    public RealmList<Animal> getAnimals() {
-        return animals;
+    public RealmList<Pet> getPets() {
+        return pets;
     }
 
-    public void setAnimals(RealmList<Animal> animals) {
-        this.animals = animals;
+    public void setPets(RealmList<Pet> pets) {
+        this.pets = pets;
     }
 
     public double getTotalValue() {

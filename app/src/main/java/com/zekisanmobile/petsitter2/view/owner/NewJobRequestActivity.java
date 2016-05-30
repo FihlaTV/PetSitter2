@@ -77,7 +77,6 @@ public class NewJobRequestActivity extends AppCompatActivity
     private String sitter_id;
     private Sitter sitter;
     private SitterModel sitterModel;
-    private AnimalModel animalModel;
     private Owner owner;
     private OwnerModel ownerModel;
     private User user;
@@ -275,7 +274,6 @@ public class NewJobRequestActivity extends AppCompatActivity
     private void defineMembers() {
         realm = Realm.getDefaultInstance();
 
-        animalModel = new AnimalModel(realm);
         sitterModel = new SitterModel(realm);
         userModel = new UserModel(realm);
         ownerModel = new OwnerModel(realm);
@@ -471,7 +469,7 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setTimeStart(etTimeStart.getText().toString().trim());
             job.setTimeFinal(etTimeFinal.getText().toString().trim());
             job.setTotalValue(calculateTotalValue());
-            job.setAnimals(getAnimalsFromView());
+            job.getPets().addAll(getSelectedPetsFromDB());
             job.setSitter(sitter);
             job.setOwner(owner);
             job.setStatus(10);
@@ -483,18 +481,12 @@ public class NewJobRequestActivity extends AppCompatActivity
         }
     }
 
-    private RealmList<Animal> getAnimalsFromView() {
-        RealmList<Animal> list = new RealmList<Animal>();
-        LinearLayout llAnimals = (LinearLayout) findViewById(R.id.ll_animals);
+    private RealmList<Pet> getSelectedPetsFromDB() {
+        RealmList<Pet> list = new RealmList<Pet>();
 
-        for (int i = 0; i < llAnimals.getChildCount(); i++) {
-            if (llAnimals.getChildAt(i) instanceof LinearLayout) {
-                LinearLayout linearLayoutNestedChild = (LinearLayout) llAnimals.getChildAt(i);
-                Spinner spAnimal = (Spinner) linearLayoutNestedChild.getChildAt(0).findViewById(R.id.sp_animal);
-
-                Animal animal = animalModel.findByName(spAnimal.getSelectedItem().toString().trim());
-                list.add(animal);
-            }
+        for (Pet p : selectedPets) {
+            Pet pet = realm.where(Pet.class).equalTo("id", p.getId()).findFirst();
+            list.add(pet);
         }
 
         return list;
