@@ -51,7 +51,7 @@ public interface ApiService {
     Call<List<Sitter>> searchSitters(@Body SearchSittersBody body);
 
     @POST("pet_owners/request_contact")
-    Call<Void> sendJobRequest(@Path("owner") @Body JobRequestBody body);
+    Call<Void> sendJobRequest(@Body JobRequestBody body);
 
     @POST("sitter_contacts.json")
     Call<List<Job>> sitterJobs(@Body GetJobsBody body);

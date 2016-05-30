@@ -469,7 +469,7 @@ public class NewJobRequestActivity extends AppCompatActivity
             job.setTimeStart(etTimeStart.getText().toString().trim());
             job.setTimeFinal(etTimeFinal.getText().toString().trim());
             job.setTotalValue(calculateTotalValue());
-            job.getPets().addAll(getSelectedPetsFromDB());
+            job.setPets(getSelectedPetsFromDB());
             job.setSitter(sitter);
             job.setOwner(owner);
             job.setStatus(10);

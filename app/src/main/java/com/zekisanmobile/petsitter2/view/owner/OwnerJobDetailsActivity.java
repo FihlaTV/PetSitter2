@@ -164,10 +164,10 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
         tvTime.setText(DateFormatter.formattedTimePeriodForView(job.getTimeStart(),
                 job.getTimeFinal()));
         tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(job.getTotalValue()));
-        setupRecyclerView();
+        //setupRecyclerView();
     }
 
-    private void setupRecyclerView() {
+    /*private void setupRecyclerView() {
         List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
         SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -192,5 +192,5 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
             }
         }
         return animalItems;
-    }
+    }*/
 }
