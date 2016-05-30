@@ -169,8 +169,6 @@
                     android:layout_marginTop="11dp"
                     android:orientation="vertical">
 
-                    <!--<include layout="@layout/box_animal" />-->
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_selected_pets"
                         android:layout_width="match_parent"
@@ -184,7 +182,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="@string/actions.add"
+                        android:text="@string/actions.add_remove"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryDark" />
 

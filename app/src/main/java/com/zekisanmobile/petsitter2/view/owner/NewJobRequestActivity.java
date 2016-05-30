@@ -14,14 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,7 +75,6 @@ public class NewJobRequestActivity extends AppCompatActivity
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
 
     private String sitter_id;
-    private int selectedAnimalsCount;
     private Sitter sitter;
     private SitterModel sitterModel;
     private AnimalModel animalModel;
@@ -103,8 +98,6 @@ public class NewJobRequestActivity extends AppCompatActivity
     private int flag;
 
     private Realm realm;
-
-    private List<String> animals = new ArrayList<>();
 
     @Inject
     JobManager jobManager;
@@ -133,9 +126,6 @@ public class NewJobRequestActivity extends AppCompatActivity
     @BindView(R.id.tv_total_value)
     TextView tvTotalValue;
 
-    /*@BindView(R.id.sp_animal)
-    Spinner spAnimal;*/
-
     @BindView(R.id.bottom_sheet)
     NestedScrollView bottomSheet;
 
@@ -160,9 +150,8 @@ public class NewJobRequestActivity extends AppCompatActivity
         defineMembers();
         configureToolbar();
         setupViews();
-        rvSelectedPets();
+        setupRvSelectedPets();
         setupRvPetsToSelect();
-        //configureSpinner();
         hideKeyboard();
     }
 
@@ -252,6 +241,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         adapterSelectedPets.setSelectedPetsList(selectedPets);
         adapterSelectedPets.notifyDataSetChanged();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        calculateTotalValue();
     }
 
     @OnClick(R.id.et_date_start)
@@ -321,31 +311,6 @@ public class NewJobRequestActivity extends AppCompatActivity
                 .into(ivSitter);
     }
 
-    private void configureSpinner() {
-        String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
-
-        for (int i = 0; i < animalNames.length; i++) {
-            for (int j = 0; j < sitter.getAnimals().size(); j++) {
-                if (sitter.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
-                    animals.add(animalNames[i]);
-                }
-            }
-        }
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, animals);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //spAnimal.setAdapter(dataAdapter);
-
-        View btRemoveAnimal = findViewById(R.id.bt_remove_animal);
-        btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callRemoveAnimal(v);
-            }
-        });
-    }
-
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etDateStart.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -354,54 +319,9 @@ public class NewJobRequestActivity extends AppCompatActivity
         imm.hideSoftInputFromWindow(etTimeFinal.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void callAddAnimal(View view) {
-        //createPetForView(view, animals);
-    }
-
-    private void callRemoveAnimal(View view) {
-        LinearLayout linearLayoutParent = (LinearLayout) view.getParent().getParent();
-
-        if (linearLayoutParent.getChildCount() > 2) {
-            linearLayoutParent.removeView((LinearLayout) view.getParent());
-            calculateTotalValue();
-        }
-    }
-
-    private void createPetForView(View view, List<String> animals) {
-        LayoutInflater inflater = this.getLayoutInflater();
-        LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
-
-        Spinner spAnimal = (Spinner) linearLayoutChild.findViewById(R.id.sp_animal);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, animals);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spAnimal.setAdapter(dataAdapter);
-
-        View btRemoveAnimal = linearLayoutChild.findViewById(R.id.bt_remove_animal);
-        btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callRemoveAnimal(view);
-            }
-        });
-
-        float scale = getResources().getDisplayMetrics().density;
-        int margin = (int) (5 * scale + 0.5f);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(margin, margin, margin, margin);
-        linearLayoutChild.setLayoutParams(layoutParams);
-
-        LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
-        linearLayoutParent.addView(linearLayoutChild, linearLayoutParent.getChildCount() - 2);
-
-        calculateTotalValue();
-    }
-
     private double calculateTotalValue() {
-        updateSelectedAnimalsCount();
         double totalValue;
-        if (isJobValid() && selectedAnimalsCount > 0) {
+        if (isJobValid()) {
             SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
             try {
@@ -415,26 +335,23 @@ public class NewJobRequestActivity extends AppCompatActivity
 
                 double minuteValue = sitter.getValueHour() / 60;
                 double totalMinutesValue = minutes * minuteValue;
-                totalValue = totalMinutesValue * days * selectedAnimalsCount;
+                totalValue = totalMinutesValue * days * adapterSelectedPets.getItemCount();
                 tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue));
                 return totalValue;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+        tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(0));
         return 0;
-    }
-
-    private void updateSelectedAnimalsCount() {
-        LinearLayout llAnimals = (LinearLayout) findViewById(R.id.ll_animals);
-        selectedAnimalsCount = llAnimals.getChildCount() - 1;
     }
 
     private boolean isJobValid() {
         if (!TextUtils.isEmpty(etDateStart.getText().toString().trim())
                 && !TextUtils.isEmpty(etDateFinal.getText().toString().trim())
                 && !TextUtils.isEmpty(etTimeStart.getText().toString().trim())
-                && !TextUtils.isEmpty(etTimeFinal.getText().toString().trim())) {
+                && !TextUtils.isEmpty(etTimeFinal.getText().toString().trim())
+                && adapterSelectedPets.getItemCount() > 0) {
             return true;
         } else {
             return false;
@@ -593,7 +510,7 @@ public class NewJobRequestActivity extends AppCompatActivity
         rvPetsToSelect.setAdapter(adapterPetsSelect);
     }
 
-    private void rvSelectedPets() {
+    private void setupRvSelectedPets() {
         adapterSelectedPets = new SelectedPetListForJobAdapter(this, selectedPets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
