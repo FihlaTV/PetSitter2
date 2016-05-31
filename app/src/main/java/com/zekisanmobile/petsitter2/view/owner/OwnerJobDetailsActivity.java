@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.PetListAdapter;
 import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.model.JobModel;
 import com.zekisanmobile.petsitter2.util.CircleTransform;
@@ -23,6 +25,7 @@ import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
 import com.zekisanmobile.petsitter2.view.summary.DailySummariesListActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
 import java.text.NumberFormat;
@@ -62,6 +65,12 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.tv_value_hour)
+    TextView tvValueHour;
+
+    @BindView(R.id.rating_bar)
+    RatingBar ratingBar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,7 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
 
         defineMembers();
         configureToolbar();
+        setupRecyclerView();
         setupViews();
     }
 
@@ -143,54 +153,37 @@ public class OwnerJobDetailsActivity extends AppCompatActivity {
     private String getTitleForToolbar() {
         switch (jobStatus) {
             case JobsStatusString.NEW:
-                return getString(R.string.new_job);
+                return getString(R.string.new_reservation);
             case JobsStatusString.NEXT:
-                return getString(R.string.next_job);
+                return getString(R.string.next_reservation);
             case JobsStatusString.CURRENT:
-                return getString(R.string.current_job);
+                return getString(R.string.current_reservation);
             default:
-                return getString(R.string.finished_job);
+                return getString(R.string.finished_reservation);
         }
     }
 
     private void setupViews() {
-        tvSitter.setText(job.getSitter().getName());
+        tvSitter.setText(job.getSitter().getName() + " " + job.getSitter().getSurname());
+        tvValueHour.setText(NumberFormat.getCurrencyInstance().format(job.getSitter().getValueHour()) + " /hora");
+        ratingBar.setRating(job.getSitter().getRateAvg());
         Picasso.with(this)
                 .load(job.getSitter().getPhotoUrl().getImage())
-                .transform(new CircleTransform())
                 .into(ivSitter);
         tvPeriod.setText(DateFormatter.formattedDatePeriodForView(job.getDateStart(),
                 job.getDateFinal()));
         tvTime.setText(DateFormatter.formattedTimePeriodForView(job.getTimeStart(),
                 job.getTimeFinal()));
         tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(job.getTotalValue()));
-        //setupRecyclerView();
     }
 
-    /*private void setupRecyclerView() {
-        List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
-        SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
+    private void setupRecyclerView() {
+        List<Pet> pets = job.getPets();
+        PetListAdapter adapter = new PetListAdapter(this, pets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    private List<SearchAnimalItem> populateAnimalsRecyclerView() {
-        String[] animalIcons = this.getResources().getStringArray(R.array.animal_icons);
-        String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
-        List<SearchAnimalItem> animalItems = new ArrayList<>();
-
-        for (int i = 0; i < animalNames.length; i++) {
-            for (int j = 0; j < job.getAnimals().size(); j++) {
-                if(job.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
-                    SearchAnimalItem item = new SearchAnimalItem();
-                    item.setIcon(animalIcons[i]);
-                    item.setName(animalNames[i]);
-                    animalItems.add(item);
-                }
-            }
-        }
-        return animalItems;
-    }*/
 }

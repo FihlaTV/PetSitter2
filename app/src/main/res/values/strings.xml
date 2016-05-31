@@ -110,6 +110,10 @@
     <string name="registry_no_animals_selected">Você deve selecionar pelo menos um animal para finalizar seu cadastro.</string>
     <string name="write_about_you">Escreva sobre você</string>
     <string name="actions.add_remove">Adicionar/Remover</string>
+    <string name="new_reservation">Nova reserva</string>
+    <string name="next_reservation">Próxima reserva</string>
+    <string name="current_reservation">Reserva atual</string>
+    <string name="finished_reservation">Reserva finalizada</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

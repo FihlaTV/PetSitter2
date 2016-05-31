@@ -44,39 +44,41 @@
                         android:layout_height="80dp"
                         android:id="@+id/iv_sitter"
                         android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="29dp" />
 
                     <TextView
                         android:id="@+id/tv_sitter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_sitter"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="9dp"
                         android:text="Nome do Pet Sitter"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_alignTop="@+id/iv_sitter"
+                        android:layout_toRightOf="@+id/tv_total_value"
+                        android:layout_toEndOf="@+id/tv_total_value" />
 
                     <View
                         android:id="@+id/vw_divider1"
                         android:layout_width="match_parent"
                         android:layout_height="0.8dp"
                         android:background="@color/divider"
-                        android:layout_below="@+id/tv_sitter"
+                        android:layout_below="@+id/iv_sitter"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="13dp" />
+                        android:layout_marginTop="22dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/iv_period"
+                        android:src="@drawable/ic_event_note"
+                        android:layout_below="@+id/textView11"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="29dp"
-                        android:src="@drawable/ic_event_note"
-                        android:layout_below="@+id/vw_divider1" />
+                        android:layout_marginTop="12dp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -129,8 +131,10 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:layout_below="@+id/vw_divider2"/>
+                        android:layout_below="@+id/textView13"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="11dp" />
 
                     <View
                         android:id="@+id/vw_divider3"
@@ -154,7 +158,70 @@
                         android:gravity="center_vertical"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Período"
+                        android:id="@+id/textView11"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/vw_divider1"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pets"
+                        android:id="@+id/textView13"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/vw_divider2"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/tv_value_hour"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        android:layout_below="@+id/tv_sitter"
+                        android:layout_alignLeft="@+id/tv_sitter"
+                        android:layout_alignStart="@+id/tv_sitter" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:progressBackgroundTint="@color/white"
+                        android:progressTint="@color/orange"
+                        android:secondaryProgressTint="@color/orange"
+                        android:layout_below="@+id/tv_value_hour"
+                        android:layout_toRightOf="@+id/tv_total_value"
+                        android:layout_toEndOf="@+id/tv_total_value" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pet sitter"
+                        android:id="@+id/textView15"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textStyle="bold"
+                        android:layout_alignRight="@+id/vw_divider1"
+                        android:layout_alignEnd="@+id/vw_divider1"
+                        android:allowUndo="true" />
                 </RelativeLayout>
 
             </ScrollView>
