@@ -64,8 +64,10 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
                 .transform(new CircleTransform())
                 .into(holder.ivPhoto);
 
-        holder.tvDateStart.setText(context.getString(R.string.beginning)
-                + " " + DateFormatter.formattedDateForView(job.getDateStart()));
+        holder.tvDateStart.setText(DateFormatter.formattedDateForView(job.getDateStart())
+        + " - " + DateFormatter.formattedDateForView(job.getDateFinal()));
+        holder.tvLocation.setText(job.getOwner().getDistrict() + " - " +
+        job.getOwner().getCity() + " / " + job.getOwner().getState());
     }
 
     @Override
@@ -88,6 +90,9 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
 
         @BindView(R.id.tv_date_start)
         public TextView tvDateStart;
+
+        @BindView(R.id.tv_location)
+        public TextView tvLocation;
 
         public ViewHolder(View itemView) {
             super(itemView);

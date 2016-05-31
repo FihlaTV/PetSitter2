@@ -37,8 +37,17 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorSecondaryText"
-        android:layout_alignBottom="@+id/iv_photo"
+        android:layout_below="@+id/tv_name"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_alignStart="@+id/tv_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tv_location"
+        android:layout_below="@+id/tv_date_start"
+        android:layout_alignLeft="@+id/tv_date_start"
+        android:layout_alignStart="@+id/tv_date_start" />
 
 </RelativeLayout>

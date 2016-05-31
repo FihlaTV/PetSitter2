@@ -22,11 +22,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
+import com.zekisanmobile.petsitter2.adapter.PetListAdapter;
 import com.zekisanmobile.petsitter2.adapter.SearchAnimalListAdapter;
 import com.zekisanmobile.petsitter2.job.job.SendJobStatusJob;
 import com.zekisanmobile.petsitter2.model.JobModel;
@@ -37,6 +39,7 @@ import com.zekisanmobile.petsitter2.util.EntityType;
 import com.zekisanmobile.petsitter2.util.JobsStatusString;
 import com.zekisanmobile.petsitter2.view.summary.DailySummariesListActivity;
 import com.zekisanmobile.petsitter2.vo.Job;
+import com.zekisanmobile.petsitter2.vo.Pet;
 import com.zekisanmobile.petsitter2.vo.SearchAnimalItem;
 
 import java.text.NumberFormat;
@@ -100,6 +103,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
         defineMembers();
         configureToolbar();
         configureMap();
+        setupRecyclerView();
         setupViews();
     }
 
@@ -111,10 +115,14 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(job.getOwner().getLatitude(),
-                job.getOwner().getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(latLng));
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+        LatLng latLng = new LatLng(job.getOwner().getLatitude(), job.getOwner().getLongitude());
+        double radiusInMeters = 200.0;
+        int strokeColor = 0xffff0000;
+        int shadeColor = 0x44ff0000;
+        CircleOptions circleOptions = new CircleOptions().center(latLng).radius(radiusInMeters)
+                .fillColor(shadeColor).strokeColor(strokeColor).strokeWidth(2);
+        googleMap.addCircle(circleOptions);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         googleMap.animateCamera(cameraUpdate);
     }
 
@@ -195,7 +203,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
         jobManager.addJobInBackground(new SendJobStatusJob(status, job.getId()));
     }
 
-    private void keepDialog(Dialog dialog){
+    private void keepDialog(Dialog dialog) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(dialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -244,44 +252,25 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
     }
 
     private void setupViews() {
-        tvOwner.setText(job.getOwner().getName());
+        tvOwner.setText(job.getOwner().getName() + " " + job.getOwner().getSurname());
         Picasso.with(this)
                 .load(job.getOwner().getPhotoUrl().getImage())
-                .transform(new CircleTransform())
                 .into(ivOwner);
-        tvAddress.setText(job.getOwner().getDistrict());
+        tvAddress.setText(job.getOwner().getDistrict() + " - " + job.getOwner().getCity() + " / "
+                + job.getOwner().getState());
         tvPeriod.setText(DateFormatter.formattedDatePeriodForView(job.getDateStart(),
                 job.getDateFinal()));
         tvTime.setText(DateFormatter.formattedTimePeriodForView(job.getTimeStart(),
                 job.getTimeFinal()));
         tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(job.getTotalValue()));
-        //setupRecyclerView();
     }
 
-   /* private void setupRecyclerView() {
-        List<SearchAnimalItem> animalItems = populateAnimalsRecyclerView();
-        SearchAnimalListAdapter adapter = new SearchAnimalListAdapter(animalItems);
+    private void setupRecyclerView() {
+        List<Pet> pets = job.getPets();
+        PetListAdapter adapter = new PetListAdapter(this, pets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
-
-    private List<SearchAnimalItem> populateAnimalsRecyclerView() {
-        String[] animalIcons = this.getResources().getStringArray(R.array.animal_icons);
-        String[] animalNames = this.getResources().getStringArray(R.array.animal_names);
-        List<SearchAnimalItem> animalItems = new ArrayList<>();
-
-        for (int i = 0; i < animalNames.length; i++) {
-            for (int j = 0; j < job.getAnimals().size(); j++) {
-                if(job.getAnimals().get(j).getName().equalsIgnoreCase(animalNames[i])) {
-                    SearchAnimalItem item = new SearchAnimalItem();
-                    item.setIcon(animalIcons[i]);
-                    item.setName(animalNames[i]);
-                    animalItems.add(item);
-                }
-            }
-        }
-        return animalItems;
-    }*/
 }
