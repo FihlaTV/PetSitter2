@@ -134,7 +134,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
             case JobsStatusString.NEXT:
                 break;
             case JobsStatusString.CURRENT:
-                getMenuInflater().inflate(R.menu.menu_summaries, menu);
+                //getMenuInflater().inflate(R.menu.menu_summaries, menu);
                 break;
             default:
                 getMenuInflater().inflate(R.menu.menu_job_rate, menu);
@@ -146,7 +146,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case R.id.menu_reject:
                 showRejectDialog();
@@ -157,7 +157,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
             case R.id.menu_rate:
                 break;
             case R.id.menu_summary:
-                Intent intent = new Intent(SitterJobDetailsActivity.this,
+                intent = new Intent(SitterJobDetailsActivity.this,
                         DailySummariesListActivity.class);
                 intent.putExtra(Config.JOB_ID, jobId);
                 intent.putExtra(EntityType.TYPE, EntityType.SITTER);
