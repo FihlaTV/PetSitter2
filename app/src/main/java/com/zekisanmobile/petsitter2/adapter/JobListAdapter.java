@@ -51,11 +51,11 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         switch (entity) {
             case EntityType.OWNER:
                 photoUrl = job.getOwner().getPhotoUrl().getImage();
-                holder.tvName.setText(job.getOwner().getName());
+                holder.tvName.setText(job.getOwner().getName() + job.getOwner().getSurname());
                 break;
             default:
                 photoUrl = job.getSitter().getPhotoUrl().getImage();
-                holder.tvName.setText(job.getSitter().getName());
+                holder.tvName.setText(job.getSitter().getName() + job.getSitter().getSurname());
                 break;
         }
 

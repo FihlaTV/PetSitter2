@@ -67,7 +67,7 @@ public class SitterModel {
                 .findAll();
     }
 
-    public List<Job> getNewJobs(String id){
+    public List<Job> getNewJobs(String id) {
         return realm.where(Job.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 10)
@@ -75,23 +75,18 @@ public class SitterModel {
                 .findAll();
     }
 
-    public List<Job> getCurrentJobs(String id){
+    public List<Job> getCurrentJobs(String id) {
         return realm.where(Job.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
-                .lessThanOrEqualTo("dateStart", new Date())
-                .greaterThanOrEqualTo("dateFinal", new Date())
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
     public List<Job> getJobsWithRates(String sitter_id) {
-        List<Job> jobs = getFinishedJobs(sitter_id);
-        if (jobs != null) {
-            for (Job job : jobs) {
-                if (job.getRate() == null) jobs.remove(job);
-            }
-            return jobs;
+        List<Job> jobs = new ArrayList<>();
+        for (Job job : getFinishedJobs(sitter_id)) {
+            if (job.getRate() != null) jobs.add(job);
         }
-        return new ArrayList<Job>();
+        return jobs;
     }
 }
