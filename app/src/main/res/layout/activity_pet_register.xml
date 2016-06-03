@@ -47,21 +47,37 @@
 
                     <Spinner
                         android:id="@+id/sp_animals"
-                        android:layout_width="158dp"
+                        android:layout_width="174dp"
                         android:layout_height="wrap_content" />
+
+                    <View
+                        android:id="@+id/vw_divider1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/divider" />
 
                     <EditText
                         android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:ems="10"
                         android:hint="Nome"
                         android:inputType="textPersonName"
                         android:selectAllOnFocus="true" />
 
+                    <View
+                        android:id="@+id/vw_divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
                         <EditText
                             android:id="@+id/et_age"
@@ -77,6 +93,13 @@
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
+                    <View
+                        android:id="@+id/vw_divider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
+
                     <TextView
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"
@@ -85,16 +108,42 @@
 
                     <Spinner
                         android:id="@+id/sp_sizes"
-                        android:layout_width="match_parent"
+                        android:layout_width="178dp"
                         android:layout_height="wrap_content" />
 
-                    <EditText
-                        android:id="@+id/et_weight"
-                        android:layout_width="97dp"
+                    <View
+                        android:id="@+id/vw_divider4"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Peso"
-                        android:inputType="numberDecimal" />
+                        android:layout_marginTop="10dp">
+
+                        <EditText
+                            android:id="@+id/et_weight"
+                            android:layout_width="97dp"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Peso"
+                            android:inputType="numberDecimal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kg"
+                            android:id="@+id/textView19" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/vw_divider5"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
 
                     <EditText
                         android:id="@+id/et_breed"
@@ -103,7 +152,15 @@
                         android:ems="10"
                         android:hint="Raça"
                         android:inputType="textPersonName"
-                        android:selectAllOnFocus="true" />
+                        android:selectAllOnFocus="true"
+                        android:layout_marginTop="10dp" />
+
+                    <View
+                        android:id="@+id/vw_divider6"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
 
                     <EditText
                         android:id="@+id/et_care"
@@ -111,12 +168,20 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Cuidados especiais"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:layout_marginTop="10dp" />
+
+                    <View
+                        android:id="@+id/vw_divider7"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
 
                     <ImageView
                         android:id="@+id/iv_photo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:adjustViewBounds="false"
                         android:src="@drawable/ic_camer" />
 
