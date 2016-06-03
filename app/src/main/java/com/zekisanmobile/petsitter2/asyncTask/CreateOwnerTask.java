@@ -70,7 +70,7 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         try {
             createOwner();
-            createPets();
+            //createPets();
             login();
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,6 +183,20 @@ public class CreateOwnerTask extends AsyncTask<Void, Void, Void> {
     private void createOwner() throws IOException {
         CreateOwnerBody ownerBody = getCreateOwnerBody();
         service.createOwner(ownerBody).execute();
+
+        List<CreatePetBody> petBodyList = getCreatePetBodyList();
+        for(CreatePetBody body : petBodyList) {
+            service.createPet(body).execute();
+
+            RequestBody app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    body.getApp_id());
+            RequestBody photo_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    getPetPhotoAppId(body.getApp_id()));
+            Uri fileUri = Uri.parse(getPetPhotoFile(body.getApp_id()));
+            File file =  new File(fileUri.getPath());
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+            service.insertPetPhoto(app_id, photo_app_id, fileBody).execute();
+        }
 
         RequestBody owner_app_id = RequestBody.create(MediaType.parse("multipart/form-data"),
                 ownerId);
