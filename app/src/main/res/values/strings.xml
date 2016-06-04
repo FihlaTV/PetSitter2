@@ -114,6 +114,8 @@
     <string name="next_reservation">Próxima reserva</string>
     <string name="current_reservation">Reserva atual</string>
     <string name="finished_reservation">Reserva finalizada</string>
+    <string name="action_my_pets">Meus pets</string>
+    <string name="saving_pet_dialog">Salvando seu pet.</string>
 
     <!-- Search animal names -->
     <string-array name="animal_names">

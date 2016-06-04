@@ -117,6 +117,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".view.owner.MyPetsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"/>
+        <activity
+            android:name=".view.owner.AddNewPetActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.owner.MyPetsActivity"/>
+        <activity
             android:name=".view.sitter.SitterHomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -178,7 +189,7 @@
         <activity
             android:name=".view.register.sitter.AboutMeRegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- [END UI Activity] -->
 
         <meta-data

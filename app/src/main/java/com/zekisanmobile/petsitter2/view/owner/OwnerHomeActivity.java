@@ -22,6 +22,7 @@ import com.zekisanmobile.petsitter2.job.job.FetchOwnerJobsJob;
 import com.zekisanmobile.petsitter2.model.OwnerModel;
 import com.zekisanmobile.petsitter2.model.UserModel;
 import com.zekisanmobile.petsitter2.session.SessionManager;
+import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.view.HomeView;
 import com.zekisanmobile.petsitter2.view.login.LoginActivity;
 import com.zekisanmobile.petsitter2.vo.Owner;
@@ -86,9 +87,15 @@ public class OwnerHomeActivity extends AppCompatActivity implements HomeView {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.m_logout) {
-            new LogoutTask(this, user.getId()).execute();
-            return true;
+        switch (id) {
+            case R.id.m_logout:
+                new LogoutTask(this, user.getId()).execute();
+                break;
+            case R.id.m_my_pets:
+                Intent intent = new Intent(OwnerHomeActivity.this, MyPetsActivity.class);
+                intent.putExtra(Config.OWNER_ID, owner.getId());
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
