@@ -1,10 +1,14 @@
 package com.zekisanmobile.petsitter2.view.register;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -84,13 +88,17 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_next)
     public void registerPhoto() {
-        realm.beginTransaction();
-        PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
-        photoUrl.setId(UniqueID.generateUniqueID());
-        photoUrl.setImage(fileUri.toString());
-        realm.commitTransaction();
+        if (fileUri != null) {
+            realm.beginTransaction();
+            PhotoUrl photoUrl = realm.createObject(PhotoUrl.class);
+            photoUrl.setId(UniqueID.generateUniqueID());
+            photoUrl.setImage(fileUri.toString());
+            realm.commitTransaction();
 
-        saveEntity(photoUrl);
+            saveEntity(photoUrl);
+        } else {
+            showRegisterPhotoDialog("Por favor, escolha uma foto antes de prosseguir.");
+        }
     }
 
     private void redirectToRegisterPets() {
@@ -183,5 +191,26 @@ public class ChoosePhotoRegisterActivity extends AppCompatActivity {
                 .fit()
                 .centerCrop()
                 .into(ivPhoto);
+    }
+
+    public void showRegisterPhotoDialog(String message) {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void keepDialog(Dialog dialog) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
     }
 }

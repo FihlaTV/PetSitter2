@@ -1,10 +1,15 @@
 package com.zekisanmobile.petsitter2.view.register.owner;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -112,24 +117,42 @@ public class PetRegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_save)
     public void savePet() {
-        PhotoUrl photoUrl = savePhoto();
-        realm.beginTransaction();
-        Pet pet = realm.createObject(Pet.class);
-        pet.setId(UniqueID.generateUniqueID());
-        pet.setName(etName.getText().toString().trim());
-        pet.setAge(Integer.parseInt(etAge.getText().toString().trim()));
-        pet.setAgeText(spAgeText.getSelectedItem().toString());
-        pet.setSize(spSizes.getSelectedItem().toString());
-        pet.setWeight(Double.parseDouble(etWeight.getText().toString().trim()));
-        pet.setBreed(etBreed.getText().toString().trim());
-        pet.setPetCare(etCare.getText().toString().trim());
-        pet.setAnimal(getAnimal());
-        pet.setPhotoUrl(photoUrl);
-        realm.commitTransaction();
+        if (fileUri != null) {
+            if (validateFields()) {
+                PhotoUrl photoUrl = savePhoto();
+                realm.beginTransaction();
+                Pet pet = realm.createObject(Pet.class);
+                pet.setId(UniqueID.generateUniqueID());
+                pet.setName(etName.getText().toString().trim());
+                pet.setAge(Integer.parseInt(etAge.getText().toString().trim()));
+                pet.setAgeText(spAgeText.getSelectedItem().toString());
+                pet.setSize(spSizes.getSelectedItem().toString());
+                pet.setWeight(Double.parseDouble(etWeight.getText().toString().trim()));
+                pet.setBreed(etBreed.getText().toString().trim());
+                pet.setPetCare(etCare.getText().toString().trim());
+                pet.setAnimal(getAnimal());
+                pet.setPhotoUrl(photoUrl);
+                realm.commitTransaction();
 
-        this.pet = pet;
-        saveOwner();
-        redirectToPetList();
+                this.pet = pet;
+                saveOwner();
+                redirectToPetList();
+            } else {
+                showRegisterPhotoDialog("Por favor, preencha todos os campos.");
+            }
+        } else {
+            showRegisterPhotoDialog("Por favor, escolha uma foto para o seu pet.");
+        }
+    }
+
+    private boolean validateFields() {
+        if (TextUtils.isEmpty(etName.getText().toString().trim()) ||
+                TextUtils.isEmpty(etAge.getText().toString().trim()) ||
+                TextUtils.isEmpty(etWeight.getText().toString().trim()) ||
+                TextUtils.isEmpty(etBreed.getText().toString().trim())) {
+            return false;
+        }
+        return true;
     }
 
     private void redirectToPetList() {
@@ -157,7 +180,7 @@ public class PetRegisterActivity extends AppCompatActivity {
 
     private Animal getAnimal() {
         return realm.where(Animal.class).equalTo("name",
-                    spAnimals.getSelectedItem().toString()).findFirst();
+                spAnimals.getSelectedItem().toString()).findFirst();
     }
 
     private void configureToolbar() {
@@ -175,14 +198,14 @@ public class PetRegisterActivity extends AppCompatActivity {
     }
 
     private void configureAgeTextSpinner() {
-        String[] ageTexts = { "Meses", "Anos" };
+        String[] ageTexts = {"Meses", "Anos"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, ageTexts);
         spAgeText.setAdapter(adapter);
     }
 
     private void configureSizesSpinner() {
-        String[] sizeTexts = { "Pequeno", "Médio", "Grande" };
+        String[] sizeTexts = {"Pequeno", "Médio", "Grande"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, sizeTexts);
         spSizes.setAdapter(adapter);
@@ -232,5 +255,26 @@ public class PetRegisterActivity extends AppCompatActivity {
                 .fit()
                 .centerCrop()
                 .into(ivPhoto);
+    }
+
+    public void showRegisterPhotoDialog(String message) {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void keepDialog(Dialog dialog) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
     }
 }
