@@ -134,7 +134,7 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
             case JobsStatusString.NEXT:
                 break;
             case JobsStatusString.CURRENT:
-                //getMenuInflater().inflate(R.menu.menu_summaries, menu);
+                getMenuInflater().inflate(R.menu.menu_summaries, menu);
                 break;
             default:
                 getMenuInflater().inflate(R.menu.menu_job_rate, menu);

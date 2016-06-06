@@ -64,7 +64,6 @@ public class OwnerModel {
         return realm.where(Job.class)
                 .equalTo("owner.id", id)
                 .equalTo("status", 10)
-                .greaterThanOrEqualTo("dateStart", new Date())
                 .findAll();
     }
 
