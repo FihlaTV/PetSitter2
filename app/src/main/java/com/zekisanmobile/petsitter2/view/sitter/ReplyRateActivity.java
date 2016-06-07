@@ -131,8 +131,6 @@ public class ReplyRateActivity extends AppCompatActivity {
             if (job.getRate().getSitterComment() != null) {
                 etSitterComment.setText(job.getRate().getSitterComment());
                 etSitterComment.setEnabled(false);
-            } else {
-
             }
             ratingBar.setRating(job.getRate().getStarsQtd());
         } else {
