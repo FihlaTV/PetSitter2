@@ -155,6 +155,9 @@ public class SitterJobDetailsActivity extends AppCompatActivity implements OnMap
                 showAcceptDialog();
                 break;
             case R.id.menu_rate:
+                intent = new Intent(SitterJobDetailsActivity.this, ReplyRateActivity.class);
+                intent.putExtra(Config.JOB_ID, jobId);
+                startActivity(intent);
                 break;
             case R.id.menu_summary:
                 intent = new Intent(SitterJobDetailsActivity.this,

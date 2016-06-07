@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -80,7 +81,9 @@ public class ReplyRateActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_reply_job, menu);
+        if (job.getRate() != null && job.getRate().getSitterComment() == null) {
+            getMenuInflater().inflate(R.menu.menu_reply_job, menu);
+        }
         return true;
     }
 
@@ -122,8 +125,21 @@ public class ReplyRateActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        tvRateDate.setText(DateFormatter.formattedDateForView(new Date()));
-        tvOwnerComment.setText(job.getRate().getOwnerComment());
-        ratingBar.setRating(job.getRate().getStarsQtd());
+        if (job.getRate() != null) {
+            tvRateDate.setText(DateFormatter.formattedDateForView(new Date()));
+            tvOwnerComment.setText(job.getRate().getOwnerComment());
+            if (job.getRate().getSitterComment() != null) {
+                etSitterComment.setText(job.getRate().getSitterComment());
+                etSitterComment.setEnabled(false);
+            } else {
+
+            }
+            ratingBar.setRating(job.getRate().getStarsQtd());
+        } else {
+            tvRateDate.setText("Este trabalho ainda não foi avaliado.");
+            tvOwnerComment.setVisibility(View.GONE);
+            etSitterComment.setVisibility(View.GONE);
+            ratingBar.setVisibility(View.GONE);
+        }
     }
 }
