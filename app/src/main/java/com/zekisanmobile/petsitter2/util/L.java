@@ -40,6 +40,11 @@ public class L {
         public void e(String text, Object... args) {
             L.d(text, args);
         }
+
+        @Override
+        public void v(String text, Object... args) {
+            L.d(text, args);
+        }
     };
 
 }

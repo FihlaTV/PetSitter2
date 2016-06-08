@@ -29,6 +29,16 @@ public class PetSitterGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         super.onMessageReceived(from, data);
         Log.d("GCM Received on device.", data.toString());
+        String type = data.getString("type");
+        switch (type) {
+            case "job":
+                getJobFromMessage(data);
+                break;
+
+        }
+    }
+
+    private void getJobFromMessage(Bundle data) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Job job = mapper.readValue(data.getString("body"), Job.class);

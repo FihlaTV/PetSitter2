@@ -1,5 +1,7 @@
 package com.zekisanmobile.petsitter2.job.job;
 
+import android.support.annotation.Nullable;
+
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.zekisanmobile.petsitter2.api.ApiService;
@@ -46,7 +48,7 @@ public class ReplyRateJob extends BaseJob {
     }
 
     @Override
-    protected void onCancel(int cancelReason) {
+    protected void onCancel(int cancelReason, @Nullable Throwable throwable) {
 
     }
 

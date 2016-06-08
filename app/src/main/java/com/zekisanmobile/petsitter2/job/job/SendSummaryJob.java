@@ -1,6 +1,7 @@
 package com.zekisanmobile.petsitter2.job.job;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
@@ -82,7 +83,7 @@ public class SendSummaryJob extends BaseJob {
     }
 
     @Override
-    protected void onCancel(int cancelReason) {
+    protected void onCancel(int cancelReason, @Nullable Throwable throwable) {
 
     }
 
