@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         ButterKnife.bind(this);
 
-        tvBrand.setText(Html.fromHtml("Pet<b>Care</b>"));
+        tvBrand.setText(Html.fromHtml("pet<b>Care</b>"));
     }
 
     @OnClick(R.id.btn_login)

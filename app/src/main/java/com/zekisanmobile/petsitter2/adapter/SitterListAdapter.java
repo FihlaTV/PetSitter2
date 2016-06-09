@@ -55,8 +55,10 @@ public class SitterListAdapter extends RecyclerView.Adapter<SitterListAdapter.Vi
         holder.tvValueHour.setText(NumberFormat.getCurrencyInstance().format(sitter.getValueHour())  + "/hora");
         holder.tvSitterRateAvg.setText(String.valueOf(sitter.getRateAvg()));
 
+        holder.llPetsImages.removeAllViews();
         for (Animal animal : sitter.getAnimals()) {
             ImageView ivAnimal = new ImageView(context);
+            ivAnimal.setAlpha(0.3f);
 
             String[] animalNames = context.getResources().getStringArray(R.array.animal_names);
             String[] animalIcons = context.getResources().getStringArray(R.array.animal_icons);

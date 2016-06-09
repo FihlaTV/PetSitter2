@@ -16,7 +16,8 @@
         android:id="@+id/imageView9"
         android:src="@drawable/paw_print"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,10 +99,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PetCare"
+        android:text="petCare"
         android:id="@+id/tv_brand"
         android:textSize="50dp"
-        android:layout_above="@+id/textView2"
+        android:layout_below="@+id/imageView9"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
