@@ -55,6 +55,10 @@ public class Sitter extends RealmObject {
     @JsonProperty("rate_avg")
     int rateAvg;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("contacts")
+    RealmList<Job> jobs;
+
     public String getId() {
         return id;
     }
@@ -205,5 +209,13 @@ public class Sitter extends RealmObject {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public RealmList<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(RealmList<Job> jobs) {
+        this.jobs = jobs;
     }
 }

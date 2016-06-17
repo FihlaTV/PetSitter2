@@ -8,14 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.squareup.picasso.Picasso;
+import com.zekisanmobile.petsitter2.PetSitterApp;
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.ViewPagerAdapter;
 import com.zekisanmobile.petsitter2.fragment.owner.SitterInfoFragment;
 import com.zekisanmobile.petsitter2.fragment.owner.SitterRatesFragment;
+import com.zekisanmobile.petsitter2.job.job.FetchSitterJobsJob;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Extra;
 import com.zekisanmobile.petsitter2.vo.Sitter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +35,9 @@ public class SitterProfileActivity extends AppCompatActivity {
     private SitterModel sitterModel;
 
     private String sitter_id;
+
+    @Inject
+    JobManager jobManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -48,6 +56,8 @@ public class SitterProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitter_profile);
 
+        ((PetSitterApp)getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         sitter_id = getIntent().getStringExtra("sitter_id");
@@ -56,6 +66,7 @@ public class SitterProfileActivity extends AppCompatActivity {
         configureToolbar();
         setupViewPager();
         setupTabLayout();
+        startJobs();
     }
 
     @Override
@@ -76,6 +87,10 @@ public class SitterProfileActivity extends AppCompatActivity {
         adapter.addFragment(SitterInfoFragment.newInstance(sitter_id), getString(R.string.tab_information));
         adapter.addFragment(SitterRatesFragment.newInstance(sitter_id), getString(R.string.tab_rate));
         viewPager.setAdapter(adapter);
+    }
+
+    private void startJobs() {
+        jobManager.addJobInBackground(new FetchSitterJobsJob(sitter.getId()));
     }
 
     private void setupTabLayout() {

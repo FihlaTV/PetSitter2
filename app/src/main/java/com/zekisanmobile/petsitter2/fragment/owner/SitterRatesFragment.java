@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 
 import com.zekisanmobile.petsitter2.R;
 import com.zekisanmobile.petsitter2.adapter.OwnerRateListAdapter;
+import com.zekisanmobile.petsitter2.event.job.FetchedSitterJobsEvent;
 import com.zekisanmobile.petsitter2.model.SitterModel;
 import com.zekisanmobile.petsitter2.util.Config;
 import com.zekisanmobile.petsitter2.util.DividerItemDecoration;
 import com.zekisanmobile.petsitter2.vo.Job;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -47,6 +52,18 @@ public class SitterRatesFragment extends Fragment{
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
     public void onDestroyView() {
         realm.close();
         super.onDestroyView();
@@ -75,5 +92,14 @@ public class SitterRatesFragment extends Fragment{
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(),
                 LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(FetchedSitterJobsEvent event) {
+        if (event.isSuccess() && adapter != null) {
+            jobsWithRate = sitterModel.getJobsWithRates(sitter_id);
+            adapter.setJobs(jobsWithRate);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

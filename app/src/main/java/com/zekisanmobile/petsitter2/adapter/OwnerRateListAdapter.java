@@ -67,6 +67,10 @@ public class OwnerRateListAdapter extends RecyclerView.Adapter<OwnerRateListAdap
         return jobsWithRate.size();
     }
 
+    public void setJobs(List<Job> jobs) {
+        this.jobsWithRate = jobs;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_photo)
         public ImageView ivPhoto;
