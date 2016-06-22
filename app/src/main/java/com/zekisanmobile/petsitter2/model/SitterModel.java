@@ -79,6 +79,7 @@ public class SitterModel {
         return realm.where(Job.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
+                .lessThan("dateStart", new Date())
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
 

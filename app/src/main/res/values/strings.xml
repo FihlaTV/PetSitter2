@@ -77,7 +77,7 @@
     <!-- Reservation Status -->
     <string name="reservation_list_new">Novas Reservas</string>
     <string name="reservation_list_next">Próximas Reservas</string>
-    <string name="reservation_list_current">Reservas Atuals</string>
+    <string name="reservation_list_current">Reservas Atuais</string>
     <string name="reservation_list_finished">Reservas Finalizadas</string>
 
     <!-- Job Rate -->
